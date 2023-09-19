@@ -1,0 +1,169 @@
+using Gtk 4.0;
+using Adw 1;
+
+// Large number of pages: https://gitlab.gnome.org/GNOME/libadwaita/-/issues/390
+Adw.PreferencesWindow win_prefs {
+  default-width: 600;
+  default-height: 900;
+  title: _("Xournal++ Preferences");
+
+  Adw.PreferencesPage page_latex {
+    title: _("LaTeX");
+    icon-name: "notepad-symbolic";
+
+    Adw.PreferencesGroup {
+      title: _("TeX generation settings");
+      description: _("Set the template file and the generation command that are used for generating TeX images.");
+      
+      Adw.EntryRow {
+        title: _("LaTeX generation command");
+        text: "pdflatex -interaction=nonstopmode \'{}\'";
+      }
+
+      Adw.ActionRow {
+        title: _("Template file path");
+        subtitle: _("Set the file path.");
+
+        [suffix]
+        Button btn_template {
+          Adw.ButtonContent {
+            label: _("default_template.tex");
+            icon-name: "folder-documents-symbolic";
+          }
+        }
+      }
+
+      Adw.EntryRow {
+        title: _("Default LaTeX text");
+        text: "x^2";
+      }
+
+      Adw.ActionRow {
+        title: _("Always check LaTeX dependencies before running");
+        activatable-widget: sw_checkDeps;
+
+        [suffix]
+        Box {
+          spacing: 12;
+
+          Switch sw_checkDeps {
+            halign: center;
+            valign: center;
+          }
+
+          Button btn_check {
+            label: _("Check now");
+
+            styles [
+              "suggested-action",
+            ]
+          }
+        }
+      }
+    }
+
+    Adw.PreferencesGroup {
+      title: _("Editor settings");
+      description: _("Set the properties of the editor used for LaTeX formulas");
+
+      Adw.ActionRow {
+        title: _("LaTeX editor theme");
+        activatable-widget: btn_theme;
+
+        [suffix]
+        Button btn_theme {
+          label: _("Cobalt");
+        }
+      }
+
+      Adw.SwitchRow {
+        title: _("Line numbers");
+      }
+
+      Adw.SwitchRow {
+        title: _("Auto-indent");
+        active: true;
+      }
+
+      Adw.SwitchRow {
+        title: _("Syntax highlighting");
+        active: true;
+      }
+
+      Adw.SwitchRow {
+        title: _("Wrap text");
+        active: true;
+      }
+
+      Adw.SwitchRow sw_custom_font {
+        title: _("Use custom font");
+        subtitle: _("Otherwise the system font is used");
+      }
+      
+      Adw.ActionRow {
+        title: _("Font");
+        sensitive: bind sw_custom_font.active;
+        
+        [suffix]
+        FontDialogButton btn_font {
+        }
+      }
+    }
+  }
+
+  Adw.PreferencesPage page_loadSave {
+    title: _("Load/Save");
+    icon-name: "notepad-symbolic";
+  }
+
+  Adw.PreferencesPage page_input {
+    title: _("Input System");
+    icon-name: "notepad-symbolic";
+  }
+
+  Adw.PreferencesPage page_mouse {
+    title: _("Mouse");
+    icon-name: "notepad-symbolic";
+  }
+
+  Adw.PreferencesPage page_stylus {
+    title: _("Stylus");
+    icon-name: "notepad-symbolic";
+  }
+
+  Adw.PreferencesPage page_touchscreen {
+    title: _("Touchscreen");
+    icon-name: "notepad-symbolic";
+  }
+
+  Adw.PreferencesPage page_view {
+    title: _("View");
+    icon-name: "notepad-symbolic";
+  }
+
+  Adw.PreferencesPage page_zoom {
+    title: _("Zoom");
+    icon-name: "notepad-symbolic";
+  }
+
+  Adw.PreferencesPage page_drawing {
+    title: _("Drawing Area");
+    icon-name: "notepad-symbolic";
+  }
+
+  Adw.PreferencesPage page_defaults {
+    title: _("Defaults");
+    icon-name: "notepad-symbolic";
+  }
+
+  Adw.PreferencesPage page_audio {
+    title: _("Audio Recording");
+    icon-name: "notepad-symbolic";
+  }
+
+  Adw.PreferencesPage page_language {
+    title: _("Language");
+    icon-name: "notepad-symbolic";
+  }
+}
+
