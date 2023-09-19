@@ -1,0 +1,117 @@
+using Gtk 4.0;
+using Adw 1;
+
+Adw.Window app {
+  width-request: 400;
+  height-request: 400;
+  default-width: 1200;
+  default-height: 900;
+  title: _("Unsaved - Xournal++");
+
+  Adw.Breakpoint {
+    condition ("max-width: 400sp")
+    setters {
+      split_view.collapsed: true;
+    }
+  }
+
+  content: Adw.ToolbarView {
+    top-bar-style: raised;
+
+    [top]
+    Adw.HeaderBar {
+
+      [start]
+      Box {
+        orientation: horizontal;
+        
+        ToggleButton show_sidebar_button {
+          icon-name: "dock-left";
+          tooltip-text: _("Toggle Sidebar");
+          active: bind split_view.show-sidebar;
+        }
+      }
+      
+      [end]
+      Box {
+        orientation: horizontal;
+        
+        MenuButton primary {
+          icon-name: "open-menu-symbolic";
+          tooltip-text: _("Main Menu");
+          menu-model: primary_button_menu;
+          primary: true;
+        }
+      }
+    }
+
+    content: Adw.OverlaySplitView split_view {
+      show-sidebar: bind show_sidebar_button.active;
+
+      sidebar: Box {
+        orientation: vertical;
+        halign: center;
+        valign: start;
+        spacing: 12;
+        
+        Adw.ViewSwitcher stack_switcher {
+          stack: stack;
+        }
+        
+        Adw.ViewStack stack {
+          Adw.ViewStackPage page1 {
+            title: _("Pages");
+            icon-name: "xopp-sidebar-page-preview";
+            child: Adw.StatusPage {
+              Label { label: "Page preview"; }
+            };
+          }
+          Adw.ViewStackPage page2 {
+            title: _("Layers");
+            icon-name: "xopp-sidebar-layer";
+            child: Adw.StatusPage {
+              Label { label: "Layer preview"; }
+            };
+          }
+          Adw.ViewStackPage page3 {
+            title: _("Layer stack");
+            icon-name: "xopp-sidebar-layerstack";
+            child: Adw.StatusPage {
+              Label { label: "Layerstack preview"; }
+            };
+          }
+        }
+      };
+
+      content: DrawingArea drawing_area {
+          content-width: 300;
+          content-height: 300;
+      };
+    };
+  };
+}
+
+menu primary_button_menu {
+  section {
+    item {
+      label: _("Preferences");
+      action: "app.preferences";
+    }
+    
+    item {
+      label: _("Keyboard Shortcuts");
+      action: "app.shortcuts";
+    }
+    
+    item {
+      label: _("Help");
+      action: "app.help";
+    }
+    
+    item {
+      label: _("About Xournal++");
+      action: "app.about";
+    }    
+  }
+}
+

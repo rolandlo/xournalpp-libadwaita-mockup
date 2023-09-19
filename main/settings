@@ -1,0 +1,11 @@
+[re/sonny/Workbench]
+show-code=true
+show-style=false
+show-ui=true
+show-preview=true
+code-language=0
+ui-language=1
+show-console=true
+edited=true
+safe-mode=true
+auto-preview=true
