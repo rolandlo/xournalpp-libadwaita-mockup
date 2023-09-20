@@ -12,16 +12,16 @@ Adw.PreferencesWindow win_prefs {
     icon-name: "notepad-symbolic";
 
     Adw.PreferencesGroup {
-      title: _("TeX generation settings");
+      title: _("TeX Generation Settings");
       description: _("Set the template file and the generation command that are used for generating TeX images.");
       
       Adw.EntryRow {
-        title: _("LaTeX generation command");
+        title: _("LaTeX Generation Command");
         text: "pdflatex -interaction=nonstopmode \'{}\'";
       }
 
       Adw.ActionRow {
-        title: _("Template file path");
+        title: _("Template File Path");
         subtitle: _("Set the file path.");
 
         [suffix]
@@ -34,7 +34,7 @@ Adw.PreferencesWindow win_prefs {
       }
 
       Adw.EntryRow {
-        title: _("Default LaTeX text");
+        title: _("Default LaTeX Text");
         text: "x^2";
       }
 
@@ -52,7 +52,7 @@ Adw.PreferencesWindow win_prefs {
           }
 
           Button btn_check {
-            label: _("Check now");
+            label: _("Check Now");
 
             styles [
               "suggested-action",
@@ -63,11 +63,11 @@ Adw.PreferencesWindow win_prefs {
     }
 
     Adw.PreferencesGroup {
-      title: _("Editor settings");
+      title: _("Editor Settings");
       description: _("Set the properties of the editor used for LaTeX formulas");
 
       Adw.ActionRow {
-        title: _("LaTeX editor theme");
+        title: _("LaTeX Editor Theme");
         activatable-widget: btn_theme;
 
         [suffix]
@@ -77,7 +77,7 @@ Adw.PreferencesWindow win_prefs {
       }
 
       Adw.SwitchRow {
-        title: _("Line numbers");
+        title: _("Line Numbers");
       }
 
       Adw.SwitchRow {
@@ -86,17 +86,17 @@ Adw.PreferencesWindow win_prefs {
       }
 
       Adw.SwitchRow {
-        title: _("Syntax highlighting");
+        title: _("Syntax Highlighting");
         active: true;
       }
 
       Adw.SwitchRow {
-        title: _("Wrap text");
+        title: _("Wrap Text");
         active: true;
       }
 
       Adw.SwitchRow sw_custom_font {
-        title: _("Use custom font");
+        title: _("Use Custom Font");
         subtitle: _("Otherwise the system font is used");
       }
       
