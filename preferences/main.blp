@@ -111,6 +111,320 @@ Adw.PreferencesWindow win_prefs {
     }
   }
 
+  Adw.PreferencesPage page_view {
+    title: _("View");
+    icon-name: "notepad-symbolic";
+
+    Adw.PreferencesGroup {
+      title: _("Global");
+      
+      Adw.SwitchRow sw_show_menubar {
+        title: _("Show Menubar on Startup");
+        subtitle: _("Toggle visibility of menubar with F10"); 
+      }
+      
+      Adw.SwitchRow sw_show_filepath {
+        title: _("Show Filepath in the Title Bar");
+      }
+      
+      Adw.SwitchRow sw_show_page_number {
+        title: _("Show Page Number in the Title Bar");
+      }
+    }
+
+    Adw.PreferencesGroup {
+      title: _("Colors");
+
+      Adw.ActionRow {
+        title: _("Border Color");
+        subtitle: _("Used for current page and other selections");
+        ColorDialogButton {
+          dialog: ColorDialog {
+            title: _("Border Color");
+            with-alpha: false;
+          };
+          rgba: "red";
+        }        
+      } 
+      
+      Adw.ActionRow {
+        title: _("Background Color Between Pages");
+        ColorDialogButton {
+          dialog: ColorDialog {
+            title: _("Border Color");
+            with-alpha: false;
+          };
+          rgba: "white";
+        }        
+      } 
+      
+      Adw.ActionRow {
+        title: _("Selection Color");
+        subtitle: _("Used for text, stroke selection etc.");
+        ColorDialogButton {
+          dialog: ColorDialog {
+            title: _("Border color");
+            with-alpha: false;
+          };
+          rgba: "cornflowerblue";
+        }        
+      } 
+      
+      Adw.ActionRow {
+        title: _("Active Selection Color");
+        subtitle: _("Used for search results etc.");
+        ColorDialogButton {
+          dialog: ColorDialog {
+            title: _("Border color");
+            with-alpha: false;
+          };
+          rgba: "lawngreen";
+        }        
+      }
+    }
+
+    Adw.PreferencesGroup {
+      title: _("Icons");
+      
+      Adw.ActionRow {
+        title: _("Icon Theme");
+        ComboBox cb_iconTheme {
+          // TODO
+        }
+      }
+      
+      Adw.SwitchRow sw_dark_theme {
+        title: _("Dark Theme Icons");
+      }
+      
+      Adw.SwitchRow sw_stock_icons {
+        title: _("Use Stock Icons");
+        subtitle: _("When available under the same name excluding the 'xopp'-prefix prefer the stock icon");
+      }
+    }
+    
+    Adw.PreferencesGroup {
+      title: _("Cursor");
+      
+      Adw.ActionRow {
+        title:_("Cursor Icon for Pen");
+        ComboBox cb_cursorIcon {
+          // TODO
+        }
+      }
+      
+      Adw.SwitchRow sw_highlightCursor {
+        title: _("Highlight Cursor Position"); 
+      }
+      
+      Adw.SpinRow {
+        title: _("Radius");
+        sensitive: bind sw_highlightCursor.active;
+        adjustment:
+        Adjustment ad_highlightCursor_Radius {
+          lower: 0;
+          upper: 30;
+          step-increment: 1;
+          value: 30;
+        };
+      }
+      
+      Adw.ActionRow {
+        title: _("Circle Color");
+        sensitive: bind sw_highlightCursor.active;
+        ColorDialogButton {
+          dialog: ColorDialog {
+            title: _("Circle Color");
+            with-alpha: true;
+          };
+          rgba: "yellow";
+        }        
+      }
+
+      Adw.SpinRow {
+        title: _("Border Width");
+        sensitive: bind sw_highlightCursor.active;
+        adjustment:
+        Adjustment ad_highlightCursor_borderWidth {
+          lower: 0;
+          upper: 30;
+          step-increment: 1;
+          value: 0;
+        };
+      }
+      
+      Adw.ActionRow {
+        title: _("Border Color");
+        sensitive: bind sw_highlightCursor.active;
+        ColorDialogButton {
+          dialog: ColorDialog {
+            title: _("Border Color");
+            with-alpha: true;
+          };
+          rgba: "blue";
+        }        
+      }
+    }
+
+    Adw.PreferencesGroup {
+      title: _("Scrollbars");
+      
+      Adw.SwitchRow sw_scrollbar_side {
+        title: _("Show Sidebar on the Left Side");
+      }
+      
+      Adw.SwitchRow sw_hide_horizontal_scrollbar {
+        title: _("Hide the Horizontal Scrollbar");
+      }
+
+      Adw.SwitchRow sw_hide_vertical_scrollbar {
+        title: _("Hide the Vertical Scrollbar");
+      }
+      
+      Adw.SwitchRow sw_disable_scrollbar_fadeout {
+        title: _("Disable Scrollbar Fade out");
+      }
+
+    }
+    
+    Adw.PreferencesGroup {
+      title: _("Sidebar");
+  
+      Adw.SwitchRow sw_sidebar_side {
+        title: _("Show Sidebar on the Right Side");
+      }
+      
+      Adw.ActionRow {
+        title: _("Page Numbering");
+        
+        ComboBox cb_pageNumbering {
+            // TODO
+        }
+      }
+    }
+
+    Adw.PreferencesGroup {
+      title: _("Fullscreen");
+      description: _("Choose the options that should be applied when going fullscreen.");
+      
+      Adw.ActionRow {
+        title: _("Show Toolbar");
+        
+        CheckButton cb_fullscreen_showToolbar {
+          active: true;
+        }
+      }
+
+      Adw.ActionRow {
+        title: _("Show Sidebar");
+        
+        CheckButton cb_fullscreen_showSidebar {
+        }
+      }
+
+      Adw.ActionRow {
+        title: _("Show Menubar");
+        
+        CheckButton cb_fullscreen_showMenubar {
+        }
+      }
+      
+    }
+    
+    Adw.PreferencesGroup {
+      title: _("Presentation Mode");
+      description: _("Choose the options that should be applied when going into presentation mode.");
+      
+      Adw.ActionRow {
+        title: _("Show Toolbar");
+        
+        CheckButton cb_presentationMode_showToolbar {
+          active: true;
+        }
+      }
+
+      Adw.ActionRow {
+        title: _("Show Sidebar");
+        
+        CheckButton cb_presentationMode_showSidebar {
+        }
+      }
+
+      Adw.ActionRow {
+        title: _("Go Fullscreen");
+        
+        CheckButton cb_presentationMode_goFullscreen {
+        }
+      }
+
+      Adw.ActionRow {
+        title: _("Show Menubar");
+        
+        CheckButton cb_presentationMode_showMenubar {
+        }
+      }
+    }
+    
+    Adw.PreferencesGroup {
+      title: _("Selection Edge Panning");
+      
+      Adw.SpinRow {
+        title: _("Base Speed");
+        adjustment:
+        Adjustment ad_BaseSpeed {
+          lower: 0;
+          upper: 100;
+          step-increment: 1;
+          value: 20;
+        };
+      }
+      
+      Adw.SpinRow {
+        title: _("Max Multiplier");
+        adjustment:
+        Adjustment ad_maxMultiplier {
+          lower: 0;
+          upper: 10;
+          step-increment: 1;
+          value: 5;
+        };
+      }
+    }
+    
+    Adw.PreferencesGroup {
+      title: _("Page Cache");
+      description: _("Set how many pages are preloaded before or after the current");
+      
+      Adw.SpinRow {
+        title: _("Pages Preloaded Before");
+        adjustment:
+        Adjustment ad_preloadPages_before {
+          lower: 0;
+          upper: 99;
+          step-increment: 1;
+          value: 3;
+        };
+      }
+
+      Adw.SpinRow {
+        title: _("Pages Preloaded After");
+        adjustment:
+        Adjustment ad_preloadPages_after {
+          lower: 0;
+          upper: 99;
+          step-increment: 1;
+          value: 5;
+        };
+      }
+      
+      Adw.SwitchRow {
+        title: _("Clear Cached Pages While Scrolling");
+      }
+
+    }
+
+  }
+
   Adw.PreferencesPage page_loadSave {
     title: _("Load/Save");
     icon-name: "notepad-symbolic";
@@ -133,11 +447,6 @@ Adw.PreferencesWindow win_prefs {
 
   Adw.PreferencesPage page_touchscreen {
     title: _("Touchscreen");
-    icon-name: "notepad-symbolic";
-  }
-
-  Adw.PreferencesPage page_view {
-    title: _("View");
     icon-name: "notepad-symbolic";
   }
 
