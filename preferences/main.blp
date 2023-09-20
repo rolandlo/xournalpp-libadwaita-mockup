@@ -186,11 +186,13 @@ Adw.PreferencesWindow win_prefs {
     Adw.PreferencesGroup {
       title: _("Icons");
       
-      Adw.ActionRow {
+      Adw.ComboRow cb_iconTheme {
         title: _("Icon Theme");
-        ComboBox cb_iconTheme {
-          // TODO
-        }
+        
+        model:
+        StringList {
+          strings  ["Color", "Lucide"]
+        };
       }
       
       Adw.SwitchRow sw_dark_theme {
@@ -206,11 +208,13 @@ Adw.PreferencesWindow win_prefs {
     Adw.PreferencesGroup {
       title: _("Cursor");
       
-      Adw.ActionRow {
-        title:_("Cursor Icon for Pen");
-        ComboBox cb_cursorIcon {
-          // TODO
-        }
+      Adw.ComboRow cb_cursorIcon {
+        title: _("Cursor Icon for Pen");
+        
+        model:
+        StringList {
+          strings  ["No icon", "Small dot icon", "Big pen icon", "System cursor"]
+        };
       }
       
       Adw.SwitchRow sw_highlightCursor {
@@ -294,12 +298,13 @@ Adw.PreferencesWindow win_prefs {
         title: _("Show Sidebar on the Right Side");
       }
       
-      Adw.ActionRow {
+      Adw.ComboRow cb_pageNumbering {
         title: _("Page Numbering");
         
-        ComboBox cb_pageNumbering {
-            // TODO
-        }
+        model:
+        StringList {
+          strings  ["None", "Below preview", "Circle background", "Square background"]
+        };
       }
     }
 
