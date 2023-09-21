@@ -105,17 +105,18 @@ Adw.PreferencesWindow win_prefs {
         title: _("Wrap Text");
         active: true;
       }
-
-      Adw.SwitchRow sw_custom_font {
-        title: _("Use Custom Font");
-        subtitle: _("Otherwise the system font is used");
-      }
       
-      Adw.ActionRow {
-        title: _("Font");
-        sensitive: bind sw_custom_font.active;
+      Adw.ExpanderRow {
+        title: _("Custom Font");
+        subtitle: _("Otherwise the system font is used");
+        expanded: bind sw_custom_font.active;
         
         [suffix]
+        Switch sw_custom_font {
+          halign: end;
+          valign: center;
+        }
+        
         FontDialogButton btn_font {
           dialog: FontDialog {
             title: _("Choose a Font");
