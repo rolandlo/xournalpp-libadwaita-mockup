@@ -117,6 +117,10 @@ Adw.PreferencesWindow win_prefs {
         
         [suffix]
         FontDialogButton btn_font {
+          dialog: FontDialog {
+            title: _("Choose a Font");
+            modal: true;
+          };
         }
       }
     }
