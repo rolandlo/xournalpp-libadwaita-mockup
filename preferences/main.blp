@@ -446,6 +446,64 @@ Adw.PreferencesWindow win_prefs {
 
   }
 
+  Adw.PreferencesPage page_zoom {
+    title: _("Zoom");
+    icon-name: "notepad-symbolic";
+    
+    Adw.PreferencesGroup {
+      title: _("Zoom Speed");
+      
+      Adw.SpinRow {
+        title: _("Speed for Ctrl + Scroll (in %)");
+        digits: 1;
+        numeric: true;
+        adjustment:
+        Adjustment ad_zoomSpeed {
+          lower: 0.1;
+          upper: 50.0;
+          step-increment: 0.1;
+          value: 2.0;
+        };
+      }
+
+      Adw.SpinRow {
+        title: _("Speed for a Zoom Step (in %)");
+        digits: 1;
+        numeric: true;
+        adjustment:
+        Adjustment ad_zoomStep {
+          lower: 0.5;
+          upper: 50.0;
+          step-increment: 0.5;
+          value: 10.0;
+        };
+      }
+    }
+
+    Adw.PreferencesGroup {
+      title: _("Display DPI callibration");
+      description: _("To make sure that on 100% zoom the size of elements is natural");
+
+      Label {
+        label: _("Put a ruler on your screen and move the slider until both rulers match. ");
+      }
+      Scale {
+        digits: 1;
+        has-origin: true;
+        draw-value: true;
+        value-pos: top;
+        adjustment: Adjustment {
+          lower: 50;
+          upper: 400;
+          step-increment: 1;
+          value: 100;
+        };
+      }
+    }
+
+  }
+
+
   Adw.PreferencesPage page_loadSave {
     title: _("Load/Save");
     icon-name: "notepad-symbolic";
@@ -468,11 +526,6 @@ Adw.PreferencesWindow win_prefs {
 
   Adw.PreferencesPage page_touchscreen {
     title: _("Touchscreen");
-    icon-name: "notepad-symbolic";
-  }
-
-  Adw.PreferencesPage page_zoom {
-    title: _("Zoom");
     icon-name: "notepad-symbolic";
   }
 
