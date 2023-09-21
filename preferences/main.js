@@ -4,6 +4,7 @@ import Adw from "gi://Adw";
 
 Gio._promisify(Gtk.FileDialog.prototype, "open", "open_finish");
 
+const btn_check = workbench.builder.get_object("btn_check");
 const style_manager = Adw.StyleManager.get_default();
 const pref_window = workbench.builder.get_object("win_prefs");
 const row_generation_info = workbench.builder.get_object("row_generation_info");
@@ -52,3 +53,10 @@ button_template.connect("clicked", () => {
   openFile().catch(console.error);
 });
 
+btn_check.connect("clicked", () => {
+  const toast = new Adw.Toast({
+    title: "Sample LaTeX file generated successfully",
+  });
+
+  pref_window.add_toast(toast);
+});
