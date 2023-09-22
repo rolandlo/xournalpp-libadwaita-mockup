@@ -62,14 +62,43 @@ Adw.PreferencesWindow win_prefs {
         }
       }
       
-      Adw.ActionRow row_generation_info {
-        title: _("Details on How it Works");
-        activatable: true;
-        
-        [suffix]
-        Gtk.Image {
-          icon-name: "go-next-symbolic";
-          styles ["dim-label"]
+      Adw.ExpanderRow {
+        title: _("Strings Substituted in Template File");
+        icon-name: "info-symbolic";
+
+        Grid {
+          row-spacing: 12;
+          column-spacing: 12;
+          margin-top: 6;
+          margin-bottom: 6;
+          margin-start: 6;
+          margin-end: 6;
+          Label {
+            label: "<tt>%%XPP_TOOL_INPUT%%</tt>";
+            use-markup: true;
+            layout { row:1; column:0; }
+            hexpand: true;
+          }
+          Label {
+            label: _("The math mode for the formula typed in the LaTeX tool.");
+            layout { row:1; column:1; }
+            halign: start;
+            hexpand: true;
+            wrap: true;
+          }
+          Label {
+            label: "<tt>%%XPP_TEXT_COLOR%%</tt>";
+            use-markup: true;
+            layout { row:2; column:0; }
+            hexpand: true;
+          }
+          Label {
+            label: _("The current color of the Text Tool, in hex RGB format.");
+            layout { row:2; column:1; }
+            halign: start;
+            hexpand: true;
+            wrap: true;
+          }
         }
       }
     }
@@ -643,74 +672,3 @@ Label placeholders {
   label: _("Placeholder text replaced in code");
 }
 
-Adw.StatusPage info_latex_generation {
-  title: _("LaTeX generation");
-  description: _("This page describes how the Tex image generation works when running the LaTeX tool. ");
-
-  Box {
-    orientation: vertical;
-    spacing: 12;
-
-    Label {
-      label: _("First the following strings are substituted in the template file:");
-      wrap: true;
-    }
-
-    Frame {
-      Grid {
-        row-spacing: 12;
-        column-spacing: 12;
-        Label {
-          label: "<tt>%%XPP_TOOL_INPUT%%</tt>";
-          use-markup: true;
-          layout { row:1; column:0; }
-          hexpand: true;
-        }
-        Label {
-          label: _("The math mode for the formula typed in the LaTeX tool.");
-          layout { row:1; column:1; }
-          halign: start;
-          hexpand: true;
-          wrap: true;
-        }
-        Label {
-          label: "<tt>%%XPP_TEXT_COLOR%%</tt>";
-          use-markup: true;
-          layout { row:2; column:0; }
-          hexpand: true;
-        }
-        Label {
-          label: _("The current color of the Text Tool, in hex RGB format.");
-          layout { row:2; column:1; }
-          halign: start;
-          hexpand: true;
-            wrap: true;
-          }
-        }
-      }
-
-      Label {
-        label: _("The result of the substitution is a temporary .tex-file stored in the temporary folder. ");
-        wrap: true;
-      }
-
-      Label {
-        label: _("After the substitution the TeX generation command is executed, while substituting the braces {} by the filename of the temporary .tex-file. ");
-        wrap: true;
-      }
-
-      Label {
-        label: _("In the end the resulting PDF is inserted into the Xournal++ document. ");
-        wrap: true;
-      }
-
-      Gtk.Button info_latex_generation_back {
-        label: _("Go back");
-        halign: start;
-        valign: center;
-        styles ["suggested-action"]
-      }
-
-    }
-  
-}
