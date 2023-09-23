@@ -512,21 +512,24 @@ Adw.PreferencesWindow win_prefs {
     Adw.PreferencesGroup {
       title: _("Display DPI callibration");
       description: _("To make sure that on 100% zoom the size of elements is natural");
-
-      Label {
-        label: _("Put a ruler on your screen and move the slider until both rulers match. ");
-      }
-      Scale {
-        digits: 1;
-        has-origin: true;
-        draw-value: true;
-        value-pos: top;
-        adjustment: Adjustment {
-          lower: 50;
-          upper: 400;
-          step-increment: 1;
-          value: 100;
-        };
+      
+      Adw.PreferencesRow {
+        title: _("Display DPI callibration");
+        Label {
+          label: _("Put a ruler on your screen and move the slider until both rulers match. ");
+        }
+        Scale {
+          digits: 1;
+          has-origin: true;
+          draw-value: true;
+          value-pos: top;
+          adjustment: Adjustment {
+            lower: 50;
+            upper: 400;
+            step-increment: 1;
+            value: 100;
+          };
+        }
       }
     }
 
@@ -540,7 +543,10 @@ Adw.PreferencesWindow win_prefs {
       title: _("Default Tool");
       description: _("Choose the tool and Settings if you press the default button");
 
-      ComboBox cb_defaultTool {
+      Adw.PreferencesRow {
+        title: _("Default Tool");
+        DropDown cb_defaultTool {
+        }
       }
     }
   }
@@ -553,7 +559,10 @@ Adw.PreferencesWindow win_prefs {
       title: _("Language settings");
       description: _("Select the language for menus, info texts, messages etc.");
 
-      ComboBox cb_language {
+      Adw.PreferencesRow {
+        title: _("Set Language");
+        DropDown cb_language {
+        }
       }
     }
   }
@@ -651,67 +660,69 @@ Adw.PreferencesWindow win_prefs {
       }
 
       Adw.SwitchRow sw_addHorizontalSpace {
-        title: _("Add Additional Horizontal Space");
+        title: _("Enable Additional Horizontal Space");
         sensitive: bind sw_limitedScrolling.active;
       }
 
       Adw.SwitchRow sw_addVerticalSpace {
-        title: _("Add Additional Vertical Space");
+        title: _("Enable Additional Vertical Space");
         sensitive: bind sw_limitedScrolling.active;
       }
       
-      Grid {
-        halign: center;
-        margin-top: 12;
-        margin-bottom: 12;
-        column-spacing: 12;
-        row-spacing: 12;
-        SpinButton sp_addSpaceLeft {
-          sensitive: bind sw_limitedScrolling.active;
-          layout { row:1; column:0; }
-          adjustment:
-          Adjustment {
-            lower: 0;
-            upper: 2000;
-            step-increment: 1;
-            value: 150;
-          };
-        }
+      Adw.PreferencesRow {
+        title: _("Additional Space Around Page");
+        Grid {
+          halign: center;
+          margin-top: 12;
+          margin-bottom: 12;
+          column-spacing: 12;
+          row-spacing: 12;
+          SpinButton sp_addSpaceLeft {
+            sensitive: bind sw_limitedScrolling.active;
+            layout { row:1; column:0; }
+            adjustment:
+            Adjustment {
+              lower: 0;
+              upper: 2000;
+              step-increment: 1;
+              value: 150;
+            };
+          }
+          SpinButton sp_addSpaceRight {
+            sensitive: bind sw_limitedScrolling.active;
+            layout { row:1; column:2; }
+            adjustment:
+            Adjustment {
+              lower: 0;
+              upper: 2000;
+              step-increment: 1;
+              value: 150;
+            };
+          }
 
-        SpinButton sp_addSpaceRight {
-          sensitive: bind sw_limitedScrolling.active;
-          layout { row:1; column:2; }
-          adjustment:
-          Adjustment {
-            lower: 0;
-            upper: 2000;
-            step-increment: 1;
-            value: 150;
-          };
-        }
+          SpinButton sp_addSpaceBottom {
+            sensitive: bind sw_limitedScrolling.active;
+            layout { row:2; column:1; }
+            adjustment:
+            Adjustment {
+              lower: 0;
+              upper: 2000;
+              step-increment: 1;
+              value: 150;
+            };
+          }
 
-        SpinButton sp_addSpaceBottom {
-          sensitive: bind sw_limitedScrolling.active;
-          layout { row:2; column:1; }
-          adjustment:
-          Adjustment {
-            lower: 0;
-            upper: 2000;
-            step-increment: 1;
-            value: 150;
-          };
-        }
-
-        SpinButton sp_addSpaceTop {
-          sensitive: bind sw_limitedScrolling.active;
-          layout { row:0; column:1; }
-          adjustment:
-          Adjustment {
-            lower: 0;
-            upper: 2000;
-            step-increment: 1;
-            value: 150;
-          };
+          SpinButton sp_addSpaceTop {
+            sensitive: bind sw_limitedScrolling.active;
+            layout { row:0; column:1; }
+            adjustment:
+            Adjustment {
+              lower: 0;
+              upper: 2000;
+              step-increment: 1;
+              value: 150;
+            };
+          }
         }
       }
     }
