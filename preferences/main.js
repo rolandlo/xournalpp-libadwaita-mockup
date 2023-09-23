@@ -3,11 +3,17 @@ import Gio from "gi://Gio";
 import Adw from "gi://Adw";
 
 Gio._promisify(Gtk.FileDialog.prototype, "open", "open_finish");
+Gio._promisify(
+  Gtk.FileDialog.prototype,
+  "select_folder",
+  "select_folder_finish",
+);
 
 const btn_check = workbench.builder.get_object("btn_check");
 const style_manager = Adw.StyleManager.get_default();
 const pref_window = workbench.builder.get_object("win_prefs");
-const button_template = workbench.builder.get_object("btn_template");
+const btn_template = workbench.builder.get_object("btn_template");
+const btn_audioFolder = workbench.builder.get_object("btn_audioFolder");
 const sw_dark_theme = workbench.builder.get_object("sw_dark_theme");
 const lbl_placeholders = workbench.builder.get_object("placeholders");
 
@@ -59,12 +65,28 @@ async function openFile() {
     Gio.FileQueryInfoFlags.NONE,
     null,
   );
-  const button_content = button_template.get_child();
+  const button_content = btn_template.get_child();
   button_content.set_label(info.get_name());
 }
 
-button_template.connect("clicked", () => {
+async function selectFolder() {
+  const dialog_for_folder = new Gtk.FileDialog();
+  const folder = await dialog_for_folder.select_folder(workbench.window, null);
+  const info = folder.query_info(
+    "standard::name",
+    Gio.FileQueryInfoFlags.NONE,
+    null,
+  );
+  const button_content = btn_audioFolder.get_child();
+  button_content.set_label(info.get_name());
+}
+
+btn_template.connect("clicked", () => {
   openFile().catch(console.error);
+});
+
+btn_audioFolder.connect("clicked", () => {
+  selectFolder().catch(console.error);
 });
 
 btn_check.connect("clicked", () => {
