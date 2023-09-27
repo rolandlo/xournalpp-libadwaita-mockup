@@ -1,0 +1,25 @@
+#drawingType {
+  color: @accent_fg_color;
+}
+
+#thickness {
+  color: @accent_fg_color;
+}
+
+#marker {
+  color: rgba(255, 150, 130, 1);
+  -gtk-icon-transform: rotate(-30deg) scale(1.2);
+}
+
+#button_green {
+  background-color: @green_1;
+}
+
+#button_yellow {
+  background-color: @yellow_5;
+}
+
+#button_red {
+  background-color: @red_1;
+}
+

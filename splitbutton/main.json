@@ -1,0 +1,6 @@
+{
+  "category": "uncategorized",
+  "description": "A prototype for a pen or highlighter split button.",
+  "panels": ["ui", "preview"],
+  "autorun": false
+}

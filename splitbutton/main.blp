@@ -1,0 +1,206 @@
+using Gtk 4.0;
+using Adw 1;
+
+Grid {
+  Adw.SplitButton button {
+    icon-name: "edit-symbolic";
+    can-shrink: true;
+    [child]
+    Box {
+      orientation: vertical;
+      
+      Image marker {
+        name: "marker";
+        icon-name: "marker-symbolic";
+        pixel-size: 36;
+        margin-bottom: 10;
+        styles ["icon-dropshadow"]
+      }
+
+      Box {
+        orientation: horizontal;
+        spacing: 12;
+        Image {
+          name: "thickness";
+          icon-name: "medium-symbolic";
+          pixel-size: 12;
+          styles ["icon-dropshadow"]
+        }
+        Image {
+          name: "drawingType";
+          icon-name: "arrow-symbolic";
+          pixel-size: 12;
+          styles ["icon-dropshadow"]
+        }
+      }
+    }
+    
+    Popover popover {
+      has-arrow: true;
+      name: "plain_popover";
+      
+      child: 
+      Grid {
+        margin-start: 12;
+        margin-end: 12;
+        row-spacing: 12;
+        column-spacing: 12;
+        Label {
+          label: _("<b>Color</b>");
+          use-markup: true;
+          layout {row:0; column:0;}
+        }
+        Box {
+          layout {row:0; column:1;}
+          orientation: horizontal;
+          spacing: 12;
+          Button button_yellow {
+            name: "button_yellow";
+            styles ["circular"]
+          }
+          Button button_green {
+            name: "button_green";
+            styles ["circular"]
+          }
+          Button button_red {
+            name: "button_red";
+            styles ["circular"]
+          }
+          
+          ColorDialogButton button_color_chooser {
+            dialog:
+            ColorDialog {
+            };
+          }
+        }
+        
+        Label {
+          label: _("<b>Fill</b>");
+          use-markup: true;
+          layout {row:1; column:0;}
+        }
+        
+        Switch {
+          halign: start;
+          valign: center;
+          active: true;
+          layout {row:1; column:1;}
+        }
+
+        Label {
+          label: _("<b>Line Style</b>");
+          use-markup: true;
+          layout {row:2; column:0;}
+        }
+        
+        Box {
+          orientation: horizontal;
+          spacing: 12;
+          layout {row:2; column: 1;}
+          
+          Button cb_plain{
+            icon-name: "line-style-plain-symbolic";
+          }
+
+          Button cb_dash{
+            icon-name: "line-style-dash-symbolic";
+          }
+
+          Button cb_dashdot{
+            icon-name: "line-style-dash-dot-symbolic";
+          }
+
+          Button cb_dot{
+            icon-name: "line-style-dot-symbolic";
+          }
+        }
+
+        Label {
+          label: _("<b>Thickness</b>");
+          use-markup: true;
+          layout {row:3; column:0;}
+        }
+        
+        Scale scale_thickness {
+          orientation: horizontal;
+          margin-bottom: 18;
+          width-request: 140;
+          layout {row:3; column:1;}
+          adjustment: 
+          Gtk.Adjustment {
+            lower: -0.5;
+            upper: 4;
+            value: 1.815;
+            step-increment: 0.001;
+          };
+        }
+        
+
+        Label {
+          label: _("<b>Drawing Type</b>");
+          use-markup: true;
+          layout {row:4; column:0;}
+        }
+        
+        Box {
+          orientation: horizontal;
+          spacing: 12;
+          layout {row:4; column: 1;}
+          
+          Button cb_rect {
+            icon-name: "rect-symbolic";
+          }
+
+          Button cb_ellipse {
+            icon-name: "ellipse-symbolic";
+          }
+
+          Button cb_arrow {
+            icon-name: "arrow-symbolic";
+          }
+
+          Button cb_doublearrow {
+            icon-name: "double-arrow-symbolic";
+          }
+
+          Button cb_line {
+            icon-name: "line-symbolic";
+          }
+
+          Button cb_coordinatesystem {
+            icon-name: "coordinate-system-symbolic";
+          }
+
+          Button cb_spline {
+            icon-name: "spline-symbolic";
+          }
+
+          Button cb_shaperecognizer {
+            icon-name: "shape-recognizer-symbolic";
+          }
+        }
+
+        Label {
+          label: _("<b>Opacity</b>");
+          use-markup: true;
+          layout {row:5; column:0;}
+        }
+        
+        Scale scale_opacity {
+          orientation: horizontal;
+          margin-bottom: 18;
+          width-request: 140;
+          layout {row:5; column:1;}
+          adjustment: 
+          Gtk.Adjustment {
+            lower: 0;
+            upper: 100;
+            value: 50;
+            step-increment: 0.1;
+          };
+        }
+
+      };
+    }
+  }
+}
