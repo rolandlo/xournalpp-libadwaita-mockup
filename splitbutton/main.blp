@@ -12,7 +12,7 @@ template $Marker : Grid {
       
       Image marker {
         name: "marker";
-        icon-name: "marker-symbolic";
+        icon-name: "marker-not-filled-symbolic";
         pixel-size: 36;
         margin-bottom: 10;
         styles ["icon-dropshadow"]
@@ -72,8 +72,11 @@ template $Marker : Grid {
           }
           
           ColorDialogButton button_color_chooser {
+            name: "color-chooser";
+            notify::rgba=>$on_color_button_clicked();
             dialog:
             ColorDialog {
+              with-alpha: false;
             };
           }
         }
@@ -84,10 +87,10 @@ template $Marker : Grid {
           layout {row:1; column:0;}
         }
         
-        Switch {
+        Switch sw_filled {
+          state-set => $on_filled_set();
           halign: start;
           valign: center;
-          active: true;
           layout {row:1; column:1;}
         }
 

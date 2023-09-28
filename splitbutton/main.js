@@ -72,14 +72,23 @@ const Marker = GObject.registerClass(
       "ad_opacity",
       "im_linestyle",
       "im_drawingtype",
+      "sw_filled",
     ],
   },
   class Marker extends Gtk.Grid {
     // register signal handlers and other symbols
-    constructor(color, marker_opacity, linestyle, thickness, drawingtype) {
+    constructor(
+      color,
+      fill,
+      marker_opacity,
+      linestyle,
+      thickness,
+      drawingtype,
+    ) {
       super();
       this.color = color;
       this.marker_opacity = marker_opacity;
+      this._sw_filled.active = fill;
       set_css_property(
         this._marker,
         "color",
@@ -103,9 +112,6 @@ const Marker = GObject.registerClass(
     }
 
     on_color_button_clicked(_self) {
-      console.log(this.color);
-      console.log(_self.name);
-
       switch (_self.name) {
         case "button_green":
           this.color = "#8ff0a4";
@@ -116,6 +122,14 @@ const Marker = GObject.registerClass(
         case "button_red":
           this.color = "#f66151";
           break;
+        case "color-chooser": {
+          const rgba = _self.get_rgba();
+          const r = Math.floor(rgba.red * 255);
+          const g = Math.floor(rgba.green * 255);
+          const b = Math.floor(rgba.blue * 255);
+          this.color = `#${r.toString(16)}${g.toString(16)}${b.toString(16)}`;
+          break;
+        }
       }
       set_css_property(
         this._marker,
@@ -170,6 +184,14 @@ const Marker = GObject.registerClass(
       }
     }
 
+    on_filled_set(_self, state) {
+      if (state) {
+        this._marker.set_from_icon_name("marker-filled-symbolic");
+      } else {
+        this._marker.set_from_icon_name("marker-not-filled-symbolic");
+      }
+    }
+
     on_thickness_changed(_self) {
       this.thickness = _self.value;
       set_css_property(
@@ -193,6 +215,7 @@ const Marker = GObject.registerClass(
 const box = new Gtk.Box({ spacing: 24 });
 const marker1 = new Marker(
   "#8ff0a4", // color
+  true, // filled
   50.0, // opacity
   "dash-dot", // line style
   Object.keys(marks_thickness)[1], // thickness
@@ -200,6 +223,7 @@ const marker1 = new Marker(
 );
 const marker2 = new Marker(
   "#f66151",
+  false,
   80.0,
   "plain",
   Object.keys(marks_thickness)[3],
