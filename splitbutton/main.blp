@@ -1,8 +1,9 @@
 using Gtk 4.0;
 using Adw 1;
 
-Grid {
+template $Marker : Grid {
   Adw.SplitButton button {
+    clicked => $on_button_clicked();
     icon-name: "edit-symbolic";
     can-shrink: true;
     [child]
@@ -20,14 +21,14 @@ Grid {
       Box {
         orientation: horizontal;
         spacing: 12;
-        Image {
-          name: "thickness";
-          icon-name: "medium-symbolic";
+        Image im_linestyle {
+          name: "linestyle";
+          icon-name: "line-style-plain-symbolic";
           pixel-size: 12;
           styles ["icon-dropshadow"]
         }
-        Image {
-          name: "drawingType";
+        Image im_drawingtype {
+          name: "drawingtype";
           icon-name: "arrow-symbolic";
           pixel-size: 12;
           styles ["icon-dropshadow"]
@@ -55,14 +56,17 @@ Grid {
           orientation: horizontal;
           spacing: 12;
           Button button_yellow {
+            clicked => $on_color_button_clicked();
             name: "button_yellow";
             styles ["circular"]
           }
           Button button_green {
+            clicked => $on_color_button_clicked();
             name: "button_green";
             styles ["circular"]
           }
           Button button_red {
+            clicked => $on_color_button_clicked();
             name: "button_red";
             styles ["circular"]
           }
@@ -99,18 +103,26 @@ Grid {
           layout {row:2; column: 1;}
           
           Button cb_plain{
+            clicked => $on_linestyle_button_clicked();
+            name: "linestyle_plain";
             icon-name: "line-style-plain-symbolic";
           }
 
           Button cb_dash{
+            clicked => $on_linestyle_button_clicked();
+            name: "linestyle_dash";
             icon-name: "line-style-dash-symbolic";
           }
 
           Button cb_dashdot{
+            clicked => $on_linestyle_button_clicked();
+            name: "linestyle_dash_dot";
             icon-name: "line-style-dash-dot-symbolic";
           }
 
           Button cb_dot{
+            clicked => $on_linestyle_button_clicked();
+            name: "linestyle_dot";
             icon-name: "line-style-dot-symbolic";
           }
         }
@@ -148,34 +160,50 @@ Grid {
           layout {row:4; column: 1;}
           
           Button cb_rect {
+            clicked => $on_drawingtype_button_clicked();
+            name: "drawingtype_rect";
             icon-name: "rect-symbolic";
           }
 
           Button cb_ellipse {
+            clicked => $on_drawingtype_button_clicked();
+            name: "drawingtype_ellipse";
             icon-name: "ellipse-symbolic";
           }
 
           Button cb_arrow {
+            clicked => $on_drawingtype_button_clicked();
+            name: "drawingtype_arrow";
             icon-name: "arrow-symbolic";
           }
 
           Button cb_doublearrow {
+            clicked => $on_drawingtype_button_clicked();
+            name: "drawingtype_doublearrow";
             icon-name: "double-arrow-symbolic";
           }
 
           Button cb_line {
+            clicked => $on_drawingtype_button_clicked();
+            name: "drawingtype_line";
             icon-name: "line-symbolic";
           }
 
           Button cb_coordinatesystem {
+            clicked => $on_drawingtype_button_clicked();
+            name: "drawingtype_coordinatesystem";
             icon-name: "coordinate-system-symbolic";
           }
 
           Button cb_spline {
+            clicked => $on_drawingtype_button_clicked();
+            name: "drawingtype_spline";
             icon-name: "spline-symbolic";
           }
 
           Button cb_shaperecognizer {
+            clicked => $on_drawingtype_button_clicked();
+            name: "drawingtype_shaperecognizer";
             icon-name: "shape-recognizer-symbolic";
           }
         }

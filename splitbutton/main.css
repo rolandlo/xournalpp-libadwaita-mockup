@@ -1,14 +1,14 @@
-#drawingType {
+#drawingtype {
   color: @accent_fg_color;
 }
 
-#thickness {
+#linestyle {
   color: @accent_fg_color;
 }
 
 #marker {
-  color: rgba(255, 150, 130, 1);
-  -gtk-icon-transform: rotate(-30deg) scale(1.2);
+  color: red;
+  -gtk-icon-transform: rotate(-30deg) scale(1.1);
 }
 
 #button_green {
