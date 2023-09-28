@@ -23,13 +23,13 @@ template $Marker : Grid {
         spacing: 12;
         Image im_linestyle {
           name: "linestyle";
-          icon-name: "line-style-plain-symbolic";
+          icon-name: "line-style-plain";
           pixel-size: 12;
           styles ["icon-dropshadow"]
         }
         Image im_drawingtype {
           name: "drawingtype";
-          icon-name: "arrow-symbolic";
+          icon-name: "arrow";
           pixel-size: 12;
           styles ["icon-dropshadow"]
         }
@@ -139,9 +139,10 @@ template $Marker : Grid {
           width-request: 140;
           layout {row:3; column:1;}
           adjustment: 
-          Gtk.Adjustment {
+          Gtk.Adjustment ad_thickness {
+            value-changed => $on_thickness_changed();
             lower: -0.5;
-            upper: 4;
+            upper: 4.0;
             value: 1.815;
             step-increment: 0.001;
           };
@@ -218,12 +219,14 @@ template $Marker : Grid {
           orientation: horizontal;
           margin-bottom: 18;
           width-request: 140;
+          digits: 1;
           layout {row:5; column:1;}
           adjustment: 
-          Gtk.Adjustment {
-            lower: 0;
-            upper: 100;
-            value: 50;
+          Gtk.Adjustment ad_opacity {
+            value-changed => $on_opacity_changed();
+            lower: 0.0;
+            upper: 100.0;
+            value: 50.0;
             step-increment: 0.1;
           };
         }
