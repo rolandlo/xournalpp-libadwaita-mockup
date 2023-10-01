@@ -17,28 +17,16 @@ const marks_opacity = {
   100: "100%",
 };
 
-const palette_names = [
-  "yellow3",
-  "orange3",
-  "purple2",
-  "green2",
-  "blue2",
-  "dark2",
-  "green5",
-  "red3",
-  "blue4",
-];
-const palette_colors = [
-  "#f6d32d",
-  "#ff7800",
-  "#c061cb",
-  "#57e389",
-  "#62a0ea",
-  "#5e5c64",
-  "#26a269",
-  "#e01b24",
-  "#1c71d8",
-];
+const palette = [];
+palette.push({ name: "yellow3", color: "#f6d32d" });
+palette.push({ name: "orange3", color: "#ff7800" });
+palette.push({ name: "purple2", color: "#c061cb" });
+palette.push({ name: "green2", color: "#57e389" });
+palette.push({ name: "blue2", color: "#62a0ea" });
+palette.push({ name: "dark2", color: "#5e5c64" });
+palette.push({ name: "green5", color: "#26a269" });
+palette.push({ name: "red3", color: "#e01b24" });
+palette.push({ name: "blue4", color: "#1c71d8" });
 
 async function set_css_property(widget, property, value) {
   const cssString = `#${widget.name} { ${property}: ${value}; } `;
@@ -104,15 +92,14 @@ const Marker = GObject.registerClass(
         this._scale_opacity.add_mark(value, Gtk.PositionType.ABOVE, label);
       }
 
-      const num_colors = palette_names.length;
-      for (let i = 0; i < num_colors; i++) {
+      for (let i = 0; i < palette.length; i++) {
         const button = new Gtk.Button();
-        button.set_name(palette_names[i]);
+        button.set_name(palette[i].name);
         button.add_css_class("circular");
-        set_css_property(button, "background-color", palette_colors[i]);
+        set_css_property(button, "background-color", palette[i].color);
         button.connect("clicked", (_self) => {
-          const index = palette_names.indexOf(_self.name);
-          set_css_property(this._marker, "color", palette_colors.at(index));
+          const entry = palette.find((element) => element.name === _self.name);
+          set_css_property(this._marker, "color", entry.color);
         });
         this._color_box.append(button);
       }
