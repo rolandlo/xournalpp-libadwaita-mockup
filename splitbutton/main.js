@@ -28,7 +28,7 @@ palette.push({ name: "green5", color: "#26a269" });
 palette.push({ name: "red3", color: "#e01b24" });
 palette.push({ name: "blue4", color: "#1c71d8" });
 
-async function set_css_property(widget, property, value) {
+function set_css_property(widget, property, value) {
   const cssString = `#${widget.name} { ${property}: ${value}; } `;
   const provider = new Gtk.CssProvider();
   provider.load_from_string(cssString);
@@ -37,7 +37,7 @@ async function set_css_property(widget, property, value) {
   context.add_provider(provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
 }
 
-function hex_from_color_and_opacity(color, opacity) {
+function hex(color, opacity) {
   const alpha_decimal = Math.floor((opacity + 100) * 1.275);
   const alpha = alpha_decimal.toString(16);
   return `${color}${alpha}`;
@@ -75,11 +75,7 @@ const Marker = GObject.registerClass(
       this.color = color;
       this.marker_opacity = marker_opacity;
       this._sw_filled.active = fill;
-      set_css_property(
-        this._marker,
-        "color",
-        hex_from_color_and_opacity(color, marker_opacity),
-      );
+      set_css_property(this._marker, "color", hex(color, marker_opacity));
       this._im_linestyle.set_from_icon_name(`line-style-${linestyle}`);
       this._im_drawingtype.set_from_icon_name(`${drawingtype}`);
       this._ad_opacity.set_value(marker_opacity);
@@ -118,7 +114,7 @@ const Marker = GObject.registerClass(
         set_css_property(
           this._marker,
           "color",
-          hex_from_color_and_opacity(this.color, this.marker_opacity),
+          hex(this.color, this.marker_opacity),
         );
       });
       this._color_box.append(color_button);
@@ -196,7 +192,7 @@ const Marker = GObject.registerClass(
       set_css_property(
         this._marker,
         "color",
-        hex_from_color_and_opacity(this.color, this.marker_opacity),
+        hex(this.color, this.marker_opacity),
       );
     }
   },
