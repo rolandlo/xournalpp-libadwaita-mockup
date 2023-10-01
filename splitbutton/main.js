@@ -63,9 +63,6 @@ const Marker = GObject.registerClass(
       "button",
       "marker",
       "popover",
-      "button_green",
-      "button_red",
-      "button_color_chooser",
       "scale_thickness",
       "ad_thickness",
       "scale_opacity",
@@ -73,6 +70,7 @@ const Marker = GObject.registerClass(
       "im_linestyle",
       "im_drawingtype",
       "sw_filled",
+      "color_box",
     ],
   },
   class Marker extends Gtk.Grid {
@@ -105,37 +103,42 @@ const Marker = GObject.registerClass(
       for (const [value, label] of Object.entries(marks_opacity)) {
         this._scale_opacity.add_mark(value, Gtk.PositionType.ABOVE, label);
       }
+
+      const num_colors = palette_names.length;
+      for (let i = 0; i < num_colors; i++) {
+        const button = new Gtk.Button();
+        button.set_name(palette_names[i]);
+        button.add_css_class("circular");
+        set_css_property(button, "background-color", palette_colors[i]);
+        button.connect("clicked", (_self) => {
+          const index = palette_names.indexOf(_self.name);
+          set_css_property(this._marker, "color", palette_colors.at(index));
+        });
+        this._color_box.append(button);
+      }
+
+      const color_dialog = new Gtk.ColorDialog();
+      color_dialog.set_with_alpha(false);
+      const color_button = new Gtk.ColorDialogButton();
+      color_button.set_dialog(color_dialog);
+      color_button.set_name("color-chooser");
+      color_button.connect("notify::rgba", (_self) => {
+        const rgba = _self.get_rgba();
+        const r = Math.floor(rgba.red * 255);
+        const g = Math.floor(rgba.green * 255);
+        const b = Math.floor(rgba.blue * 255);
+        this.color = `#${r.toString(16)}${g.toString(16)}${b.toString(16)}`;
+        set_css_property(
+          this._marker,
+          "color",
+          hex_from_color_and_opacity(this.color, this.marker_opacity),
+        );
+      });
+      this._color_box.append(color_button);
     }
 
     on_button_clicked() {
       console.log("Split button child clicked");
-    }
-
-    on_color_button_clicked(_self) {
-      switch (_self.name) {
-        case "button_green":
-          this.color = "#8ff0a4";
-          break;
-        case "button_yellow":
-          this.color = "#e5a50a";
-          break;
-        case "button_red":
-          this.color = "#f66151";
-          break;
-        case "color-chooser": {
-          const rgba = _self.get_rgba();
-          const r = Math.floor(rgba.red * 255);
-          const g = Math.floor(rgba.green * 255);
-          const b = Math.floor(rgba.blue * 255);
-          this.color = `#${r.toString(16)}${g.toString(16)}${b.toString(16)}`;
-          break;
-        }
-      }
-      set_css_property(
-        this._marker,
-        "color",
-        hex_from_color_and_opacity(this.color, this.marker_opacity),
-      ).catch(console.error);
     }
 
     on_linestyle_button_clicked(_self) {

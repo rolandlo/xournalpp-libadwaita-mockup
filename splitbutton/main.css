@@ -11,15 +11,3 @@
   -gtk-icon-transform: rotate(-30deg) scale(1.1);
 }
 
-#button_green {
-  background-color: @green_1;
-}
-
-#button_yellow {
-  background-color: @yellow_5;
-}
-
-#button_red {
-  background-color: @red_1;
-}
-

@@ -51,34 +51,11 @@ template $Marker : Grid {
           use-markup: true;
           layout {row:0; column:0;}
         }
-        Box {
+        Box color_box {
           layout {row:0; column:1;}
           orientation: horizontal;
           spacing: 12;
-          Button button_yellow {
-            clicked => $on_color_button_clicked();
-            name: "button_yellow";
-            styles ["circular"]
-          }
-          Button button_green {
-            clicked => $on_color_button_clicked();
-            name: "button_green";
-            styles ["circular"]
-          }
-          Button button_red {
-            clicked => $on_color_button_clicked();
-            name: "button_red";
-            styles ["circular"]
-          }
-          
-          ColorDialogButton button_color_chooser {
-            name: "color-chooser";
-            notify::rgba=>$on_color_button_clicked();
-            dialog:
-            ColorDialog {
-              with-alpha: false;
-            };
-          }
+          // buttons for palette colors and ColorDialogButton added in code
         }
         
         Label {
