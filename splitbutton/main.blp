@@ -10,7 +10,7 @@ template $Marker : Grid {
     Box {
       orientation: vertical;
       
-      Image marker {
+      Image im_marker {
         name: "marker";
         icon-name: "marker-not-filled-symbolic";
         pixel-size: 36;
@@ -77,36 +77,13 @@ template $Marker : Grid {
           layout {row:2; column:0;}
         }
         
-        Box {
+        Box linestyle_box {
           orientation: horizontal;
           spacing: 12;
           layout {row:2; column: 1;}
-          
-          Button cb_plain{
-            clicked => $on_linestyle_button_clicked();
-            name: "linestyle_plain";
-            icon-name: "line-style-plain-symbolic";
-          }
-
-          Button cb_dash{
-            clicked => $on_linestyle_button_clicked();
-            name: "linestyle_dash";
-            icon-name: "line-style-dash-symbolic";
-          }
-
-          Button cb_dashdot{
-            clicked => $on_linestyle_button_clicked();
-            name: "linestyle_dash_dot";
-            icon-name: "line-style-dash-dot-symbolic";
-          }
-
-          Button cb_dot{
-            clicked => $on_linestyle_button_clicked();
-            name: "linestyle_dot";
-            icon-name: "line-style-dot-symbolic";
-          }
+          // line style buttons added in code  
         }
-
+        
         Label {
           label: _("<b>Thickness</b>");
           use-markup: true;
@@ -135,58 +112,11 @@ template $Marker : Grid {
           layout {row:4; column:0;}
         }
         
-        Box {
+        Box drawingtype_box {
           orientation: horizontal;
           spacing: 12;
           layout {row:4; column: 1;}
-          
-          Button cb_rect {
-            clicked => $on_drawingtype_button_clicked();
-            name: "drawingtype_rect";
-            icon-name: "rect-symbolic";
-          }
-
-          Button cb_ellipse {
-            clicked => $on_drawingtype_button_clicked();
-            name: "drawingtype_ellipse";
-            icon-name: "ellipse-symbolic";
-          }
-
-          Button cb_arrow {
-            clicked => $on_drawingtype_button_clicked();
-            name: "drawingtype_arrow";
-            icon-name: "arrow-symbolic";
-          }
-
-          Button cb_doublearrow {
-            clicked => $on_drawingtype_button_clicked();
-            name: "drawingtype_doublearrow";
-            icon-name: "double-arrow-symbolic";
-          }
-
-          Button cb_line {
-            clicked => $on_drawingtype_button_clicked();
-            name: "drawingtype_line";
-            icon-name: "line-symbolic";
-          }
-
-          Button cb_coordinatesystem {
-            clicked => $on_drawingtype_button_clicked();
-            name: "drawingtype_coordinatesystem";
-            icon-name: "coordinate-system-symbolic";
-          }
-
-          Button cb_spline {
-            clicked => $on_drawingtype_button_clicked();
-            name: "drawingtype_spline";
-            icon-name: "spline-symbolic";
-          }
-
-          Button cb_shaperecognizer {
-            clicked => $on_drawingtype_button_clicked();
-            name: "drawingtype_shaperecognizer";
-            icon-name: "shape-recognizer-symbolic";
-          }
+          // drawing type buttons added in code
         }
 
         Label {

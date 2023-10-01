@@ -28,6 +28,31 @@ palette.push({ name: "green5", color: "#26a269" });
 palette.push({ name: "red3", color: "#e01b24" });
 palette.push({ name: "blue4", color: "#1c71d8" });
 
+const linestyles = [];
+linestyles.push({ name: "linestyle_plain", icon: "line-style-plain-symbolic" });
+linestyles.push({ name: "linestyle_dash", icon: "line-style-dash-symbolic" });
+linestyles.push({
+  name: "linestyle_dash_dot",
+  icon: "line-style-dash-dot-symbolic",
+});
+linestyles.push({ name: "linestyle_dot", icon: "line-style-dot-symbolic" });
+
+const drawingtypes = [];
+drawingtypes.push({ name: "drawingtype_rect", icon: "rect" });
+drawingtypes.push({ name: "drawingtype_ellipse", icon: "ellipse" });
+drawingtypes.push({ name: "drawingtype_arrow", icon: "arrow" });
+drawingtypes.push({ name: "drawingtype_doublearrow", icon: "double-arrow" });
+drawingtypes.push({ name: "drawingtype_line", icon: "line" });
+drawingtypes.push({
+  name: "drawingtype_coordinatesystem",
+  icon: "coordinate-system",
+});
+drawingtypes.push({ name: "drawingtype_spline", icon: "spline" });
+drawingtypes.push({
+  name: "drawingtype_shaperecognizer",
+  icon: "shape-recognizer",
+});
+
 function set_css_property(widget, property, value) {
   const cssString = `#${widget.name} { ${property}: ${value}; } `;
   const provider = new Gtk.CssProvider();
@@ -49,16 +74,18 @@ const Marker = GObject.registerClass(
     Template: workbench.template,
     InternalChildren: [
       "button",
-      "marker",
       "popover",
       "scale_thickness",
       "ad_thickness",
       "scale_opacity",
       "ad_opacity",
+      "im_marker",
       "im_linestyle",
       "im_drawingtype",
       "sw_filled",
       "color_box",
+      "linestyle_box",
+      "drawingtype_box",
     ],
   },
   class Marker extends Gtk.Grid {
@@ -75,7 +102,7 @@ const Marker = GObject.registerClass(
       this.color = color;
       this.marker_opacity = marker_opacity;
       this._sw_filled.active = fill;
-      set_css_property(this._marker, "color", hex(color, marker_opacity));
+      set_css_property(this._im_marker, "color", hex(color, marker_opacity));
       this._im_linestyle.set_from_icon_name(`line-style-${linestyle}`);
       this._im_drawingtype.set_from_icon_name(`${drawingtype}`);
       this._ad_opacity.set_value(marker_opacity);
@@ -95,7 +122,7 @@ const Marker = GObject.registerClass(
         set_css_property(button, "background-color", palette[i].color);
         button.connect("clicked", (_self) => {
           const entry = palette.find((element) => element.name === _self.name);
-          set_css_property(this._marker, "color", entry.color);
+          set_css_property(this._im_marker, "color", entry.color);
         });
         this._color_box.append(button);
       }
@@ -112,69 +139,49 @@ const Marker = GObject.registerClass(
         const b = Math.floor(rgba.blue * 255);
         this.color = `#${r.toString(16)}${g.toString(16)}${b.toString(16)}`;
         set_css_property(
-          this._marker,
+          this._im_marker,
           "color",
           hex(this.color, this.marker_opacity),
         );
       });
       this._color_box.append(color_button);
+
+      for (let i = 0; i < linestyles.length; i++) {
+        const button = new Gtk.Button();
+        button.set_name(linestyles[i].name);
+        button.set_icon_name(linestyles[i].icon);
+        button.connect("clicked", (_self) => {
+          const entry = linestyles.find(
+            (element) => element.name === _self.name,
+          );
+          this._im_linestyle.set_from_icon_name(linestyles[i].icon);
+        });
+        this._linestyle_box.append(button);
+      }
+
+      for (let i = 0; i < drawingtypes.length; i++) {
+        const button = new Gtk.Button();
+        button.set_name(drawingtypes[i].name);
+        button.set_icon_name(drawingtypes[i].icon);
+        button.connect("clicked", (_self) => {
+          const entry = drawingtypes.find(
+            (element) => element.name === _self.name,
+          );
+          this._im_drawingtype.set_from_icon_name(drawingtypes[i].icon);
+        });
+        this._drawingtype_box.append(button);
+      }
     }
 
     on_button_clicked() {
       console.log("Split button child clicked");
     }
 
-    on_linestyle_button_clicked(_self) {
-      switch (_self.name) {
-        case "linestyle_plain":
-          this._im_linestyle.set_from_icon_name("line-style-plain");
-          break;
-        case "linestyle_dash":
-          this._im_linestyle.set_from_icon_name("line-style-dash");
-          break;
-        case "linestyle_dash_dot":
-          this._im_linestyle.set_from_icon_name("line-style-dash-dot");
-          break;
-        case "linestyle_dot":
-          this._im_linestyle.set_from_icon_name("line-style-dot");
-          break;
-      }
-    }
-
-    on_drawingtype_button_clicked(_self) {
-      switch (_self.name) {
-        case "drawingtype_rect":
-          this._im_drawingtype.set_from_icon_name("rect");
-          break;
-        case "drawingtype_ellipse":
-          this._im_drawingtype.set_from_icon_name("ellipse");
-          break;
-        case "drawingtype_arrow":
-          this._im_drawingtype.set_from_icon_name("arrow");
-          break;
-        case "drawingtype_doublearrow":
-          this._im_drawingtype.set_from_icon_name("double-arrow");
-          break;
-        case "drawingtype_line":
-          this._im_drawingtype.set_from_icon_name("line");
-          break;
-        case "drawingtype_coordinatesystem":
-          this._im_drawingtype.set_from_icon_name("coordinate-system");
-          break;
-        case "drawingtype_spline":
-          this._im_drawingtype.set_from_icon_name("spline");
-          break;
-        case "drawingtype_shaperecognizer":
-          this._im_drawingtype.set_from_icon_name("shape-recognizer");
-          break;
-      }
-    }
-
     on_filled_set(_self, state) {
       if (state) {
-        this._marker.set_from_icon_name("marker-filled-symbolic");
+        this._im_marker.set_from_icon_name("marker-filled-symbolic");
       } else {
-        this._marker.set_from_icon_name("marker-not-filled-symbolic");
+        this._im_marker.set_from_icon_name("marker-not-filled-symbolic");
       }
     }
 
@@ -190,7 +197,7 @@ const Marker = GObject.registerClass(
     on_opacity_changed(_self) {
       this.marker_opacity = _self.value;
       set_css_property(
-        this._marker,
+        this._im_marker,
         "color",
         hex(this.color, this.marker_opacity),
       );
