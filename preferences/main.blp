@@ -43,7 +43,7 @@ Adw.PreferencesWindow win_prefs {
       }
 
       Adw.ExpanderRow {
-        title: _("Available Placeholder");
+        title: _("Available Placeholders");
         icon-name: "info-symbolic";
 
         Label {
@@ -61,7 +61,7 @@ Adw.PreferencesWindow win_prefs {
       }
 
       Adw.ExpanderRow {
-        title: _("Available Placeholder");
+        title: _("Available Placeholders");
         icon-name: "info-symbolic";
 
         Label {
@@ -699,6 +699,23 @@ Adw.PreferencesWindow win_prefs {
     }
 
     Adw.PreferencesGroup {
+      title: _("Sidebar");
+  
+      Adw.SwitchRow sw_sidebar_side {
+        title: _("Show Sidebar on the Right Side");
+      }
+      
+      Adw.ComboRow cb_pageNumbering {
+        title: _("Page Numbering");
+        
+        model:
+        StringList {
+          strings  ["None", "Below preview", "Circle background", "Square background"]
+        };
+      }
+    }
+
+    Adw.PreferencesGroup {
       title: _("Scrollbars");
       
       Adw.SwitchRow sw_scrollbar_side {
@@ -719,23 +736,6 @@ Adw.PreferencesWindow win_prefs {
 
     }
     
-    Adw.PreferencesGroup {
-      title: _("Sidebar");
-  
-      Adw.SwitchRow sw_sidebar_side {
-        title: _("Show Sidebar on the Right Side");
-      }
-      
-      Adw.ComboRow cb_pageNumbering {
-        title: _("Page Numbering");
-        
-        model:
-        StringList {
-          strings  ["None", "Below preview", "Circle background", "Square background"]
-        };
-      }
-    }
-
     Adw.PreferencesGroup {
       title: _("Fullscreen");
       description: _("Choose the options that should be applied when going fullscreen.");
@@ -939,20 +939,20 @@ Adw.PreferencesWindow win_prefs {
       title: _("Scrolling Outside the Page");
       description: _("The amount of space is specified in pixels.");
 
-      Adw.SwitchRow sw_limitedScrolling {
-        title: _("Limited Scrolling");
-        subtitle: _("If activated the scrolling will be limited to the additional space below.");
+      Adw.SwitchRow sw_unlimitedScrolling {
+        title: _("Unlimited Scrolling");
+        subtitle: _("If activated the scrolling will not be limited in any direction.");
         active: true;
       }
 
       Adw.SwitchRow sw_addHorizontalSpace {
         title: _("Enable Additional Horizontal Space");
-        sensitive: bind sw_limitedScrolling.active;
+        sensitive: bind sw_unlimitedScrolling.active inverted;
       }
 
       Adw.SwitchRow sw_addVerticalSpace {
         title: _("Enable Additional Vertical Space");
-        sensitive: bind sw_limitedScrolling.active;
+        sensitive: bind sw_unlimitedScrolling.active inverted;
       }
       
       Adw.PreferencesRow {
@@ -964,7 +964,7 @@ Adw.PreferencesWindow win_prefs {
           column-spacing: 12;
           row-spacing: 12;
           SpinButton sp_addSpaceLeft {
-            sensitive: bind sw_limitedScrolling.active;
+            sensitive: bind sw_unlimitedScrolling.active inverted;
             layout { row:1; column:0; }
             adjustment:
             Adjustment {
@@ -975,7 +975,7 @@ Adw.PreferencesWindow win_prefs {
             };
           }
           SpinButton sp_addSpaceRight {
-            sensitive: bind sw_limitedScrolling.active;
+            sensitive: bind sw_unlimitedScrolling.active inverted;
             layout { row:1; column:2; }
             adjustment:
             Adjustment {
@@ -987,7 +987,7 @@ Adw.PreferencesWindow win_prefs {
           }
 
           SpinButton sp_addSpaceBottom {
-            sensitive: bind sw_limitedScrolling.active;
+            sensitive: bind sw_unlimitedScrolling.active inverted;
             layout { row:2; column:1; }
             adjustment:
             Adjustment {
@@ -999,7 +999,7 @@ Adw.PreferencesWindow win_prefs {
           }
 
           SpinButton sp_addSpaceTop {
-            sensitive: bind sw_limitedScrolling.active;
+            sensitive: bind sw_unlimitedScrolling.active inverted;
             layout { row:0; column:1; }
             adjustment:
             Adjustment {
@@ -1146,10 +1146,11 @@ Adw.PreferencesWindow win_prefs {
     
     Adw.PreferencesGroup {
       title: _("PDF Cache");
+      description: _("Rerender PDF backgrounds more often while zooming for better render quality.\nNote: This should not affect print quality.");
       
       Adw.SpinRow {
         title: _("Zoom Amount");
-        subtitle: _("Rerender when the page's zoom level changes by the given amount (in %).");
+        subtitle: _("Rerender when the zoom level changes by the given amount (in %).");
         adjustment:
         Adjustment {
           lower: 0;
@@ -1157,15 +1158,6 @@ Adw.PreferencesWindow win_prefs {
           step-increment: 1;
           value: 5;
         };
-      }
-      
-      Adw.ExpanderRow {
-        title: _("Recommended Usage");
-        icon-name: "info-symbolic";
-        Label {
-          label: _("Rerender PDF backgrounds more often while zooming for better render quality.\n<b>Note:</b> This should not affect print quality.");
-          use-markup: true;
-        }
       }
     }
     
@@ -1237,15 +1229,15 @@ Adw.PreferencesWindow win_prefs {
     icon-name: "notepad-symbolic";
     
     Adw.PreferencesGroup {
-      Adw.SwitchRow ad_enableAudio {
-        title: _("Enable Audio");
-        subtitle: _("Enables the audio system for audio recording.");
+      Adw.SwitchRow ad_disableAudio {
+        title: _("Disable Audio");
+        subtitle: _("Disables the audio system for audio recording.");
       }
     }
     Adw.PreferencesGroup {
       title:_("Storage");
       description: _("Audio recordings are currently stored in a separate folder and referenced from the journal");
-      sensitive: bind ad_enableAudio.active;
+      sensitive: bind ad_disableAudio.active inverted;
       Adw.ActionRow {
         title: _("Storage Folder");
         
@@ -1259,9 +1251,9 @@ Adw.PreferencesWindow win_prefs {
       }
     }
     Adw.PreferencesGroup {
-      title: _("Aduio Devices");
+      title: _("Audio Devices");
       description: _("Specify the audio devices used for recording and playback of audio attachments.\nIf available select pulse as input/output device");
-      sensitive: bind ad_enableAudio.active;      
+      sensitive: bind ad_disableAudio.active inverted;      
       Adw.ComboRow cb_inputDevice {
         title: _("Input Device");
         model: 
@@ -1277,7 +1269,7 @@ Adw.PreferencesWindow win_prefs {
     }
     Adw.PreferencesGroup {
       title: _("Recording Quality");
-      sensitive: bind ad_enableAudio.active;      
+      sensitive: bind ad_disableAudio.active inverted;      
       Adw.ComboRow cb_sampleRate {
         title: _("Sample Rate");
         model:
@@ -1300,7 +1292,7 @@ Adw.PreferencesWindow win_prefs {
     }
     Adw.PreferencesGroup {
       title:_("Playback Settings");
-      sensitive: bind ad_enableAudio.active;      
+      sensitive: bind ad_disableAudio.active inverted;      
       Adw.SpinRow sp_seekTime {
         title: _("Default Seek Time (in sec)");
         digits: 2;
@@ -1442,21 +1434,25 @@ Adw.PreferencesWindow win_prefs {
       }
       
       Adw.ExpanderRow {
-        title: _("Custom Font");
-        subtitle: _("Otherwise the system font is used");
-        expanded: bind sw_custom_font.active;
+        title: _("System Font");
+        expanded: bind sw_system_font.active inverted bidirectional;
         
         [suffix]
-        Switch sw_custom_font {
+        Switch sw_system_font {
           halign: end;
           valign: center;
         }
         
-        FontDialogButton btn_font {
-          dialog: FontDialog {
-            title: _("Choose a Font");
-            modal: true;
-          };
+        Adw.ActionRow {
+          title: _("Font");
+          [suffix]
+          FontDialogButton btn_font {
+            dialog: 
+            FontDialog {
+              title: _("Choose a Font");
+              modal: true;
+            };
+          }
         }
       }
     }
