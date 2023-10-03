@@ -8,585 +8,6 @@ Adw.PreferencesWindow win_prefs {
   default-height: 900;
   title: _("Xournal++ Preferences");
 
-  Adw.PreferencesPage page_latex {
-    title: _("LaTeX");
-    icon-name: "notepad-symbolic";
-
-    Adw.PreferencesGroup {
-      title: _("TeX Generation Settings");
-      description: _("Set the template file and the generation command that are used for generating TeX images.");
-      
-      Adw.EntryRow {
-        title: _("LaTeX Generation Command");
-        text: "pdflatex -interaction=nonstopmode \'{}\'";
-      }
-
-      Adw.ActionRow {
-        title: _("Template File Path");
-        subtitle: _("Set the file path.");
-
-        [suffix]
-        Button btn_template {
-          Adw.ButtonContent {
-            label: _("default_template.tex");
-            icon-name: "folder-documents-symbolic";
-          }
-        }
-      }
-
-      Adw.EntryRow {
-        title: _("Default LaTeX Text");
-        text: "x^2";
-      }
-
-      Adw.ActionRow {
-        title: _("Always check LaTeX dependencies before running");
-        activatable-widget: sw_checkDeps;
-
-        [suffix]
-        Box {
-          spacing: 12;
-
-          Switch sw_checkDeps {
-            halign: center;
-            valign: center;
-          }
-
-          Button btn_check {
-            label: _("Check Now");
-
-            styles [
-              "suggested-action",
-            ]
-          }
-        }
-      }
-      
-      Adw.ExpanderRow {
-        title: _("Strings Substituted in Template File");
-        icon-name: "info-symbolic";
-
-        Grid {
-          row-spacing: 12;
-          column-spacing: 12;
-          margin-top: 6;
-          margin-bottom: 6;
-          margin-start: 6;
-          margin-end: 6;
-          Label {
-            label: "<tt>%%XPP_TOOL_INPUT%%</tt>";
-            use-markup: true;
-            layout { row:1; column:0; }
-            hexpand: true;
-          }
-          Label {
-            label: _("The math mode for the formula typed in the LaTeX tool.");
-            layout { row:1; column:1; }
-            halign: start;
-            hexpand: true;
-            wrap: true;
-          }
-          Label {
-            label: "<tt>%%XPP_TEXT_COLOR%%</tt>";
-            use-markup: true;
-            layout { row:2; column:0; }
-            hexpand: true;
-          }
-          Label {
-            label: _("The current color of the Text Tool, in hex RGB format.");
-            layout { row:2; column:1; }
-            halign: start;
-            hexpand: true;
-            wrap: true;
-          }
-        }
-      }
-    }
-
-    Adw.PreferencesGroup {
-      title: _("Editor Settings");
-      description: _("Set the properties of the editor used for LaTeX formulas");
-
-      Adw.ActionRow {
-        title: _("LaTeX Editor Theme");
-        activatable-widget: btn_theme;
-
-        [suffix]
-        GtkSource.StyleSchemeChooserButton btn_theme {
-        }
-      }
-
-      Adw.SwitchRow {
-        title: _("Line Numbers");
-      }
-
-      Adw.SwitchRow {
-        title: _("Auto-indent");
-        active: true;
-      }
-
-      Adw.SwitchRow {
-        title: _("Syntax Highlighting");
-        active: true;
-      }
-
-      Adw.SwitchRow {
-        title: _("Wrap Text");
-        active: true;
-      }
-      
-      Adw.ExpanderRow {
-        title: _("Custom Font");
-        subtitle: _("Otherwise the system font is used");
-        expanded: bind sw_custom_font.active;
-        
-        [suffix]
-        Switch sw_custom_font {
-          halign: end;
-          valign: center;
-        }
-        
-        FontDialogButton btn_font {
-          dialog: FontDialog {
-            title: _("Choose a Font");
-            modal: true;
-          };
-        }
-      }
-    }
-  }
-
-  Adw.PreferencesPage page_view {
-    title: _("View");
-    icon-name: "notepad-symbolic";
-
-    Adw.PreferencesGroup {
-      title: _("Global");
-      
-      Adw.SwitchRow sw_show_menubar {
-        title: _("Show Menubar on Startup");
-        subtitle: _("Toggle visibility of menubar with F10"); 
-      }
-      
-      Adw.SwitchRow sw_show_filepath {
-        title: _("Show Filepath in the Title Bar");
-      }
-      
-      Adw.SwitchRow sw_show_page_number {
-        title: _("Show Page Number in the Title Bar");
-      }
-    }
-
-    Adw.PreferencesGroup {
-      title: _("Colors");
-
-      Adw.ActionRow {
-        title: _("Border Color");
-        subtitle: _("Used for current page and other selections");
-        ColorDialogButton {
-          dialog: ColorDialog {
-            title: _("Border Color");
-            with-alpha: false;
-          };
-          rgba: "red";
-        }        
-      } 
-      
-      Adw.ActionRow {
-        title: _("Background Color Between Pages");
-        ColorDialogButton {
-          dialog: ColorDialog {
-            title: _("Border Color");
-            with-alpha: false;
-          };
-          rgba: "white";
-        }        
-      } 
-      
-      Adw.ActionRow {
-        title: _("Selection Color");
-        subtitle: _("Used for text, stroke selection etc.");
-        ColorDialogButton {
-          dialog: ColorDialog {
-            title: _("Border color");
-            with-alpha: false;
-          };
-          rgba: "cornflowerblue";
-        }        
-      } 
-      
-      Adw.ActionRow {
-        title: _("Active Selection Color");
-        subtitle: _("Used for search results etc.");
-        ColorDialogButton {
-          dialog: ColorDialog {
-            title: _("Border color");
-            with-alpha: false;
-          };
-          rgba: "lawngreen";
-        }        
-      }
-    }
-
-    Adw.PreferencesGroup {
-      title: _("Icons");
-      
-      Adw.ComboRow cb_iconTheme {
-        title: _("Icon Theme");
-        
-        model:
-        StringList {
-          strings  ["Color", "Lucide"]
-        };
-      }
-      
-      Adw.SwitchRow sw_dark_theme {
-        title: _("Use Dark Theme");
-      }
-      
-      Adw.SwitchRow sw_stock_icons {
-        title: _("Use Stock Icons");
-        subtitle: _("When available under the same name excluding the 'xopp'-prefix prefer the stock icon");
-      }
-    }
-    
-    Adw.PreferencesGroup {
-      title: _("Cursor");
-      
-      Adw.ComboRow cb_cursorIcon {
-        title: _("Cursor Icon for Pen");
-        
-        model:
-        StringList {
-          strings  ["No icon", "Small dot icon", "Big pen icon", "System cursor"]
-        };
-      }
-      
-      Adw.SwitchRow sw_highlightCursor {
-        title: _("Highlight Cursor Position"); 
-      }
-      
-      Adw.SpinRow {
-        title: _("Radius");
-        sensitive: bind sw_highlightCursor.active;
-        adjustment:
-        Adjustment ad_highlightCursor_Radius {
-          lower: 0;
-          upper: 30;
-          step-increment: 1;
-          value: 30;
-        };
-      }
-      
-      Adw.ActionRow {
-        title: _("Circle Color");
-        sensitive: bind sw_highlightCursor.active;
-        ColorDialogButton {
-          dialog: ColorDialog {
-            title: _("Circle Color");
-            with-alpha: true;
-          };
-          rgba: "rgba(255, 255, 128, 0.5)";
-        }        
-      }
-
-      Adw.SpinRow {
-        title: _("Border Width");
-        sensitive: bind sw_highlightCursor.active;
-        adjustment:
-        Adjustment ad_highlightCursor_borderWidth {
-          lower: 0;
-          upper: 30;
-          step-increment: 1;
-          value: 0;
-        };
-      }
-      
-      Adw.ActionRow {
-        title: _("Border Color");
-        sensitive: bind sw_highlightCursor.active;
-        ColorDialogButton {
-          dialog: ColorDialog {
-            title: _("Border Color");
-            with-alpha: true;
-          };
-          rgba: "rgba(0,0,255,0.5)";
-        }        
-      }
-    }
-
-    Adw.PreferencesGroup {
-      title: _("Scrollbars");
-      
-      Adw.SwitchRow sw_scrollbar_side {
-        title: _("Show Scrollbars on the Left Side");
-      }
-      
-      Adw.SwitchRow sw_hide_horizontal_scrollbar {
-        title: _("Hide the Horizontal Scrollbar");
-      }
-
-      Adw.SwitchRow sw_hide_vertical_scrollbar {
-        title: _("Hide the Vertical Scrollbar");
-      }
-      
-      Adw.SwitchRow sw_disable_scrollbar_fadeout {
-        title: _("Disable Scrollbar Fade out");
-      }
-
-    }
-    
-    Adw.PreferencesGroup {
-      title: _("Sidebar");
-  
-      Adw.SwitchRow sw_sidebar_side {
-        title: _("Show Sidebar on the Right Side");
-      }
-      
-      Adw.ComboRow cb_pageNumbering {
-        title: _("Page Numbering");
-        
-        model:
-        StringList {
-          strings  ["None", "Below preview", "Circle background", "Square background"]
-        };
-      }
-    }
-
-    Adw.PreferencesGroup {
-      title: _("Fullscreen");
-      description: _("Choose the options that should be applied when going fullscreen.");
-      
-      Adw.ActionRow {
-        title: _("Show Toolbar");
-        
-        CheckButton cb_fullscreen_showToolbar {
-          active: true;
-        }
-      }
-
-      Adw.ActionRow {
-        title: _("Show Sidebar");
-        
-        CheckButton cb_fullscreen_showSidebar {
-        }
-      }
-
-      Adw.ActionRow {
-        title: _("Show Menubar");
-        
-        CheckButton cb_fullscreen_showMenubar {
-        }
-      }
-      
-    }
-    
-    Adw.PreferencesGroup {
-      title: _("Presentation Mode");
-      description: _("Choose the options that should be applied when going into presentation mode.");
-      
-      Adw.ActionRow {
-        title: _("Show Toolbar");
-        
-        CheckButton cb_presentationMode_showToolbar {
-          active: true;
-        }
-      }
-
-      Adw.ActionRow {
-        title: _("Show Sidebar");
-        
-        CheckButton cb_presentationMode_showSidebar {
-        }
-      }
-
-      Adw.ActionRow {
-        title: _("Go Fullscreen");
-        
-        CheckButton cb_presentationMode_goFullscreen {
-        }
-      }
-
-      Adw.ActionRow {
-        title: _("Show Menubar");
-        
-        CheckButton cb_presentationMode_showMenubar {
-        }
-      }
-    }
-    
-    Adw.PreferencesGroup {
-      title: _("Selection Edge Panning");
-      
-      Adw.SpinRow {
-        title: _("Base Speed");
-        adjustment:
-        Adjustment ad_BaseSpeed {
-          lower: 0;
-          upper: 100;
-          step-increment: 1;
-          value: 20;
-        };
-      }
-      
-      Adw.SpinRow {
-        title: _("Max Multiplier");
-        adjustment:
-        Adjustment ad_maxMultiplier {
-          lower: 0;
-          upper: 10;
-          step-increment: 1;
-          value: 5;
-        };
-      }
-    }
-    
-    Adw.PreferencesGroup {
-      title: _("Page Cache");
-      description: _("Set how many pages are preloaded before or after the current");
-      
-      Adw.SpinRow {
-        title: _("Pages Preloaded Before");
-        adjustment:
-        Adjustment ad_preloadPages_before {
-          lower: 0;
-          upper: 99;
-          step-increment: 1;
-          value: 3;
-        };
-      }
-
-      Adw.SpinRow {
-        title: _("Pages Preloaded After");
-        adjustment:
-        Adjustment ad_preloadPages_after {
-          lower: 0;
-          upper: 99;
-          step-increment: 1;
-          value: 5;
-        };
-      }
-      
-      Adw.SwitchRow {
-        title: _("Clear Cached Pages While Scrolling");
-      }
-
-    }
-
-  }
-
-  Adw.PreferencesPage page_zoom {
-    title: _("Zoom");
-    icon-name: "notepad-symbolic";
-    
-    Adw.PreferencesGroup {
-      title: _("Zoom Speed");
-      
-      Adw.SpinRow {
-        title: _("Speed for Ctrl + Scroll (in %)");
-        digits: 1;
-        numeric: true;
-        adjustment:
-        Adjustment ad_zoomSpeed {
-          lower: 0.1;
-          upper: 50.0;
-          step-increment: 0.1;
-          value: 2.0;
-        };
-      }
-
-      Adw.SpinRow {
-        title: _("Speed for a Zoom Step (in %)");
-        digits: 1;
-        numeric: true;
-        adjustment:
-        Adjustment ad_zoomStep {
-          lower: 0.5;
-          upper: 50.0;
-          step-increment: 0.5;
-          value: 10.0;
-        };
-      }
-    }
-
-    Adw.PreferencesGroup {
-      title: _("Display DPI callibration");
-      description: _("To make sure that on 100% zoom the size of elements is natural");
-      
-      Adw.PreferencesRow {
-        title: _("Display DPI callibration");
-        Box {
-          orientation: vertical;
-          valign: center;
-          hexpand: false;
-          styles ["header"]
-          Box {
-            orientation: vertical;
-            valign: center;
-            hexpand: true;
-            styles ["title"]
-            Label {
-              label: _("Put a ruler on your screen and move the slider until both rulers match. ");
-            }
-          }
-          Scale {
-            digits: 1;
-            has-origin: true;
-            draw-value: true;
-            value-pos: top;
-            adjustment: Adjustment {
-              lower: 50;
-              upper: 400;
-              step-increment: 1;
-              value: 100;
-            };
-          }
-        }
-      }
-    }
-
-  }
-
-  Adw.PreferencesPage page_defaults {
-    title: _("Defaults");
-    icon-name: "notepad-symbolic";
-
-    Adw.PreferencesGroup {
-      title: _("Default Tool");
-      description: _("Choose the tool and Settings if you press the default button");
-
-      Adw.PreferencesRow {
-        title: _("Default Tool");
-        Box {
-          orientation: vertical;
-          valign: center;
-          DropDown cb_defaultTool {
-          }
-        }
-      }
-    }
-  }
-
-  Adw.PreferencesPage page_language {
-    title: _("Language");
-    icon-name: "notepad-symbolic";
-
-    Adw.PreferencesGroup {
-      title: _("Language settings");
-      description: _("Select the language for menus, info texts, messages etc.");
-
-      Adw.PreferencesRow {
-        title: _("Set Language");
-        Box {
-          orientation: vertical;
-          valign: center;
-          DropDown cb_language {
-          }
-        }
-      }
-    }
-  }
-
   Adw.PreferencesPage page_loadSave {
     title: _("Load/Save");
     icon-name: "notepad-symbolic";
@@ -661,370 +82,6 @@ Adw.PreferencesWindow win_prefs {
         title: _("Autoloading of Most Recent File");
         subtitle: _("If enabled Xournal++ will open the most recently saved document automatically.");
         active: true;
-      }
-    }
-  }
-
-  Adw.PreferencesPage page_drawing {
-    title: _("Drawing Area");
-    icon-name: "notepad-symbolic";
-
-    Adw.PreferencesGroup {
-      title: _("Scrolling Outside the Page");
-      description: _("The amount of space is specified in pixels.");
-
-      Adw.SwitchRow sw_limitedScrolling {
-        title: _("Limited Scrolling");
-        subtitle: _("If activated the scrolling will be limited to the additional space below.");
-        active: true;
-      }
-
-      Adw.SwitchRow sw_addHorizontalSpace {
-        title: _("Enable Additional Horizontal Space");
-        sensitive: bind sw_limitedScrolling.active;
-      }
-
-      Adw.SwitchRow sw_addVerticalSpace {
-        title: _("Enable Additional Vertical Space");
-        sensitive: bind sw_limitedScrolling.active;
-      }
-      
-      Adw.PreferencesRow {
-        title: _("Additional Space Around Page");
-        Grid {
-          halign: center;
-          margin-top: 12;
-          margin-bottom: 12;
-          column-spacing: 12;
-          row-spacing: 12;
-          SpinButton sp_addSpaceLeft {
-            sensitive: bind sw_limitedScrolling.active;
-            layout { row:1; column:0; }
-            adjustment:
-            Adjustment {
-              lower: 0;
-              upper: 2000;
-              step-increment: 1;
-              value: 150;
-            };
-          }
-          SpinButton sp_addSpaceRight {
-            sensitive: bind sw_limitedScrolling.active;
-            layout { row:1; column:2; }
-            adjustment:
-            Adjustment {
-              lower: 0;
-              upper: 2000;
-              step-increment: 1;
-              value: 150;
-            };
-          }
-
-          SpinButton sp_addSpaceBottom {
-            sensitive: bind sw_limitedScrolling.active;
-            layout { row:2; column:1; }
-            adjustment:
-            Adjustment {
-              lower: 0;
-              upper: 2000;
-              step-increment: 1;
-              value: 150;
-            };
-          }
-
-          SpinButton sp_addSpaceTop {
-            sensitive: bind sw_limitedScrolling.active;
-            layout { row:0; column:1; }
-            adjustment:
-            Adjustment {
-              lower: 0;
-              upper: 2000;
-              step-increment: 1;
-              value: 150;
-            };
-          }
-        }
-      }
-    }
-    
-    Adw.PreferencesGroup {
-      title: _("Paired Pages");
-      
-      Adw.SpinRow {
-        title: _("First Page Offset");
-        adjustment:
-        Adjustment {
-          lower: 0;
-          upper: 100;
-          step-increment: 1;
-          value: 0;
-        };
-      }
-    }
-
-    Adw.PreferencesGroup {
-      title: _("Auto-Add Empty Page");
-      
-      Adw.PreferencesRow {
-      title: _("Auto-Add Empty Page");
-        Box {
-          orientation: vertical;
-          halign: start;
-          spacing: 12;
-
-          CheckButton cb_autoAddDisabled {
-            active: true;
-            label: _("Disabled");
-          }
-
-          CheckButton cb_autoAddDrawing {
-            label: _("When drawing on last page");
-            group: cb_autoAddDisabled;
-          }
-
-          CheckButton cb_autoAddScrolling {
-            label: _("When scrolling to end of last page");
-            group: cb_autoAddDisabled;
-          }
-        }
-      }
-    }
-
-    Adw.PreferencesGroup {
-      title: _("Drawing Tool Modifiers");
-      description: _("Set Modifiers by Draw Direction (Experimental)");
-      
-      Adw.SwitchRow sw_modifiersDrawDir {
-        title: _("Enable");
-      }
-      
-      Adw.SpinRow sp_drawDirectionRadius {
-        title: _("Determination Radius (in pixels)");
-        sensitive: bind sw_modifiersDrawDir.active;
-        adjustment:
-        Adjustment {
-          lower: 2;
-          upper: 1000;
-          step-increment: 1;
-          value: 50;
-        };
-      }
-    }
-
-    Adw.PreferencesGroup {
-      title: _("Resizing");
-      
-      Adw.SwitchRow sw_preserveLineWidth {
-        title: _("Preserve Line Width");
-        subtitle: _("When resizing a selection should the line width of strokes be preserved?"); 
-      }
-    }
-
-    Adw.PreferencesGroup {
-      title: _("Tool Tap Action");
-      description: _("Tap means an input of short duration and length.");
-      
-      Adw.SwitchRow sw_enableTap {
-        title: _("Enable Tap Action");
-      }
-      
-      Adw.SpinRow {
-        title: _("Ignore Time (in ms)");
-        sensitive: bind sw_enableTap.active;
-        adjustment:
-        Adjustment {
-          lower: 0;
-          upper: 1000;
-          step-increment: 1;
-          value: 150;
-        };
-      }
-
-      Adw.SpinRow {
-        title: _("Max Length (in mm)");
-        sensitive: bind sw_enableTap.active;
-        adjustment:
-        Adjustment {
-          lower: 0.01;
-          upper: 100.00;
-          step-increment: 0.10;
-          value: 1.00;
-        };
-      }
-      
-      Adw.SpinRow {
-        title: _("Successive (in ms)");
-        sensitive: bind sw_enableTap.active;
-        adjustment:
-        Adjustment {
-          lower: 0;
-          upper: 1000;
-          step-increment: 1;
-          value: 500;
-        };
-      }
-      
-      Adw.SwitchRow sw_tapShowFloatingToolbox {
-        title: _("Show Floating Toolbox");
-        subtitle: _("On tap show the floating toolbox");
-        sensitive: bind sw_enableTap.active;
-      }
-      
-      Adw.SwitchRow sw_tapTrySelectObject {
-        title: _("Select Object First");
-        subtitle: _("On tap try to select an object before showing the floating toolbox");
-        sensitive: bind sw_enableTap.active;
-      }
-      
-    }
-    
-    Adw.PreferencesGroup {
-      title: _("PDF Cache");
-      
-      Adw.SpinRow {
-        title: _("Zoom Amount");
-        subtitle: _("Rerender when the page's zoom level changes by the given amount (in %).");
-        adjustment:
-        Adjustment {
-          lower: 0;
-          upper: 900;
-          step-increment: 1;
-          value: 5;
-        };
-      }
-      
-      Adw.ExpanderRow {
-        title: _("Recommended Usage");
-        icon-name: "info-symbolic";
-        Label {
-          label: _("Rerender PDF backgrounds more often while zooming for better render quality.\n<b>Note:</b> This should not affect print quality.");
-          use-markup: true;
-        }
-      }
-    }
-    
-    Adw.PreferencesGroup {
-      title: _("Snapping");
-      description: _("When drawing shapes or manipulating selections should elements snap to the grid?");
-      
-      Adw.SpinRow sp_rotationSnappingTolerance {
-        title: _("Rotation Snapping Tolerance");
-        digits: 1;
-        adjustment:
-        Adjustment {
-          lower: 0.1;
-          upper: 1.0;
-          step-increment: 0.1;
-          value: 0.3;
-        };
-      }
-      Adw.SpinRow sp_gridSnappingTolerance {
-        title: _("Rotation Snapping Tolerance");
-        digits: 1;
-        adjustment:
-        Adjustment {
-          lower: 0.1;
-          upper: 1.0;
-          step-increment: 0.1;
-          value: 1.0;
-        };
-      }
-      Adw.SpinRow sp_snappingGridSize {
-        title: _("Grid Size");
-        digits: 2;
-        adjustment:
-        Adjustment {
-          lower: 0.01;
-          upper: 20;
-          step-increment: 0.01;
-          value: 1.0;
-        };
-      }
-      Adw.SwitchRow sw_snappingRecognized {
-        title: _("Snapping for Recognized Shapes");
-      }
-    }
-  }
-
-  Adw.PreferencesPage page_audio {
-    title: _("Audio Recording");
-    icon-name: "notepad-symbolic";
-    
-    Adw.PreferencesGroup {
-      Adw.SwitchRow ad_enableAudio {
-        title: _("Enable Audio");
-        subtitle: _("Enables the audio system for audio recording.");
-      }
-    }
-    Adw.PreferencesGroup {
-      title:_("Storage");
-      description: _("Audio recordings are currently stored in a separate folder and referenced from the journal");
-      sensitive: bind ad_enableAudio.active;
-      Adw.ActionRow {
-        title: _("Storage Folder");
-        
-        [suffix]
-        Button btn_audioFolder {
-          Adw.ButtonContent {
-            label: _("Documents");
-            icon-name: "folder-documents-symbolic";
-          }
-        }
-      }
-    }
-    Adw.PreferencesGroup {
-      title: _("Aduio Devices");
-      description: _("Specify the audio devices used for recording and playback of audio attachments.\nIf available select pulse as input/output device");
-      sensitive: bind ad_enableAudio.active;      
-      Adw.ComboRow cb_inputDevice {
-        title: _("Input Device");
-        model: 
-        StringList sl_inputDevice {
-        };
-      }
-      Adw.ComboRow cb_outputDevice {
-        title: _("Output Device");
-        model: 
-        StringList sl_outputDevice {
-        };      
-      }
-    }
-    Adw.PreferencesGroup {
-      title: _("Recording Quality");
-      sensitive: bind ad_enableAudio.active;      
-      Adw.ComboRow cb_sampleRate {
-        title: _("Sample Rate");
-        model:
-        StringList {
-          strings ["16000Hz", "44100Hz", "96000Hz", "192000Hz"]
-        };
-      }
-      
-      Adw.SpinRow sp_gain {
-        title: _("Gain");
-        digits: 2;
-        adjustment:
-        Adjustment ad_gain {
-          lower: 0.00;
-          upper: 10.00;
-          step-increment: 0.10;
-          value: 1.00;
-        };
-      }
-    }
-    Adw.PreferencesGroup {
-      title:_("Playback Settings");
-      sensitive: bind ad_enableAudio.active;      
-      Adw.SpinRow sp_seekTime {
-        title: _("Default Seek Time (in sec)");
-        digits: 2;
-        adjustment:
-        Adjustment ad_seekTime {
-          lower: 0.00;
-          upper: 90.00;
-          step-increment: 1.00;
-          value: 1.00;
-        };
       }
     }
   }
@@ -1481,8 +538,952 @@ Adw.PreferencesWindow win_prefs {
       }
     }
   }
-}
 
+  Adw.PreferencesPage page_view {
+    title: _("View");
+    icon-name: "notepad-symbolic";
+
+    Adw.PreferencesGroup {
+      title: _("Global");
+      
+      Adw.SwitchRow sw_show_menubar {
+        title: _("Show Menubar on Startup");
+        subtitle: _("Toggle visibility of menubar with F10"); 
+      }
+      
+      Adw.SwitchRow sw_show_filepath {
+        title: _("Show Filepath in the Title Bar");
+      }
+      
+      Adw.SwitchRow sw_show_page_number {
+        title: _("Show Page Number in the Title Bar");
+      }
+    }
+
+    Adw.PreferencesGroup {
+      title: _("Colors");
+
+      Adw.ActionRow {
+        title: _("Border Color");
+        subtitle: _("Used for current page and other selections");
+        ColorDialogButton {
+          dialog: ColorDialog {
+            title: _("Border Color");
+            with-alpha: false;
+          };
+          rgba: "red";
+        }        
+      } 
+      
+      Adw.ActionRow {
+        title: _("Background Color Between Pages");
+        ColorDialogButton {
+          dialog: ColorDialog {
+            title: _("Border Color");
+            with-alpha: false;
+          };
+          rgba: "white";
+        }        
+      } 
+      
+      Adw.ActionRow {
+        title: _("Selection Color");
+        subtitle: _("Used for text, stroke selection etc.");
+        ColorDialogButton {
+          dialog: ColorDialog {
+            title: _("Border color");
+            with-alpha: false;
+          };
+          rgba: "cornflowerblue";
+        }        
+      } 
+      
+      Adw.ActionRow {
+        title: _("Active Selection Color");
+        subtitle: _("Used for search results etc.");
+        ColorDialogButton {
+          dialog: ColorDialog {
+            title: _("Border color");
+            with-alpha: false;
+          };
+          rgba: "lawngreen";
+        }        
+      }
+    }
+
+    Adw.PreferencesGroup {
+      title: _("Icons");
+      
+      Adw.ComboRow cb_iconTheme {
+        title: _("Icon Theme");
+        
+        model:
+        StringList {
+          strings  ["Color", "Lucide"]
+        };
+      }
+      
+      Adw.SwitchRow sw_dark_theme {
+        title: _("Use Dark Theme");
+      }
+      
+      Adw.SwitchRow sw_stock_icons {
+        title: _("Use Stock Icons");
+        subtitle: _("When available under the same name excluding the 'xopp'-prefix prefer the stock icon");
+      }
+    }
+    
+    Adw.PreferencesGroup {
+      title: _("Cursor");
+      
+      Adw.ComboRow cb_cursorIcon {
+        title: _("Cursor Icon for Pen");
+        
+        model:
+        StringList {
+          strings  ["No icon", "Small dot icon", "Big pen icon", "System cursor"]
+        };
+      }
+      
+      Adw.SwitchRow sw_highlightCursor {
+        title: _("Highlight Cursor Position"); 
+      }
+      
+      Adw.SpinRow {
+        title: _("Radius");
+        sensitive: bind sw_highlightCursor.active;
+        adjustment:
+        Adjustment ad_highlightCursor_Radius {
+          lower: 0;
+          upper: 30;
+          step-increment: 1;
+          value: 30;
+        };
+      }
+      
+      Adw.ActionRow {
+        title: _("Circle Color");
+        sensitive: bind sw_highlightCursor.active;
+        ColorDialogButton {
+          dialog: ColorDialog {
+            title: _("Circle Color");
+            with-alpha: true;
+          };
+          rgba: "rgba(255, 255, 128, 0.5)";
+        }        
+      }
+
+      Adw.SpinRow {
+        title: _("Border Width");
+        sensitive: bind sw_highlightCursor.active;
+        adjustment:
+        Adjustment ad_highlightCursor_borderWidth {
+          lower: 0;
+          upper: 30;
+          step-increment: 1;
+          value: 0;
+        };
+      }
+      
+      Adw.ActionRow {
+        title: _("Border Color");
+        sensitive: bind sw_highlightCursor.active;
+        ColorDialogButton {
+          dialog: ColorDialog {
+            title: _("Border Color");
+            with-alpha: true;
+          };
+          rgba: "rgba(0,0,255,0.5)";
+        }        
+      }
+    }
+
+    Adw.PreferencesGroup {
+      title: _("Scrollbars");
+      
+      Adw.SwitchRow sw_scrollbar_side {
+        title: _("Show Scrollbars on the Left Side");
+      }
+      
+      Adw.SwitchRow sw_hide_horizontal_scrollbar {
+        title: _("Hide the Horizontal Scrollbar");
+      }
+
+      Adw.SwitchRow sw_hide_vertical_scrollbar {
+        title: _("Hide the Vertical Scrollbar");
+      }
+      
+      Adw.SwitchRow sw_disable_scrollbar_fadeout {
+        title: _("Disable Scrollbar Fade out");
+      }
+
+    }
+    
+    Adw.PreferencesGroup {
+      title: _("Sidebar");
+  
+      Adw.SwitchRow sw_sidebar_side {
+        title: _("Show Sidebar on the Right Side");
+      }
+      
+      Adw.ComboRow cb_pageNumbering {
+        title: _("Page Numbering");
+        
+        model:
+        StringList {
+          strings  ["None", "Below preview", "Circle background", "Square background"]
+        };
+      }
+    }
+
+    Adw.PreferencesGroup {
+      title: _("Fullscreen");
+      description: _("Choose the options that should be applied when going fullscreen.");
+      
+      Adw.ActionRow {
+        title: _("Show Toolbar");
+        
+        CheckButton cb_fullscreen_showToolbar {
+          active: true;
+        }
+      }
+
+      Adw.ActionRow {
+        title: _("Show Sidebar");
+        
+        CheckButton cb_fullscreen_showSidebar {
+        }
+      }
+
+      Adw.ActionRow {
+        title: _("Show Menubar");
+        
+        CheckButton cb_fullscreen_showMenubar {
+        }
+      }
+      
+    }
+    
+    Adw.PreferencesGroup {
+      title: _("Presentation Mode");
+      description: _("Choose the options that should be applied when going into presentation mode.");
+      
+      Adw.ActionRow {
+        title: _("Show Toolbar");
+        
+        CheckButton cb_presentationMode_showToolbar {
+          active: true;
+        }
+      }
+
+      Adw.ActionRow {
+        title: _("Show Sidebar");
+        
+        CheckButton cb_presentationMode_showSidebar {
+        }
+      }
+
+      Adw.ActionRow {
+        title: _("Go Fullscreen");
+        
+        CheckButton cb_presentationMode_goFullscreen {
+        }
+      }
+
+      Adw.ActionRow {
+        title: _("Show Menubar");
+        
+        CheckButton cb_presentationMode_showMenubar {
+        }
+      }
+    }
+    
+    Adw.PreferencesGroup {
+      title: _("Selection Edge Panning");
+      
+      Adw.SpinRow {
+        title: _("Base Speed");
+        adjustment:
+        Adjustment ad_BaseSpeed {
+          lower: 0;
+          upper: 100;
+          step-increment: 1;
+          value: 20;
+        };
+      }
+      
+      Adw.SpinRow {
+        title: _("Max Multiplier");
+        adjustment:
+        Adjustment ad_maxMultiplier {
+          lower: 0;
+          upper: 10;
+          step-increment: 1;
+          value: 5;
+        };
+      }
+    }
+    
+    Adw.PreferencesGroup {
+      title: _("Page Cache");
+      description: _("Set how many pages are preloaded before or after the current");
+      
+      Adw.SpinRow {
+        title: _("Pages Preloaded Before");
+        adjustment:
+        Adjustment ad_preloadPages_before {
+          lower: 0;
+          upper: 99;
+          step-increment: 1;
+          value: 3;
+        };
+      }
+
+      Adw.SpinRow {
+        title: _("Pages Preloaded After");
+        adjustment:
+        Adjustment ad_preloadPages_after {
+          lower: 0;
+          upper: 99;
+          step-increment: 1;
+          value: 5;
+        };
+      }
+      
+      Adw.SwitchRow {
+        title: _("Clear Cached Pages While Scrolling");
+      }
+
+    }
+
+  }
+
+  Adw.PreferencesPage page_zoom {
+    title: _("Zoom");
+    icon-name: "notepad-symbolic";
+    
+    Adw.PreferencesGroup {
+      title: _("Zoom Speed");
+      
+      Adw.SpinRow {
+        title: _("Speed for Ctrl + Scroll (in %)");
+        digits: 1;
+        numeric: true;
+        adjustment:
+        Adjustment ad_zoomSpeed {
+          lower: 0.1;
+          upper: 50.0;
+          step-increment: 0.1;
+          value: 2.0;
+        };
+      }
+
+      Adw.SpinRow {
+        title: _("Speed for a Zoom Step (in %)");
+        digits: 1;
+        numeric: true;
+        adjustment:
+        Adjustment ad_zoomStep {
+          lower: 0.5;
+          upper: 50.0;
+          step-increment: 0.5;
+          value: 10.0;
+        };
+      }
+    }
+
+    Adw.PreferencesGroup {
+      title: _("Display DPI callibration");
+      description: _("To make sure that on 100% zoom the size of elements is natural");
+      
+      Adw.PreferencesRow {
+        title: _("Display DPI callibration");
+        Box {
+          orientation: vertical;
+          valign: center;
+          hexpand: false;
+          styles ["header"]
+          Box {
+            orientation: vertical;
+            valign: center;
+            hexpand: true;
+            styles ["title"]
+            Label {
+              label: _("Put a ruler on your screen and move the slider until both rulers match. ");
+            }
+          }
+          Scale {
+            digits: 1;
+            has-origin: true;
+            draw-value: true;
+            value-pos: top;
+            adjustment: Adjustment {
+              lower: 50;
+              upper: 400;
+              step-increment: 1;
+              value: 100;
+            };
+          }
+        }
+      }
+    }
+
+  }
+
+
+  Adw.PreferencesPage page_drawing {
+    title: _("Drawing Area");
+    icon-name: "notepad-symbolic";
+
+    Adw.PreferencesGroup {
+      title: _("Scrolling Outside the Page");
+      description: _("The amount of space is specified in pixels.");
+
+      Adw.SwitchRow sw_limitedScrolling {
+        title: _("Limited Scrolling");
+        subtitle: _("If activated the scrolling will be limited to the additional space below.");
+        active: true;
+      }
+
+      Adw.SwitchRow sw_addHorizontalSpace {
+        title: _("Enable Additional Horizontal Space");
+        sensitive: bind sw_limitedScrolling.active;
+      }
+
+      Adw.SwitchRow sw_addVerticalSpace {
+        title: _("Enable Additional Vertical Space");
+        sensitive: bind sw_limitedScrolling.active;
+      }
+      
+      Adw.PreferencesRow {
+        title: _("Additional Space Around Page");
+        Grid {
+          halign: center;
+          margin-top: 12;
+          margin-bottom: 12;
+          column-spacing: 12;
+          row-spacing: 12;
+          SpinButton sp_addSpaceLeft {
+            sensitive: bind sw_limitedScrolling.active;
+            layout { row:1; column:0; }
+            adjustment:
+            Adjustment {
+              lower: 0;
+              upper: 2000;
+              step-increment: 1;
+              value: 150;
+            };
+          }
+          SpinButton sp_addSpaceRight {
+            sensitive: bind sw_limitedScrolling.active;
+            layout { row:1; column:2; }
+            adjustment:
+            Adjustment {
+              lower: 0;
+              upper: 2000;
+              step-increment: 1;
+              value: 150;
+            };
+          }
+
+          SpinButton sp_addSpaceBottom {
+            sensitive: bind sw_limitedScrolling.active;
+            layout { row:2; column:1; }
+            adjustment:
+            Adjustment {
+              lower: 0;
+              upper: 2000;
+              step-increment: 1;
+              value: 150;
+            };
+          }
+
+          SpinButton sp_addSpaceTop {
+            sensitive: bind sw_limitedScrolling.active;
+            layout { row:0; column:1; }
+            adjustment:
+            Adjustment {
+              lower: 0;
+              upper: 2000;
+              step-increment: 1;
+              value: 150;
+            };
+          }
+        }
+      }
+    }
+    
+    Adw.PreferencesGroup {
+      title: _("Paired Pages");
+      
+      Adw.SpinRow {
+        title: _("First Page Offset");
+        adjustment:
+        Adjustment {
+          lower: 0;
+          upper: 100;
+          step-increment: 1;
+          value: 0;
+        };
+      }
+    }
+
+    Adw.PreferencesGroup {
+      title: _("Auto-Add Empty Page");
+      
+      Adw.PreferencesRow {
+      title: _("Auto-Add Empty Page");
+        Box {
+          orientation: vertical;
+          halign: start;
+          spacing: 12;
+
+          CheckButton cb_autoAddDisabled {
+            active: true;
+            label: _("Disabled");
+          }
+
+          CheckButton cb_autoAddDrawing {
+            label: _("When drawing on last page");
+            group: cb_autoAddDisabled;
+          }
+
+          CheckButton cb_autoAddScrolling {
+            label: _("When scrolling to end of last page");
+            group: cb_autoAddDisabled;
+          }
+        }
+      }
+    }
+
+    Adw.PreferencesGroup {
+      title: _("Drawing Tool Modifiers");
+      description: _("Set Modifiers by Draw Direction (Experimental)");
+      
+      Adw.SwitchRow sw_modifiersDrawDir {
+        title: _("Enable");
+      }
+      
+      Adw.SpinRow sp_drawDirectionRadius {
+        title: _("Determination Radius (in pixels)");
+        sensitive: bind sw_modifiersDrawDir.active;
+        adjustment:
+        Adjustment {
+          lower: 2;
+          upper: 1000;
+          step-increment: 1;
+          value: 50;
+        };
+      }
+    }
+
+    Adw.PreferencesGroup {
+      title: _("Resizing");
+      
+      Adw.SwitchRow sw_preserveLineWidth {
+        title: _("Preserve Line Width");
+        subtitle: _("When resizing a selection should the line width of strokes be preserved?"); 
+      }
+    }
+
+    Adw.PreferencesGroup {
+      title: _("Tool Tap Action");
+      description: _("Tap means an input of short duration and length.");
+      
+      Adw.SwitchRow sw_enableTap {
+        title: _("Enable Tap Action");
+      }
+      
+      Adw.SpinRow {
+        title: _("Ignore Time (in ms)");
+        sensitive: bind sw_enableTap.active;
+        adjustment:
+        Adjustment {
+          lower: 0;
+          upper: 1000;
+          step-increment: 1;
+          value: 150;
+        };
+      }
+
+      Adw.SpinRow {
+        title: _("Max Length (in mm)");
+        sensitive: bind sw_enableTap.active;
+        adjustment:
+        Adjustment {
+          lower: 0.01;
+          upper: 100.00;
+          step-increment: 0.10;
+          value: 1.00;
+        };
+      }
+      
+      Adw.SpinRow {
+        title: _("Successive (in ms)");
+        sensitive: bind sw_enableTap.active;
+        adjustment:
+        Adjustment {
+          lower: 0;
+          upper: 1000;
+          step-increment: 1;
+          value: 500;
+        };
+      }
+      
+      Adw.SwitchRow sw_tapShowFloatingToolbox {
+        title: _("Show Floating Toolbox");
+        subtitle: _("On tap show the floating toolbox");
+        sensitive: bind sw_enableTap.active;
+      }
+      
+      Adw.SwitchRow sw_tapTrySelectObject {
+        title: _("Select Object First");
+        subtitle: _("On tap try to select an object before showing the floating toolbox");
+        sensitive: bind sw_enableTap.active;
+      }
+      
+    }
+    
+    Adw.PreferencesGroup {
+      title: _("PDF Cache");
+      
+      Adw.SpinRow {
+        title: _("Zoom Amount");
+        subtitle: _("Rerender when the page's zoom level changes by the given amount (in %).");
+        adjustment:
+        Adjustment {
+          lower: 0;
+          upper: 900;
+          step-increment: 1;
+          value: 5;
+        };
+      }
+      
+      Adw.ExpanderRow {
+        title: _("Recommended Usage");
+        icon-name: "info-symbolic";
+        Label {
+          label: _("Rerender PDF backgrounds more often while zooming for better render quality.\n<b>Note:</b> This should not affect print quality.");
+          use-markup: true;
+        }
+      }
+    }
+    
+    Adw.PreferencesGroup {
+      title: _("Snapping");
+      description: _("When drawing shapes or manipulating selections should elements snap to the grid?");
+      
+      Adw.SpinRow sp_rotationSnappingTolerance {
+        title: _("Rotation Snapping Tolerance");
+        digits: 1;
+        adjustment:
+        Adjustment {
+          lower: 0.1;
+          upper: 1.0;
+          step-increment: 0.1;
+          value: 0.3;
+        };
+      }
+      Adw.SpinRow sp_gridSnappingTolerance {
+        title: _("Rotation Snapping Tolerance");
+        digits: 1;
+        adjustment:
+        Adjustment {
+          lower: 0.1;
+          upper: 1.0;
+          step-increment: 0.1;
+          value: 1.0;
+        };
+      }
+      Adw.SpinRow sp_snappingGridSize {
+        title: _("Grid Size");
+        digits: 2;
+        adjustment:
+        Adjustment {
+          lower: 0.01;
+          upper: 20;
+          step-increment: 0.01;
+          value: 1.0;
+        };
+      }
+      Adw.SwitchRow sw_snappingRecognized {
+        title: _("Snapping for Recognized Shapes");
+      }
+    }
+  }
+
+  Adw.PreferencesPage page_defaults {
+    title: _("Defaults");
+    icon-name: "notepad-symbolic";
+
+    Adw.PreferencesGroup {
+      title: _("Default Tool");
+      description: _("Choose the tool and Settings if you press the default button");
+
+      Adw.PreferencesRow {
+        title: _("Default Tool");
+        Box {
+          orientation: vertical;
+          valign: center;
+          DropDown cb_defaultTool {
+          }
+        }
+      }
+    }
+  }
+
+  Adw.PreferencesPage page_audio {
+    title: _("Audio Recording");
+    icon-name: "notepad-symbolic";
+    
+    Adw.PreferencesGroup {
+      Adw.SwitchRow ad_enableAudio {
+        title: _("Enable Audio");
+        subtitle: _("Enables the audio system for audio recording.");
+      }
+    }
+    Adw.PreferencesGroup {
+      title:_("Storage");
+      description: _("Audio recordings are currently stored in a separate folder and referenced from the journal");
+      sensitive: bind ad_enableAudio.active;
+      Adw.ActionRow {
+        title: _("Storage Folder");
+        
+        [suffix]
+        Button btn_audioFolder {
+          Adw.ButtonContent {
+            label: _("Documents");
+            icon-name: "folder-documents-symbolic";
+          }
+        }
+      }
+    }
+    Adw.PreferencesGroup {
+      title: _("Aduio Devices");
+      description: _("Specify the audio devices used for recording and playback of audio attachments.\nIf available select pulse as input/output device");
+      sensitive: bind ad_enableAudio.active;      
+      Adw.ComboRow cb_inputDevice {
+        title: _("Input Device");
+        model: 
+        StringList sl_inputDevice {
+        };
+      }
+      Adw.ComboRow cb_outputDevice {
+        title: _("Output Device");
+        model: 
+        StringList sl_outputDevice {
+        };      
+      }
+    }
+    Adw.PreferencesGroup {
+      title: _("Recording Quality");
+      sensitive: bind ad_enableAudio.active;      
+      Adw.ComboRow cb_sampleRate {
+        title: _("Sample Rate");
+        model:
+        StringList {
+          strings ["16000Hz", "44100Hz", "96000Hz", "192000Hz"]
+        };
+      }
+      
+      Adw.SpinRow sp_gain {
+        title: _("Gain");
+        digits: 2;
+        adjustment:
+        Adjustment ad_gain {
+          lower: 0.00;
+          upper: 10.00;
+          step-increment: 0.10;
+          value: 1.00;
+        };
+      }
+    }
+    Adw.PreferencesGroup {
+      title:_("Playback Settings");
+      sensitive: bind ad_enableAudio.active;      
+      Adw.SpinRow sp_seekTime {
+        title: _("Default Seek Time (in sec)");
+        digits: 2;
+        adjustment:
+        Adjustment ad_seekTime {
+          lower: 0.00;
+          upper: 90.00;
+          step-increment: 1.00;
+          value: 1.00;
+        };
+      }
+    }
+  }
+  Adw.PreferencesPage page_latex {
+    title: _("LaTeX");
+    icon-name: "notepad-symbolic";
+
+    Adw.PreferencesGroup {
+      title: _("TeX Generation Settings");
+      description: _("Set the template file and the generation command that are used for generating TeX images.");
+      
+      Adw.EntryRow {
+        title: _("LaTeX Generation Command");
+        text: "pdflatex -interaction=nonstopmode \'{}\'";
+      }
+
+      Adw.ActionRow {
+        title: _("Template File Path");
+        subtitle: _("Set the file path.");
+
+        [suffix]
+        Button btn_template {
+          Adw.ButtonContent {
+            label: _("default_template.tex");
+            icon-name: "folder-documents-symbolic";
+          }
+        }
+      }
+
+      Adw.EntryRow {
+        title: _("Default LaTeX Text");
+        text: "x^2";
+      }
+
+      Adw.ActionRow {
+        title: _("Always check LaTeX dependencies before running");
+        activatable-widget: sw_checkDeps;
+
+        [suffix]
+        Box {
+          spacing: 12;
+
+          Switch sw_checkDeps {
+            halign: center;
+            valign: center;
+          }
+
+          Button btn_check {
+            label: _("Check Now");
+
+            styles [
+              "suggested-action",
+            ]
+          }
+        }
+      }
+      
+      Adw.ExpanderRow {
+        title: _("Strings Substituted in Template File");
+        icon-name: "info-symbolic";
+
+        Grid {
+          row-spacing: 12;
+          column-spacing: 12;
+          margin-top: 6;
+          margin-bottom: 6;
+          margin-start: 6;
+          margin-end: 6;
+          Label {
+            label: "<tt>%%XPP_TOOL_INPUT%%</tt>";
+            use-markup: true;
+            layout { row:1; column:0; }
+            hexpand: true;
+          }
+          Label {
+            label: _("The math mode for the formula typed in the LaTeX tool.");
+            layout { row:1; column:1; }
+            halign: start;
+            hexpand: true;
+            wrap: true;
+          }
+          Label {
+            label: "<tt>%%XPP_TEXT_COLOR%%</tt>";
+            use-markup: true;
+            layout { row:2; column:0; }
+            hexpand: true;
+          }
+          Label {
+            label: _("The current color of the Text Tool, in hex RGB format.");
+            layout { row:2; column:1; }
+            halign: start;
+            hexpand: true;
+            wrap: true;
+          }
+        }
+      }
+    }
+
+    Adw.PreferencesGroup {
+      title: _("Editor Settings");
+      description: _("Set the properties of the editor used for LaTeX formulas");
+
+      Adw.ActionRow {
+        title: _("LaTeX Editor Theme");
+        activatable-widget: btn_theme;
+
+        [suffix]
+        GtkSource.StyleSchemeChooserButton btn_theme {
+        }
+      }
+
+      Adw.SwitchRow {
+        title: _("Line Numbers");
+      }
+
+      Adw.SwitchRow {
+        title: _("Auto-indent");
+        active: true;
+      }
+
+      Adw.SwitchRow {
+        title: _("Syntax Highlighting");
+        active: true;
+      }
+
+      Adw.SwitchRow {
+        title: _("Wrap Text");
+        active: true;
+      }
+      
+      Adw.ExpanderRow {
+        title: _("Custom Font");
+        subtitle: _("Otherwise the system font is used");
+        expanded: bind sw_custom_font.active;
+        
+        [suffix]
+        Switch sw_custom_font {
+          halign: end;
+          valign: center;
+        }
+        
+        FontDialogButton btn_font {
+          dialog: FontDialog {
+            title: _("Choose a Font");
+            modal: true;
+          };
+        }
+      }
+    }
+  }
+
+  Adw.PreferencesPage page_language {
+    title: _("Language");
+    icon-name: "notepad-symbolic";
+
+    Adw.PreferencesGroup {
+      title: _("Language settings");
+      description: _("Select the language for menus, info texts, messages etc.");
+
+      Adw.PreferencesRow {
+        title: _("Set Language");
+        Box {
+          orientation: vertical;
+          valign: center;
+          DropDown cb_language {
+          }
+        }
+      }
+    }
+  }
+
+
+}
 
 Label placeholders {
   label: _("Placeholder text replaced in code");
