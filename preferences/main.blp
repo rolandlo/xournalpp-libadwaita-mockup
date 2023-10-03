@@ -1171,16 +1171,315 @@ Adw.PreferencesWindow win_prefs {
   Adw.PreferencesPage page_mouse {
     title: _("Mouse");
     icon-name: "notepad-symbolic";
+
+    Adw.PreferencesGroup {
+      title: _("Mouse Buttons");
+      description: _("Define which tools will be selected when pressing a mouse button. After releasing the button the previously selected tool will be selected.");
+
+      Adw.PreferencesRow {
+        title: _("Middle Mouse Button");
+
+        Box {
+          orientation: vertical;
+          valign: center;
+          spacing: 12;
+          styles ["header"]
+
+          Box {
+            orientation: vertical;
+            valign: center;
+            hexpand: true;
+            styles ["title"]
+
+            Label {
+              label: _("Middle Mouse Button");
+            }
+
+            DropDown dd_middleMouseButton {
+            }
+          }
+        }
+      }
+
+      Adw.PreferencesRow {
+        title: _("Right Mouse Button");
+
+        Box {
+          orientation: vertical;
+          valign: center;
+          styles ["header"]
+
+          Box {
+            orientation: vertical;
+            valign: center;
+            hexpand: true;
+            styles ["title"]
+            Label {
+              label: _("Right Mouse Button");
+            }
+
+            DropDown dd_rightMouseButton {
+            }
+          }
+        }
+      }
+    }
   }
 
   Adw.PreferencesPage page_stylus {
     title: _("Stylus");
     icon-name: "notepad-symbolic";
+
+    Adw.PreferencesGroup {
+      title: _("Pressure Sensitivity");
+      description: _("Pressure sensitivity allows drawing lines with different widths, depending on how much pressure is applied to the pen. If the device used does not support this feature this setting has no effect.\n\nSome devices report unexpectedly small or large pressures. This can be fixed by setting a minimum pressure or scaling the pressure reported by the device.");
+
+      Adw.SwitchRow sw_pressureSensitivity {
+        title: _("Enable Pressure Sensitivity");
+      }
+
+      Adw.SpinRow {
+        title: _("Minimum Pressure");
+        digits: 2;
+        sensitive: bind sw_pressureSensitivity.active;
+        adjustment:
+        Adjustment ad_minimumPressure {
+          lower: 0.10;
+          upper: 1.00;
+          step-increment: 0.01;
+          value: 0.60;
+        };
+      }
+      Adw.SpinRow {
+        title: _("Pressure Multiplier");
+        digits: 2;
+        sensitive: bind sw_pressureSensitivity.active;
+        adjustment:
+        Adjustment ad_pressureMultiplier {
+          lower: 0.50;
+          upper: 4.00;
+          step-increment: 0.01;
+          value: 1.00;
+        };
+      }
+    }
+
+    Adw.PreferencesGroup {
+      title: _("Artifact Workaround");
+      description: _("With some setup, pen strokes have artifacts at their beginning. This can be avoided by ignoring the first few events/stroke-points when the pen touches the screen.");
+      Adw.SwitchRow sw_ignoreFirstEvents {
+        title: _("Ignore First Events");
+      }
+      Adw.SpinRow {
+        title: _("Events to Ignore");
+        sensitive: bind sw_ignoreFirstEvents.active;
+        adjustment:
+        Adjustment ad_eventsToIgnore {
+          lower: 1;
+          upper: 1000;
+          step-increment: 1;
+          value: 3;
+        };
+      }
+    }
+
+    Adw.PreferencesGroup {
+      title: _("Stylus Buttons");
+      description: _("Specify the tools that will be selected if a button of the stylus is pressed or the eraser is used. After releasing the button, the previous tool will be selected.");
+
+      Adw.PreferencesRow {
+        title: _("Button 1");
+
+        Box {
+          orientation: vertical;
+          valign: center;
+          spacing: 12;
+          styles ["header"]
+
+          Box {
+            orientation: vertical;
+            valign: center;
+            hexpand: true;
+            styles ["title"]
+
+            Label {
+              label: _("Button 1");
+            }
+
+            DropDown dd_Button1 {
+            }
+          }
+        }
+      }
+
+      Adw.PreferencesRow {
+        title: _("Button 2");
+
+        Box {
+          orientation: vertical;
+          valign: center;
+          styles ["header"]
+
+          Box {
+            orientation: vertical;
+            valign: center;
+            hexpand: true;
+            styles ["title"]
+            Label {
+              label: _("Button 2");
+            }
+
+            DropDown dd_Button2 {
+            }
+          }
+        }
+      }
+      Adw.PreferencesRow {
+        title: _("Eraser");
+
+        Box {
+          orientation: vertical;
+          valign: center;
+          styles ["header"]
+
+          Box {
+            orientation: vertical;
+            valign: center;
+            hexpand: true;
+            styles ["title"]
+            Label {
+              label: _("Eraser");
+            }
+
+            DropDown dd_ButtonEraser {
+            }
+          }
+        }
+      }
+    }
+
+    Adw.PreferencesGroup {
+      title: _("Eraser Visibility");
+      description: _("Choose when the stylus-based eraser is visible");
+
+      Adw.ComboRow {
+        title: _("Visibility");
+
+        model:
+        StringList {
+          strings ["Never", "Always", "When Floating", "When Touching"]
+        };
+      }
+    }
   }
 
   Adw.PreferencesPage page_touchscreen {
     title: _("Touchscreen");
     icon-name: "notepad-symbolic";
+
+    Adw.PreferencesGroup {
+      title: _("Device Configuration");
+      description: _("Configure devices not identified by GTK as touchscreen to behave as if they were one.");
+
+      Adw.PreferencesRow {
+        title: _("Touchscreen Device Configuration");
+        Box box_TouchConfig {
+        }
+      }
+    }
+
+    Adw.PreferencesGroup {
+      title: _("Hand Recognition");
+      description: _("If the hardware used does not support hand recognition, Xournal++ can disable the touchscreen when the pen is near the screen.");
+
+      Adw.SwitchRow sw_enableInternalHandRecognition {
+        title: _("Enable Internal Hand Recognition");
+      }
+
+      Adw.ComboRow cb_handRecognitionDisablingMethod {
+        title: _("Disabling Method");
+        sensitive: bind sw_enableInternalHandRecognition.active;
+        model:
+        StringList {
+          strings ["Autodetect", "X11", "Custom"]
+        };
+      }
+
+      Adw.SpinRow {
+        title: _("Timeout (in sec)");
+        subtitle: _("Set the timeout after which the touchscreen will be reactivated again.");
+        digits: 1;
+        sensitive: bind sw_enableInternalHandRecognition.active;
+        adjustment:
+        Adjustment {
+          lower: 0.0;
+          upper: 10.0;
+          step-increment: 0.1;
+          value: 1.0;
+        };
+      }
+
+      Adw.EntryRow {
+        title: _("Enable command");
+        sensitive: bind sw_enableInternalHandRecognition.active;
+      }
+
+      Adw.EntryRow {
+        title: _("Disable command");
+        sensitive: bind sw_enableInternalHandRecognition.active;
+      }
+
+      Adw.ActionRow {
+        title: _("Test commands");
+        sensitive: bind sw_enableInternalHandRecognition.active;
+        [suffix]
+        Button {
+          label: _("Test Enable");
+        }
+        Button {
+          label: _("Test Disable");
+        }
+      }
+    }
+
+    Adw.PreferencesGroup {
+      title: _("Zoom Gestures");
+      description: _("Use pinch gestures to zoom journal pages.");
+
+      Adw.SwitchRow sw_ZoomGestures {
+        title: _("Enable Zoom Gestures");
+      }
+
+      Adw.SpinRow {
+        title: _("Percentage");
+        subtitle: _("Start zooming when the distance between the two touches increases or decreases by a chosen percentage.");
+        sensitive: bind sw_ZoomGestures.active;
+        adjustment:
+        Adjustment ad_zoomGesturePercantage {
+          lower: 0;
+          upper: 100;
+          step-increment: 1;
+          value: 10;
+        };
+      }
+    }
+
+    Adw.PreferencesGroup {
+      title: _("Touch Drawing");
+      description: _("Use the touchscreen like a multi-touch aware pen.");
+
+      Adw.SwitchRow sw_touchDrawing {
+        title: _("Enable Touch Drawing");
+      }
+    }
+    Adw.PreferencesGroup {
+      title: _("Touch Scrolling");
+      description: _("Disabling GTK's built-in touchscreen scrolling can work around scrolling bugs on some platforms. Consider changing this setting if you experience jumps/sudden changes in scroll position when attempting to scroll with a touchscreen.");
+
+      Adw.SwitchRow sw_disableGtkTouchScrolling {
+        title: _("Disable GTK Touch Scrolling");
+      }
+    }
   }
 }
 
