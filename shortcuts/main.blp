@@ -1,0 +1,410 @@
+using Gtk 4.0;
+
+ShortcutsWindow shortcuts-xpp {
+  modal: true;
+
+  ShortcutsSection {
+    title: _("Menu Shortcuts");
+    section-name: "menu-shortcuts";
+    max-height: 12;
+
+    ShortcutsGroup {
+      title: _("Menu File");
+
+      ShortcutsShortcut {
+        accelerator: "<ctrl>N";
+        title: _("Create new document");
+      }
+
+      ShortcutsShortcut {
+        accelerator: "<ctrl>O";
+        title: _("Open a document");
+      }
+
+      ShortcutsShortcut {
+        accelerator: "<ctrl>S";
+        title: _("Save the document");
+      }
+
+      ShortcutsShortcut {
+        accelerator: "<ctrl>S";
+        title: _("Save the document");
+      }
+
+      ShortcutsShortcut {
+        accelerator: "<ctrl>U";
+        title: _("Save as...");
+      }
+
+      ShortcutsShortcut {
+        accelerator: "<ctrl>E";
+        title: _("Export as..");
+      }
+
+      ShortcutsShortcut {
+        accelerator: "<ctrl>P";
+        title: _("Print");
+      }
+
+      ShortcutsShortcut {
+        accelerator: "<ctrl>Q";
+        title: _("Quit");
+      }
+    }
+
+    ShortcutsGroup {
+      title: _("Menu Edit");
+
+      ShortcutsShortcut {
+        accelerator: "<ctrl>Z";
+        title: _("Undo");
+      }
+
+      ShortcutsShortcut {
+          accelerator: "<shift><ctrl>Z <ctrl>Y";
+          title: _("Redo");
+      }
+
+      ShortcutsShortcut {
+          accelerator: "<ctrl>X";
+          title: _("Cut");
+      }
+
+      ShortcutsShortcut {
+          accelerator: "<ctrl>C";
+          title: _("Copy");
+      }
+
+      ShortcutsShortcut {
+          accelerator: "<ctrl>V";
+          title: _("Paste");
+      }
+
+      ShortcutsShortcut {
+          accelerator: "<ctrl>A";
+          title: _("Select all");
+      }
+
+      ShortcutsShortcut {
+        accelerator: "<ctrl>F";
+        title: _("Find");
+      }
+
+      ShortcutsShortcut {
+        accelerator: "Delete";
+        title: _("Delete");
+      }
+    }
+
+    ShortcutsGroup {
+      title: _("Menu View");
+
+      ShortcutsShortcut {
+        accelerator: "F5";
+        title: _("Toggle Presentation Mode");
+      }
+      ShortcutsShortcut {
+        accelerator: "F11";
+        title: _("Fullscreen");
+      }
+      ShortcutsShortcut {
+        accelerator: "F12";
+        title: _("Show Sidebar");
+      }
+      ShortcutsShortcut {
+        accelerator: "F9";
+        title: _("Show Toolbars");
+      }
+      ShortcutsShortcut {
+        accelerator: "F10";
+        title: _("Show Menubar");
+      }
+      ShortcutsShortcut {
+        accelerator: "<ctrl>plus";
+        title: _("Zoom in");
+      }
+      ShortcutsShortcut {
+        accelerator: "<ctrl>minus";
+        title: _("Zoom out");
+      }
+
+    }
+
+    ShortcutsGroup {
+      title: _("Menu Navigation");
+
+      ShortcutsShortcut {
+        accelerator: "<ctrl>Home";
+        title: _("First Page");
+      }
+      ShortcutsShortcut {
+        accelerator: "<ctrl>Page_Up";
+        title: _("Previous Page");
+      }
+      ShortcutsShortcut {
+        accelerator: "<ctrl>G";
+        title: _("Goto Page");
+      }
+      ShortcutsShortcut {
+        accelerator: "<ctrl>Page_Down";
+        title: _("Next Page");
+      }
+      ShortcutsShortcut {
+        accelerator: "<ctrl>End";
+        title: _("Last Page");
+      }
+      ShortcutsShortcut {
+        accelerator: "<shift>Page_Down";
+        title: _("Previous Layer");
+      }
+      ShortcutsShortcut {
+        accelerator: "<shift>Page_Up";
+        title: _("Previous Layer");
+      }
+      ShortcutsShortcut {
+        accelerator: "<shift><ctrl>Page_Down";
+        title: _("Next Annotated Page");
+      }
+      ShortcutsShortcut {
+        accelerator: "<shift><ctrl>Page_Up";
+        title: _("Previous Annotated Page");
+      }
+    }
+
+    ShortcutsGroup {
+      title: _("Menu Page");
+
+      ShortcutsShortcut {
+        accelerator: "<ctrl>D";
+        title: _("New Page After");
+      }
+      ShortcutsShortcut {
+        accelerator: "<shift><ctrl>Delete";
+        title: _("Delete Page");
+      }
+      ShortcutsShortcut {
+        accelerator: "<ctrl>L";
+        title: _("New Layer");
+      }
+      ShortcutsShortcut {
+        accelerator: "<shift><ctrl>L";
+        title: _("Delete Layer");
+      }
+      ShortcutsShortcut {
+        accelerator: "<ctrl>M";
+        title: _("Merge Layer Down");
+      }
+      ShortcutsShortcut {
+        accelerator: "<ctrl>R";
+        title: _("Rename Layer");
+      }
+    }
+
+    ShortcutsGroup {
+      title: _("Menu Tools");
+
+      ShortcutsShortcut {
+        accelerator: "<shift><ctrl>P";
+        title: _("Pen");
+      }
+      ShortcutsShortcut {
+        accelerator: "<shift><ctrl>E";
+        title: _("Eraser");
+      }
+      ShortcutsShortcut {
+        accelerator: "<shift><ctrl>W";
+        title: _("Select Linear Text");
+      }
+      ShortcutsShortcut {
+        accelerator: "<shift><ctrl>Y";
+        title: _("Select Text in Rectangle");
+      }
+      ShortcutsShortcut {
+        accelerator: "<shift><ctrl>H";
+        title: _("Highlighter");
+      }
+      ShortcutsShortcut {
+        accelerator: "<shift><ctrl>T";
+        title: _("Text");
+      }
+      ShortcutsShortcut {
+        accelerator: "<shift><ctrl>I";
+        title: _("Image");
+      }
+      ShortcutsShortcut {
+        accelerator: "<shift><ctrl>D";
+        title: _("Default Tool");
+      }
+      ShortcutsShortcut {
+        accelerator: "<shift><ctrl>R";
+        title: _("Rectangle");
+      }
+      ShortcutsShortcut {
+        accelerator: "<shift><ctrl>G";
+        title: _("Region");
+      }
+      ShortcutsShortcut {
+        accelerator: "<shift><ctrl>O";
+        title: _("Object");
+      }
+      ShortcutsShortcut {
+        accelerator: "<shift><ctrl>V";
+        title: _("Vertical Space");
+      }
+      ShortcutsShortcut {
+        accelerator: "<shift><ctrl>A";
+        title: _("Hand Tool");
+      }
+      ShortcutsShortcut {
+        accelerator: "<shift><ctrl>F";
+        title: _("Shift+Ctrl+F");
+      }
+      ShortcutsShortcut {
+        accelerator: "<shift><ctrl>X";
+        title: _("Add/Edit TeX");
+      }
+    }
+  }
+
+  ShortcutsSection {
+    title: _("Other Shortcuts");
+    section-name: "other-shortcuts";
+    max-height: 12;
+
+    ShortcutsGroup {
+      title: _("Geometry Tool");
+
+      ShortcutsShortcut {
+        shortcut-type: gesture_pinch;
+      }
+      ShortcutsShortcut {
+        shortcut-type: gesture_stretch;
+      }
+      ShortcutsShortcut {
+        shortcut-type: gesture_rotate_clockwise;
+      }
+      ShortcutsShortcut {
+        shortcut-type: gesture_rotate_counterclockwise;
+      }
+      ShortcutsShortcut {
+        accelerator: "Left";
+        title: _("Move Left");
+      }
+      ShortcutsShortcut {
+        accelerator: "Right";
+        title: _("Move Right");
+      }
+      ShortcutsShortcut {
+        accelerator: "Up";
+        title: _("Move Up");
+      }
+      ShortcutsShortcut {
+        accelerator: "Down";
+        title: _("Move Down");
+      }
+    
+      ShortcutsShortcut {
+        accelerator: "r";
+        title: _("Rotate Counter-Clockwise");
+      }
+      ShortcutsShortcut {
+        accelerator: "<shift>R";
+        title: _("Rotate Clockwise");
+      }
+      ShortcutsShortcut {
+        accelerator: "s";
+        title: _("Increase Size");
+      }
+      ShortcutsShortcut {
+        accelerator: "<shift>S";
+        title: _("Decrease Size");
+      }
+      ShortcutsShortcut {
+        accelerator: "m";
+        title: _("Mark Origin");
+      }
+    }
+
+    ShortcutsGroup {
+      title: _("Vertical Tool");
+      
+      ShortcutsShortcut {
+        accelerator: "<ctrl>";
+        title: _("Switch Side");
+      }
+    }
+
+    ShortcutsGroup {
+      title: _("Spline Tool");
+
+      ShortcutsShortcut {
+        accelerator: "Escape";
+        title: _("Finalize Spline");
+      }
+      ShortcutsShortcut {
+        accelerator: "BackSpace";
+        title: _("Delete Last Knot");
+      }
+      ShortcutsShortcut {
+        accelerator: "Right";
+        title: _("Move Last Knot Right");
+      }
+      ShortcutsShortcut {
+        accelerator: "Left";
+        title: _("Move Last Knot Left");
+      }
+      ShortcutsShortcut {
+        accelerator: "Up";
+        title: _("Move Last Knot Up");
+      }
+      ShortcutsShortcut {
+        accelerator: "Down";
+        title: _("Move Last Knot Down");
+      }
+      ShortcutsShortcut {
+        accelerator: "r";
+        title: _("Rotate Counter-Clockwise");
+      }
+      ShortcutsShortcut {
+        accelerator: "<shift>R";
+        title: _("Rotate Clockwise");
+      }
+      ShortcutsShortcut {
+        accelerator: "s";
+        title: _("Increase Size");
+      }
+      ShortcutsShortcut {
+        accelerator: "<shift>S";
+        title: _("Decrease Size");
+      }
+    }
+
+    ShortcutsGroup {
+      title: _("Text Editor");
+
+      ShortcutsShortcut {
+        accelerator: "Escape";
+        title: _("End Text Edition");
+      }
+    }
+
+    ShortcutsGroup {
+      title: _("Search Bar");
+
+      ShortcutsShortcut {
+        accelerator: "Return";
+        title: _("Search Next");
+      }
+      ShortcutsShortcut {
+        accelerator: "<Shift>Return";
+        title: _("Search Previous");
+      }
+      ShortcutsShortcut {
+        accelerator: "Escape";
+        title: _("End Search");
+      }
+    }
+  }
+  // TODO: BaseShapeHandler.cpp, TextEditor.cpp, TextEditorWidget.h, XournalView.cpp
+}
+
