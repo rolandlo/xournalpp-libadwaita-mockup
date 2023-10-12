@@ -267,9 +267,151 @@ ShortcutsWindow shortcuts-xpp {
   }
 
   ShortcutsSection {
+    title: _("Text Editor Shortcuts");
+    section-name: "text-editor-shortcuts";
+    max-height: 12;
+
+    ShortcutsGroup {
+      title: _("General");
+      ShortcutsShortcut {
+        accelerator: "Escape";
+        title: _("End Text Edition");
+      }
+      ShortcutsShortcut {
+        accelerator: "<Control>b";
+        title: _("Toggle Bold");
+      }
+      ShortcutsShortcut {
+        accelerator: "<Control>plus"; // also <Control>KP_Add, but this is displayed the same
+        title: _("Increase Font Size");
+      }
+      ShortcutsShortcut {
+        accelerator: "<Control>minus"; // also <Control>KP_Subtract, but this is displayed the same
+        title: _("Decrease Font Size");
+      }
+      ShortcutsShortcut {
+        accelerator: "Return KP_Enter"; // also ISO_Enter
+        title: _("IM Commit");
+      }
+      ShortcutsShortcut {
+        accelerator: "Tab KP_Tab"; // also ISO_Left_Tab
+        title: _("Tabulator");
+      }
+      ShortcutsShortcut {
+        accelerator: "<Control>a <Control>slash";
+        title: _("Select All");
+      }
+      ShortcutsShortcut {
+        accelerator: "Delete KP_Delete";
+        title: _("Delete Next Character");
+      }
+      ShortcutsShortcut {
+        accelerator: "BackSpace <Shift>BackSpace";
+        title: _("Delete Previous Character");
+      }
+      ShortcutsShortcut {
+        accelerator: "<Control>Delete <Control>KP_Delete";
+        title: _("Delete Next Word");
+      }
+      ShortcutsShortcut {
+        accelerator: "<Control>BackSpace";
+        title: _("Delete Previous Word");
+      }
+      ShortcutsShortcut {
+        accelerator: "<Shift><Control>Delete <Shift><Control>KP_Delete";
+        title: _("Delete Next Paragraph");
+      }
+      ShortcutsShortcut {
+        accelerator: "<Shift><Control>BackSpace";
+        title: _("Delete Previous Paragraph");
+      }
+      ShortcutsShortcut {
+        accelerator: "<Control>x <Shift>Delete";
+        title: _("Cut");
+      }
+      ShortcutsShortcut {
+        accelerator: "<Control>c <Control>Insert";
+        title: _("Copy");
+      }
+      ShortcutsShortcut {
+        accelerator: "<Control>v <Shift>Insert";
+        title: _("Paste");
+      }
+      ShortcutsShortcut {
+        accelerator: "Insert KP_Insert";
+        title: _("Toggle Overwrite");
+      }
+    }
+    ShortcutsGroup {
+      title: _("Cursor Movement");
+
+      ShortcutsShortcut {
+        accelerator: "Left KP_Left";
+        title: _("Move Left");
+      }
+      ShortcutsShortcut {
+        accelerator: "Right KP_Right";
+        title: _("Move Right");
+      }
+      ShortcutsShortcut {
+        accelerator: "Up KP_Up";
+        title: _("Move Up");
+      }
+      ShortcutsShortcut {
+        accelerator: "Down KP_Down";
+        title: _("Move Down");
+      }
+      ShortcutsShortcut {
+        accelerator: "<Control>Left <Control>KP_Left";
+        title: _("Move to Word Left");
+      }
+      ShortcutsShortcut {
+        accelerator: "<Control>Right <Control>KP_Right";
+        title: _("Move to Word Right");
+      }
+      ShortcutsShortcut {
+        accelerator: "<Control>Up <Control>KP_Up";
+        title: _("Move to Paragraph Up");
+      }
+      ShortcutsShortcut {
+        accelerator: "<Control>Down <Control>KP_Down";
+        title: _("Move to Paragraph Down");
+      }
+      ShortcutsShortcut {
+        accelerator: "Home KP_Home";
+        title: _("Move to Line Start");
+      }
+      ShortcutsShortcut {
+        accelerator: "End KP_End";
+        title: _("Move to Line End");
+      }
+      ShortcutsShortcut {
+        accelerator: "<Control>Home <Control>KP_Home";
+        title: _("Move to Text Start");
+      }
+      ShortcutsShortcut {
+        accelerator: "<Control>End <Control>KP_End";
+        title: _("Move to Text End");
+      }
+      // Page_Up, Page_Down, <Control>Page_Up <Control>Page_Down don't do anything
+    }
+  }
+
+  ShortcutsSection {
     title: _("Other Shortcuts");
     section-name: "other-shortcuts";
     max-height: 12;
+
+    ShortcutsGroup {
+      title: _("Zoom");
+      ShortcutsShortcut {
+        shortcut-type: gesture_pinch;
+      }
+      ShortcutsShortcut {
+        shortcut-type: gesture_stretch;
+      }
+      // one-finger pan
+    }
 
     ShortcutsGroup {
       title: _("Geometry Tool");
@@ -286,6 +428,7 @@ ShortcutsWindow shortcuts-xpp {
       ShortcutsShortcut {
         shortcut-type: gesture_rotate_counterclockwise;
       }
+      // one-finger move
       ShortcutsShortcut {
         accelerator: "Left";
         title: _("Move Left");
@@ -380,15 +523,6 @@ ShortcutsWindow shortcuts-xpp {
     }
 
     ShortcutsGroup {
-      title: _("Text Editor");
-
-      ShortcutsShortcut {
-        accelerator: "Escape";
-        title: _("End Text Edition");
-      }
-    }
-
-    ShortcutsGroup {
       title: _("Search Bar");
 
       ShortcutsShortcut {
@@ -404,7 +538,225 @@ ShortcutsWindow shortcuts-xpp {
         title: _("End Search");
       }
     }
+    
+    ShortcutsGroup {
+      title: _("Drawing Modifiers");
+    
+      ShortcutsShortcut {
+        accelerator: "<Alt>";
+        title: _("Modify Snapping");
+      }
+
+      ShortcutsShortcut {
+        accelerator: "<Shift>";
+        title: _("Modify Shape");
+      }
+
+      ShortcutsShortcut {
+        accelerator:"<Control>";
+        title: _("Modify Origin");
+      }
+    }
+
+    ShortcutsGroup {
+      title: _("PDF Text Selection");
+
+      ShortcutsShortcut {
+        accelerator: "<Control>c";
+        title: _("Copy PDF Text");        
+      }
+    }
+
+    ShortcutsGroup {
+      title: _("Page Navigation");
+
+      ShortcutsShortcut {
+        accelerator: "Page_Down KP_Page_Down";
+        title: _("Goto Next Page");        
+      }
+      ShortcutsShortcut {
+        accelerator: "Page_Up KP_Page_Up";
+        title: _("Goto Previous Page");        
+      }
+      ShortcutsShortcut {
+        accelerator: "space";
+        title: _("Scroll Down by Window Height");        
+      }
+      ShortcutsShortcut {
+        accelerator: "<Shift>space";
+        title: _("Scroll Up by Window Height");        
+      }
+
+      ShortcutsShortcut {
+        accelerator: "KP_Left <Shift>Left <Shift>h";
+        title: _("Goto Page Left in Layout");        
+      }
+      ShortcutsShortcut {
+        accelerator: "KP_Right <Shift>Right <Shift>l";
+        title: _("Goto Page Right in Layout");        
+      }
+      ShortcutsShortcut {
+        accelerator: "KP_Up <Shift>Up <Shift>j";
+        title: _("Goto Page Up in Layout");        
+      }
+      ShortcutsShortcut {
+        accelerator: "KP_Down <Shift>Down <Shift>k";
+        title: _("Goto Page Down in Layout");        
+      }
+
+      ShortcutsShortcut {
+        accelerator: "End KP_End";
+        title: _("Goto Last Page");        
+      }
+      ShortcutsShortcut {
+        accelerator: "Home KP_Home";
+        title: _("Goto First Page");        
+      }
+
+      ShortcutsShortcut {
+        accelerator: "Left";
+        title: _("Scroll Left");        
+      }
+      ShortcutsShortcut {
+        accelerator: "Right";
+        title: _("Scroll Right");        
+      }
+      ShortcutsShortcut {
+        accelerator: "Up";
+        title: _("Scroll Up");        
+      }
+      ShortcutsShortcut {
+        accelerator: "Down";
+        title: _("Scroll Down");        
+      }
+
+    }
+
+    ShortcutsGroup {
+      title: _("Presentation Mode");
+
+      ShortcutsShortcut {
+        accelerator: "Up k Left";
+        title: _("Goto Previous Page");        
+      }
+      ShortcutsShortcut {
+        accelerator: "Down j Right";
+        title: _("Goto Next Page");        
+      }
+      ShortcutsShortcut {
+        accelerator: "space";
+        title: _("Scroll Down by Window Height");        
+      }
+      ShortcutsShortcut {
+        accelerator: "<Shift>space";
+        title: _("Scroll Up by Window Height");        
+      }
+    }
+
+    ShortcutsGroup {
+      title: _("Color Switch");
+
+      ShortcutsShortcut {
+        accelerator: "0";
+        title: _("First Color");
+      }
+      ShortcutsShortcut {
+        accelerator: "1";
+        title: _("Second Color");
+      }
+      ShortcutsShortcut {
+        accelerator: "2";
+        title: _("Third Color");
+      }
+      ShortcutsShortcut {
+        accelerator: "3";
+        title: _("Fourth Color");
+      }
+      ShortcutsShortcut {
+        accelerator: "4";
+        title: _("Fifth Color");
+      }
+      ShortcutsShortcut {
+        accelerator: "5";
+        title: _("Sixth Color");
+      }
+      ShortcutsShortcut {
+        accelerator: "6";
+        title: _("Seventh Color");
+      }
+      ShortcutsShortcut {
+        accelerator: "7";
+        title: _("Eigth Color");
+      }
+      ShortcutsShortcut {
+        accelerator: "8";
+        title: _("Nineth Color");
+      }
+      ShortcutsShortcut {
+        accelerator: "9";
+        title: _("Tenth Color");
+      }
+    }
+
+    ShortcutsGroup {
+      title: _("Selection");
+
+      ShortcutsShortcut {
+        accelerator: "Escape";
+        title: _("Discard Selection");        
+      }
+      ShortcutsShortcut {
+        accelerator: "Left";
+        title: _("Move Left");
+      }
+      ShortcutsShortcut {
+        accelerator: "Right";
+        title: _("Move Right");
+      }
+      ShortcutsShortcut {
+        accelerator: "Up";
+        title: _("Move Up");
+      }
+      ShortcutsShortcut {
+        accelerator: "Down";
+        title: _("Move Down");
+      }
+
+      ShortcutsShortcut {
+        accelerator: "<Alt>Left";
+        title: _("Move Slightly Left");
+      }
+      ShortcutsShortcut {
+        accelerator: "<Alt>Right";
+        title: _("Move Slightly Right");
+      }
+      ShortcutsShortcut {
+        accelerator: "<Alt>Up";
+        title: _("Move Slightly Up");
+      }
+      ShortcutsShortcut {
+        accelerator: "<Alt>Down";
+        title: _("Move Slightly Down");
+      }
+    
+
+      ShortcutsShortcut {
+        accelerator: "<Shift>Left";
+        title: _("Move Considerably Left");
+      }
+      ShortcutsShortcut {
+        accelerator: "<Shift>Right";
+        title: _("Move Considerably Right");
+      }
+      ShortcutsShortcut {
+        accelerator: "<Shift>Up";
+        title: _("Move Considerably Up");
+      }
+      ShortcutsShortcut {
+        accelerator: "<Shift>Down";
+        title: _("Move Considerably Down");
+      }
+    }
   }
-  // TODO: BaseShapeHandler.cpp, TextEditor.cpp, TextEditorWidget.h, XournalView.cpp
 }
 
