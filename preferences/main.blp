@@ -127,7 +127,7 @@ Adw.PreferencesWindow win_prefs {
       title: _("Input Stabilization");
       description: _("Pick an input stabilization algorithm and its parameters");
       
-      Adw.ComboRow {
+      Adw.ComboRow cb_averagingMethod {
         title: _("Averaging method");
         model:
         StringList {
@@ -137,7 +137,7 @@ Adw.PreferencesWindow win_prefs {
       
       Adw.SpinRow row_bufferSize {
         title: _("Buffer Size");
-        visible: false;
+        visible: bind $showMean(cb_averagingMethod.selected-item) as <bool>;
         adjustment:
         Adjustment {
           lower: 2;
@@ -150,7 +150,7 @@ Adw.PreferencesWindow win_prefs {
       Adw.SpinRow row_sigma {
         title: "σ";
         subtitle: _("Gaussian parameter: the higher, the more stabilization and the more lag between your cursor and the painting tip.");
-        visible: false;
+        visible: bind $showGauss(cb_averagingMethod.selected-item) as <bool>;
         digits: 2;
         adjustment:
         Adjustment {
@@ -161,7 +161,7 @@ Adw.PreferencesWindow win_prefs {
         };
       }
 
-      Adw.ComboRow {
+      Adw.ComboRow cb_preprocessor {
         title: _("Preprocessor");
         model:
         StringList {
@@ -171,7 +171,7 @@ Adw.PreferencesWindow win_prefs {
 
       Adw.SpinRow row_deadzoneRadius {
         title: _("Dead Zone Radius");
-        visible: false;
+        visible: bind $showDeadZone(cb_preprocessor.selected-item) as <bool>;
         digits: 1;
         adjustment:
         Adjustment {
@@ -184,13 +184,13 @@ Adw.PreferencesWindow win_prefs {
       
       Adw.SwitchRow sw_cuspDetection {
         title: _("Cusp Detection");
-        visible: false;
+        visible:  bind $showDeadZone(cb_preprocessor.selected-item) as <bool>;
       }
 
       Adw.SpinRow row_drag {
         title: _("Drag");
         subtitle: _("Drag: If the value is too small, unwanted oscillations may appear. If the value is too high, there will be no stabilization.");
-        visible: false;
+        visible: bind $showInertia(cb_preprocessor.selected-item) as <bool>;
         digits: 2;
         adjustment:
         Adjustment {
@@ -205,7 +205,7 @@ Adw.PreferencesWindow win_prefs {
       Adw.SpinRow row_mass {
         title: _("Mass");
         subtitle: _("Mass: the higher the mass, the more inertia and the more stabilization");
-        visible: false;
+        visible: bind $showInertia(cb_preprocessor.selected-item) as <bool>;
         digits: 1;
         adjustment:
         Adjustment {
@@ -478,12 +478,12 @@ Adw.PreferencesWindow win_prefs {
 
       Adw.EntryRow {
         title: _("Enable command");
-        sensitive: bind sw_enableInternalHandRecognition.active;
+        visible: bind $showCustom(cb_handRecognitionDisablingMethod.selected-item) as <bool>;
       }
-
+      
       Adw.EntryRow {
         title: _("Disable command");
-        sensitive: bind sw_enableInternalHandRecognition.active;
+        visible: bind $showCustom(cb_handRecognitionDisablingMethod.selected-item) as <bool>;
       }
 
       Adw.ActionRow {
@@ -625,6 +625,7 @@ Adw.PreferencesWindow win_prefs {
       
       Adw.SwitchRow sw_dark_theme {
         title: _("Use Dark Theme");
+        notify::active => $toggleDark();
       }
       
       Adw.SwitchRow sw_stock_icons {
@@ -964,7 +965,7 @@ Adw.PreferencesWindow win_prefs {
           column-spacing: 12;
           row-spacing: 12;
           SpinButton sp_addSpaceLeft {
-            sensitive: bind sw_unlimitedScrolling.active inverted;
+            sensitive: bind sw_addHorizontalSpace.active;
             layout { row:1; column:0; }
             adjustment:
             Adjustment {
@@ -975,7 +976,7 @@ Adw.PreferencesWindow win_prefs {
             };
           }
           SpinButton sp_addSpaceRight {
-            sensitive: bind sw_unlimitedScrolling.active inverted;
+            sensitive: bind sw_addHorizontalSpace.active;
             layout { row:1; column:2; }
             adjustment:
             Adjustment {
@@ -987,7 +988,7 @@ Adw.PreferencesWindow win_prefs {
           }
 
           SpinButton sp_addSpaceBottom {
-            sensitive: bind sw_unlimitedScrolling.active inverted;
+            sensitive: bind sw_addVerticalSpace.active;
             layout { row:2; column:1; }
             adjustment:
             Adjustment {
@@ -999,7 +1000,7 @@ Adw.PreferencesWindow win_prefs {
           }
 
           SpinButton sp_addSpaceTop {
-            sensitive: bind sw_unlimitedScrolling.active inverted;
+            sensitive: bind sw_addVerticalSpace.active;
             layout { row:0; column:1; }
             adjustment:
             Adjustment {
@@ -1243,6 +1244,7 @@ Adw.PreferencesWindow win_prefs {
         
         [suffix]
         Button btn_audioFolder {
+          clicked => $selectAudioFolder();
           Adw.ButtonContent {
             label: _("Documents");
             icon-name: "folder-documents-symbolic";
@@ -1325,6 +1327,7 @@ Adw.PreferencesWindow win_prefs {
 
         [suffix]
         Button btn_template {
+          clicked => $selectTemplate();
           Adw.ButtonContent {
             label: _("default_template.tex");
             icon-name: "folder-documents-symbolic";
@@ -1352,7 +1355,7 @@ Adw.PreferencesWindow win_prefs {
 
           Button btn_check {
             label: _("Check Now");
-
+            clicked => $checkTex();
             styles [
               "suggested-action",
             ]

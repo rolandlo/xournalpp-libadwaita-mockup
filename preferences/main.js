@@ -9,15 +9,53 @@ Gio._promisify(
   "select_folder_finish",
 );
 
-const btn_check = workbench.builder.get_object("btn_check");
 const style_manager = Adw.StyleManager.get_default();
-const pref_window = workbench.builder.get_object("win_prefs");
-const btn_template = workbench.builder.get_object("btn_template");
-const btn_audioFolder = workbench.builder.get_object("btn_audioFolder");
-const sw_dark_theme = workbench.builder.get_object("sw_dark_theme");
-const lbl_placeholders = workbench.builder.get_object("placeholders");
 
-lbl_placeholders.set_label(
+const { win_prefs, sw_dark_theme, placeholders } = workbench.build({
+  // signal handlers
+  checkTex(_self) {
+    const toast = new Adw.Toast({
+      title: "Sample LaTeX file generated successfully",
+    });
+
+    win_prefs.add_toast(toast);
+  },
+  toggleDark(_self) {
+    console.log("Toggle Dark");
+    if (_self.active) {
+      style_manager.color_scheme = Adw.ColorScheme.FORCE_DARK;
+    } else {
+      style_manager.color_scheme = Adw.ColorScheme.FORCE_LIGHT;
+    }
+  },
+  selectAudioFolder(_self) {
+    selectFolder(_self).catch(console.error);
+  },
+  selectTemplate(_self) {
+    openFile(_self).catch(console.error);
+  },
+
+  // bindings
+  showCustom(_self, enable, method) {
+    return method.string === "Custom";
+  },
+  showMean(_self, method) {
+    return method.string === "Arithmetic Mean";
+  },
+  showGauss(_self, method) {
+    return method.string === "Gaussian weights";
+  },
+  showDeadZone(_self, method) {
+    return method.string === "Dead Zone";
+  },
+  showInertia(_self, method) {
+    return method.string === "Inertia";
+  },
+});
+
+sw_dark_theme.active = style_manager.dark;
+
+placeholders.set_label(
   `
 %a    Abbreviated weekday name (e.g. Thu)
 %A    Full weekday name (e.g. Thursday)
@@ -45,19 +83,7 @@ lbl_placeholders.set_label(
 `,
 );
 
-sw_dark_theme.active = style_manager.dark;
-
-sw_dark_theme.connect("notify::active", () => {
-  console.log("Connected");
-  // When the Switch is toggled, set the color scheme
-  if (sw_dark_theme.active) {
-    style_manager.color_scheme = Adw.ColorScheme.FORCE_DARK;
-  } else {
-    style_manager.color_scheme = Adw.ColorScheme.FORCE_LIGHT;
-  }
-});
-
-async function openFile() {
+async function openFile(_self) {
   const dialog_for_file = new Gtk.FileDialog();
   const file = await dialog_for_file.open(workbench.window, null);
   const info = file.query_info(
@@ -65,11 +91,10 @@ async function openFile() {
     Gio.FileQueryInfoFlags.NONE,
     null,
   );
-  const button_content = btn_template.get_child();
-  button_content.set_label(info.get_name());
+  _self.get_child().set_label(info.get_name());
 }
 
-async function selectFolder() {
+async function selectFolder(_self) {
   const dialog_for_folder = new Gtk.FileDialog();
   const folder = await dialog_for_folder.select_folder(workbench.window, null);
   const info = folder.query_info(
@@ -77,23 +102,8 @@ async function selectFolder() {
     Gio.FileQueryInfoFlags.NONE,
     null,
   );
-  const button_content = btn_audioFolder.get_child();
-  button_content.set_label(info.get_name());
+  _self.get_child().set_label(info.get_name());
 }
 
-btn_template.connect("clicked", () => {
-  openFile().catch(console.error);
-});
-
-btn_audioFolder.connect("clicked", () => {
-  selectFolder().catch(console.error);
-});
-
-btn_check.connect("clicked", () => {
-  const toast = new Adw.Toast({
-    title: "Sample LaTeX file generated successfully",
-  });
-
-  pref_window.add_toast(toast);
-});
+win_prefs.present();
 
