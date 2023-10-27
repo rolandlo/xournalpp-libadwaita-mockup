@@ -1,0 +1,109 @@
+using Gtk 4.0;
+using Adw 1;
+
+Adw.Window exportDialog {
+  title: _("Export");
+  Adw.ToolbarView {
+    [top]
+    Adw.HeaderBar {
+    }
+    Adw.PreferencesPage {
+      title: _("Document Export Settings");
+      Adw.PreferencesGroup {
+        visible: false;
+        title: _("Image Quality");
+        Adw.ComboRow {
+          title: _("Parameter");
+          model: StringList {
+            strings [_("Resolution"), _("Width"), _("Height")]
+          };
+        }
+        Adw.SpinRow {
+          title: _("Value");
+          adjustment: ad_resolution;
+        }
+      }
+      Adw.PreferencesGroup {
+        title: _("Background");
+        Adw.ComboRow {
+          title: _("Background Type");
+          model: StringList {
+            strings [_("None"), _("No ruling"), _("All")]
+          };
+        }
+        Adw.SwitchRow {
+          title: _("Export Layers Progressively");    
+        }
+      }
+      Adw.PreferencesGroup {
+        title: _("Page Range");
+        Adw.PreferencesRow {
+          title: _("Page Range");
+          Grid {
+            orientation: vertical;
+            row-spacing: 12;
+            column-spacing: 12;
+            margin-start: 6;
+            margin-end: 6;
+            margin-top: 6;
+            margin-bottom: 6;
+
+            CheckButton cb_allPages {
+              active: true;
+              label: _("All Pages");
+              layout {row: 0; column:0; }
+            }
+            CheckButton cb_currentPage {
+              label: _("Current Page");
+              group: cb_allPages;
+              layout {row: 1; column:0; }
+            }
+            CheckButton cb_pageRange {
+              label: _("Pages");
+              group: cb_allPages;
+              layout {row: 2; column:0; }
+            }
+            
+            Label lbl_allPages {
+               layout {row: 0; column:1; }
+               label: _("1 - 10");
+            }
+            Label lbl_currentPage {
+               layout {row: 1; column:1; }
+               label: _("3");
+            }
+            Entry entry_pages {
+               sensitive: bind cb_pageRange.active;
+               placeholder-text: _("E.g. 1, 2, 3; 5-7");
+               layout {row: 2; column: 1; }
+            }
+          }
+        }
+      }
+    }
+    [bottom]
+    Adw.ActionRow {
+      [prefix]
+      Button {
+        label: _("Cancel");
+      }
+      Button {
+        label: _("OK");
+        styles ["suggested-action"]
+      }
+    }
+  }
+}
+
+Adjustment ad_resolution {
+  lower: 72;
+  upper: 1200;
+  step-increment: 10;
+  value: 300;
+}
+Adjustment ad_widthOrHeight {
+  lower: 100;
+  upper: 10000;
+  step-increment: 100;
+  value: 1000;
+}
