@@ -54,37 +54,61 @@ Adw.Window app {
         valign: start;
         spacing: 12;
         
-        Adw.ViewSwitcher stack_switcher {
+        StackSwitcher stack_switcher {
           stack: stack;
         }
         
-        Adw.ViewStack stack {
-          Adw.ViewStackPage page1 {
-            title: _("Pages");
-            icon-name: "xopp-sidebar-page-preview";
-            child: Adw.StatusPage {
-              Label { label: "Page preview"; }
+        Stack stack {
+          StackPage page_preview {
+            title: _("Preview");
+            child:
+            Box {
+              orientation: vertical;
+            Adw.ViewSwitcher nested_switcher {
+              stack: viewStack;
+            }
+            Adw.ViewStack viewStack {
+              Adw.ViewStackPage viewpage_page {
+                title: _("Pages");
+                icon-name: "xopp-sidebar-page-preview";
+                child: Adw.StatusPage {
+                  Label { label: "Page preview"; }
+                };
+              }
+              Adw.ViewStackPage viewpage_layer {
+                title: _("Layers");
+                icon-name: "xopp-sidebar-layer";
+                child: Adw.StatusPage {
+                  Label { label: "Layer preview"; }
+                };
+              }
+              Adw.ViewStackPage viewpage_layerstack {
+                title: _("Layer stack");
+                icon-name: "xopp-sidebar-layerstack";
+                child: Adw.StatusPage {
+                  Label { label: "Layerstack preview"; }
+                };
+              }
+              }
             };
           }
-          Adw.ViewStackPage page2 {
-            title: _("Layers");
-            icon-name: "xopp-sidebar-layer";
+          StackPage page_workspace {
+            title: _("Workspace");
             child: Adw.StatusPage {
-              Label { label: "Layer preview"; }
+              Label { label: "Workspace for working with documents"; }
             };
           }
-          Adw.ViewStackPage page3 {
-            title: _("Layer stack");
-            icon-name: "xopp-sidebar-layerstack";
+          StackPage page_library {
+            title: _("Library");
             child: Adw.StatusPage {
-              Label { label: "Layerstack preview"; }
+              Label { label: "Library of shapes"; }
             };
           }
         }
       };
 
       content: DrawingArea drawing_area {
-          content-width: 300;
+          content-width: 0;
           content-height: 300;
       };
     };

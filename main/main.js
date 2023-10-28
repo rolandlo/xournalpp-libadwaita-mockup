@@ -116,3 +116,5 @@ drawingArea.set_draw_func((area, cr, width, height) => {
   cr.$dispose();
 });
 
+app.present();
+
