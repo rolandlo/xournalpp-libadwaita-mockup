@@ -1,0 +1,72 @@
+using Gtk 4.0;
+using Adw 1;
+
+Adw.Window pageTemplateDialog {
+  title: _("Page Template");
+  Adw.ToolbarView {
+    [top]
+    Adw.HeaderBar {
+    }
+    Adw.PreferencesPage {
+      title: _("Configure New Page Template");
+      description: _("These settings will be used for new pages");
+      Adw.PreferencesGroup {
+        title: _("Page Size Settings");
+        Adw.ActionRow {
+          title: _("Page Size");
+          Button {
+            Label {
+              label: _("21.00 cm x 29.70 cm");
+            }
+          }
+        }
+      	Adw.SwitchRow {
+      	  title: _("Copy Size");
+      	  subtitle: _("Copy current page size instead");
+      	}
+      }
+      Adw.PreferencesGroup {
+        title: _("Background Settings");
+        Adw.ActionRow {
+          title: _("Background");
+          Button {
+            Label {
+              label: _("Ruled with vertical line");
+            }
+          }
+        }
+        Adw.ActionRow {
+          title: _("Background Color");
+          ColorDialogButton {
+            dialog: ColorDialog {
+              title: _("Background Color");
+              with-alpha: false;
+            };
+            rgba: "white";
+          }
+        }
+      	Adw.SwitchRow {
+      	  title: _("Copy Background");
+      	  subtitle: _("Copy current page background instead");
+      	}
+      }
+    }
+    [bottom]
+    Adw.ActionRow {
+      Button {
+        label: _("Save to File");
+      }
+      Button {
+        label: _("Load From File");
+      }
+      Button {
+        label: _("Cancel");
+      }
+      Button {
+        label: _("OK");
+        styles ["suggested-action"]
+      }
+    }
+  }
+}
+
