@@ -1,0 +1,56 @@
+using Gtk 4.0;
+using Adw 1;
+
+Adw.Window latexEditorDialog {
+  title: _("Insert LaTeX");
+  Adw.ToolbarView {
+    [top]
+    Adw.HeaderBar {
+    }
+    Box {
+      orientation: vertical;
+      spacing: 12;
+      margin-start: 12;
+      margin-end: 12;
+      margin-top: 12;
+      margin-bottom: 12;
+      Label {
+        label: _("Enter/edit LaTeX Text");
+      }
+      Paned {
+        DrawingArea textImage {
+        }
+        Notebook {
+          tab-pos: bottom;
+          show-border: true;
+          ScrolledWindow texBoxContainer {
+          }
+          [tab]
+          Label {
+            label: _("TeX Source");
+          }
+          ScrolledWindow texCommandOutputPane {
+          }
+          [tab]
+          Label {
+            label: _("Command Output");
+          }
+        }
+      }
+      Label {
+        label: _("The formula is empty when rendered or invalid.");
+      }
+    }
+    [bottom]
+    Adw.ActionRow {
+      Button {
+        label: _("Cancel");
+      }
+      Button {
+        label: _("OK");
+        styles ["suggested-action"]
+      }
+    }
+  }
+}
+
