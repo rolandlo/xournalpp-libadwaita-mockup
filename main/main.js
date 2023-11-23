@@ -64,21 +64,6 @@ function openAboutWindow() {
 about_action.connect("activate", openAboutWindow);
 app_group.add_action(about_action);
 
-const shortcuts_action = new Gio.SimpleAction({
-  name: "shortcuts",
-});
-
-shortcuts_action.connect("activate", (action) => {
-  //  const builder = Gtk.Builder.new_from_resource(resource);
-  //  const window = builder.get_object("shortcuts_window");
-  //  window.set_transient_for(application.get_active_window());
-  //  window.set_application(application);
-  //  window.show();
-});
-
-application.set_accels_for_action("app.shortcuts", ["<Control>question"]);
-app_group.add_action(shortcuts_action);
-
 const help_action = new Gio.SimpleAction({
   name: "help",
 });
@@ -90,7 +75,6 @@ help_action.connect("activate", (action) => {
     Gdk.CURRENT_TIME,
   );
 });
-application.set_accels_for_action("app.shortcuts", ["F1"]);
 app_group.add_action(help_action);
 
 const preferences_action = new Gio.SimpleAction({
