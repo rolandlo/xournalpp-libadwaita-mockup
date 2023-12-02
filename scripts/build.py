@@ -19,7 +19,7 @@ script_dir = os.path.dirname(os.path.realpath(__file__))
 root_dir = os.path.normpath(os.path.join(script_dir, ".."))
 
 for source, target in copy_dict.items():
-    input_path = os.path.join(root_dir, source)
+    input_path = os.path.join(root_dir, "workbench", source)
     output_path = os.path.join(root_dir, "src", target)
     print(f"Copy {input_path} to {output_path}")
     shutil.copyfile(input_path, output_path)
