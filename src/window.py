@@ -45,7 +45,6 @@ class MainWindow(Adw.ApplicationWindow):
         self.drawing_area.set_draw_func(self.draw)
 
     def draw(self, area, cr, width, height):
-        print("Drawing")
         # Draw rectangle in drawing area
         cr.rectangle(30, 10, width - 60, height - 20)
         cr.set_source_rgba(0.9, 0.9, 0.9, 1)
