@@ -1,0 +1,19 @@
+#!@PYTHON@
+# -*- coding: utf-8 -*-
+
+import os
+import sys
+
+pkgdatadir = "@pkgdatadir@"
+sys.path.insert(1, pkgdatadir)
+
+if __name__ == "__main__":
+    import gi
+
+    from gi.repository import Gio
+    resource = Gio.Resource.load(os.path.join(pkgdatadir, "xournalpp-demo.gresource"))
+    resource._register()
+
+    from xournalpp_demo import main
+
+    sys.exit(main.main(sys.argv))

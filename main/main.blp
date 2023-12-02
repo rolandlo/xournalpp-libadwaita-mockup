@@ -1,7 +1,7 @@
 using Gtk 4.0;
 using Adw 1;
 
-Adw.Window app {
+template $MainWindow : Adw.ApplicationWindow {
   width-request: 400;
   height-request: 400;
   default-width: 1200;
@@ -107,9 +107,11 @@ Adw.Window app {
         }
       };
 
-      content: DrawingArea drawing_area {
+      content: Box content_box {
+        DrawingArea drawing_area {
           content-width: 0;
           content-height: 300;
+        }
       };
     };
   };

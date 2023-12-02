@@ -27,7 +27,7 @@ const about_action = new Gio.SimpleAction({
 function openAboutWindow() {
   const dialog = new Adw.AboutWindow({
     transient_for: parent,
-    application_icon: "com.github.xournalpp.xournalpp.svg",
+    application_icon: "com.github.xournalpp.xournalpp",
     application_name: "Xournal++",
     developer_name: "Xournal++ developers",
     version: "1.2.1",

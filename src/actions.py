@@ -6,18 +6,11 @@ gi.require_version("Adw", "1")
 from gi.repository import Gtk, Gio, Gdk, Adw
 
 
-# this shouldn't be necessary
-def showHelpOverlay(self, data):
-    data.builder.add_from_resource(get_resource_path("gtk/help-overlay.ui"))
-    win = data.builder.get_object("help_overlay")
-    win.present()
-
-
-def openAboutWindow(self, data):
+def openAboutWindow(app):
     dialog = Adw.AboutWindow(
-        # transient_for=parent,
-        application_icon="com.github.xournalpp.xournalpp.svg",
+        transient_for=app.props.active_window,
         application_name="Xournal++",
+        application_icon="com.github.xournalpp.xournalpp",
         developer_name="Xournal++ developers",
         version="1.2.2",
         comments="Xournal++ is an app for handwritten note taking.",
@@ -61,10 +54,11 @@ def add_action(app, name, callback, group, shortcuts=None):
 
 def add_actions(app):
     app_group = Gio.SimpleActionGroup()
-    app.win.insert_action_group("app", app_group)
+    win = app.props.active_window
+    win.insert_action_group("app", app_group)
 
     add_action(app, "quit", lambda *_: app.quit(), app_group, ["<Control>Q"])
-    add_action(app, "about", openAboutWindow, app_group)
+    add_action(app, "about", lambda *_: openAboutWindow(app), app_group)
     add_action(
         app,
         "help",
@@ -77,14 +71,3 @@ def add_actions(app):
         ["F1"],
     )
     add_action(app, "preferences", lambda *_: app.win_prefs.present(), app_group)
-
-    # The following part shouldn't be necessary
-    win_group = Gio.SimpleActionGroup()
-    app.win.insert_action_group("win", win_group)
-
-    add_action(
-        app,
-        "show-help-overlay",
-        lambda self, data: showHelpOverlay(self, app),
-        win_group,
-    )

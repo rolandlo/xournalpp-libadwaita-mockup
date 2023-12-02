@@ -1,4 +1,8 @@
 import gi
+import sys
+import os
+
+sys.path.append(os.path.dirname(__file__))
 
 gi.require_version("Gtk", "4.0")
 from gi.repository import Gtk, GObject

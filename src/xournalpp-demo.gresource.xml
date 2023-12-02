@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+  <gresource prefix="/com/github/xournalpp/xournalpp-demo">
+    <file preprocess="xml-stripblanks">ui/export.ui</file>
+    <file preprocess="xml-stripblanks">ui/latexeditor.ui</file>
+    <file preprocess="xml-stripblanks">ui/window.ui</file>
+    <file preprocess="xml-stripblanks">ui/pagetemplate.ui</file>
+    <file preprocess="xml-stripblanks">ui/paperformat.ui</file>
+    <file preprocess="xml-stripblanks">ui/preferences.ui</file>
+    <file preprocess="xml-stripblanks">ui/marker.ui</file>
+    <file preprocess="xml-stripblanks">gtk/help-overlay.ui</file>
+  </gresource>
+</gresources>
