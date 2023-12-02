@@ -1,7 +1,7 @@
 using Gtk 4.0;
 using Adw 1;
 
-template $MainWindow : Adw.ApplicationWindow {
+template $MainWindow: Adw.ApplicationWindow {
   width-request: 400;
   height-request: 400;
   default-width: 1200;
@@ -10,6 +10,7 @@ template $MainWindow : Adw.ApplicationWindow {
 
   Adw.Breakpoint {
     condition ("max-width: 400sp")
+
     setters {
       split_view.collapsed: true;
     }
@@ -20,22 +21,21 @@ template $MainWindow : Adw.ApplicationWindow {
 
     [top]
     Adw.HeaderBar {
-
       [start]
       Box {
         orientation: horizontal;
-        
+
         ToggleButton show_sidebar_button {
           icon-name: "dock-left";
           tooltip-text: _("Toggle Sidebar");
           active: bind split_view.show-sidebar;
         }
       }
-      
+
       [end]
       Box {
         orientation: horizontal;
-        
+
         MenuButton primary {
           icon-name: "open-menu-symbolic";
           tooltip-text: _("Main Menu");
@@ -53,55 +53,76 @@ template $MainWindow : Adw.ApplicationWindow {
         halign: center;
         valign: start;
         spacing: 12;
-        
+
         StackSwitcher stack_switcher {
           stack: stack;
         }
-        
+
         Stack stack {
           StackPage page_preview {
             title: _("Preview");
-            child:
-            Box {
+
+            child: Box {
               orientation: vertical;
-            Adw.ViewSwitcher nested_switcher {
-              stack: viewStack;
-            }
-            Adw.ViewStack viewStack {
-              Adw.ViewStackPage viewpage_page {
-                title: _("Pages");
-                icon-name: "xopp-sidebar-page-preview";
-                child: Adw.StatusPage {
-                  Label { label: "Page preview"; }
-                };
+
+              Adw.ViewSwitcher nested_switcher {
+                stack: viewStack;
               }
-              Adw.ViewStackPage viewpage_layer {
-                title: _("Layers");
-                icon-name: "xopp-sidebar-layer";
-                child: Adw.StatusPage {
-                  Label { label: "Layer preview"; }
-                };
-              }
-              Adw.ViewStackPage viewpage_layerstack {
-                title: _("Layer stack");
-                icon-name: "xopp-sidebar-layerstack";
-                child: Adw.StatusPage {
-                  Label { label: "Layerstack preview"; }
-                };
-              }
+
+              Adw.ViewStack viewStack {
+                Adw.ViewStackPage viewpage_page {
+                  title: _("Pages");
+                  icon-name: "xopp-sidebar-page-preview";
+
+                  child: Adw.StatusPage {
+                    Label {
+                      label: "Page preview";
+                    }
+                  };
+                }
+
+                Adw.ViewStackPage viewpage_layer {
+                  title: _("Layers");
+                  icon-name: "xopp-sidebar-layer";
+
+                  child: Adw.StatusPage {
+                    Label {
+                      label: "Layer preview";
+                    }
+                  };
+                }
+
+                Adw.ViewStackPage viewpage_layerstack {
+                  title: _("Layer stack");
+                  icon-name: "xopp-sidebar-layerstack";
+
+                  child: Adw.StatusPage {
+                    Label {
+                      label: "Layerstack preview";
+                    }
+                  };
+                }
               }
             };
           }
+
           StackPage page_workspace {
             title: _("Workspace");
+
             child: Adw.StatusPage {
-              Label { label: "Workspace for working with documents"; }
+              Label {
+                label: "Workspace for working with documents";
+              }
             };
           }
+
           StackPage page_library {
             title: _("Library");
+
             child: Adw.StatusPage {
-              Label { label: "Library of shapes"; }
+              Label {
+                label: "Library of shapes";
+              }
             };
           }
         }
@@ -123,21 +144,21 @@ menu primary_button_menu {
       label: _("Preferences");
       action: "app.preferences";
     }
-    
+
     item {
       label: _("Keyboard Shortcuts");
       action: "win.show-help-overlay";
     }
-    
+
     item {
       label: _("Help");
       action: "app.help";
     }
-    
+
     item {
       label: _("About Xournal++");
       action: "app.about";
-    }    
+    }
   }
 }
 

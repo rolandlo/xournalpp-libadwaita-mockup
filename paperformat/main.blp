@@ -3,31 +3,52 @@ using Adw 1;
 
 Adw.Window paperFormatDialog {
   title: _("Paper Format");
+
   Adw.ToolbarView {
     [top]
-    Adw.HeaderBar {
-    }
+    Adw.HeaderBar {}
+
     Adw.PreferencesPage {
-        title: _("Paper Format Settings");
+      title: _("Paper Format Settings");
+
       Adw.PreferencesGroup {
         Adw.ComboRow {
           title: _("Template");
+
           model: StringList {
-            strings [_("A3"), _("A4"), _("A5"), _("US Legal"), _("US Letter"), _("16x9"), _("4x3"), _("Custom")]
+            strings [
+              _("A3"),
+              _("A4"),
+              _("A5"),
+              _("US Legal"),
+              _("US Letter"),
+              _("16x9"),
+              _("4x3"),
+              _("Custom")
+            ]
           };
         }
       }
+
       Adw.PreferencesGroup {
         title: _("Page Size");
+
         Adw.ComboRow {
           title: _("Unit");
+
           model: StringList {
-            strings [_("cm"), _("in"), _("points")]
+            strings [
+              _("cm"),
+              _("in"),
+              _("points")
+            ]
           };
         }
+
         Adw.SpinRow {
           title: _("Width");
           digits: 2;
+
           adjustment: Adjustment ad_paperWidth {
             lower: 0.00;
             upper: 10000.00;
@@ -35,9 +56,11 @@ Adw.Window paperFormatDialog {
             value: 29.70;
           };
         }
+
         Adw.SpinRow {
           title: _("Height");
           digits: 2;
+
           adjustment: Adjustment ad_paperHeight {
             lower: 0.00;
             upper: 10000.00;
@@ -45,29 +68,38 @@ Adw.Window paperFormatDialog {
             value: 42.00;
           };
         }
+
         Adw.ActionRow {
           title: _("Orientation");
-            ToggleButton {
-              icon-name: "gtk-orientation-portrait";
-            }
-            ToggleButton {
-              icon-name: "gtk-orientation-landscape";
-            }
+
+          ToggleButton {
+            icon-name: "gtk-orientation-portrait";
+          }
+
+          ToggleButton {
+            icon-name: "gtk-orientation-landscape";
+          }
         }
       }
     }
+
     [bottom]
     Adw.ActionRow {
       [prefix]
       Button {
         label: _("Revert");
       }
+
       Button {
         label: _("Cancel");
       }
+
       Button {
         label: _("OK");
-        styles ["suggested-action"]
+
+        styles [
+          "suggested-action"
+        ]
       }
     }
   }

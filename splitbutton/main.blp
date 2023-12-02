@@ -1,102 +1,148 @@
 using Gtk 4.0;
 using Adw 1;
 
-template $Marker : Grid {
+template $Marker: Grid {
   Adw.SplitButton button {
     clicked => $on_button_clicked();
     icon-name: "edit-symbolic";
     can-shrink: true;
+
     [child]
     Box {
       orientation: vertical;
-      
+
       Image im_marker {
         name: "marker";
         icon-name: "marker-not-filled-symbolic";
         pixel-size: 36;
         margin-bottom: 10;
-        styles ["icon-dropshadow"]
+
+        styles [
+          "icon-dropshadow"
+        ]
       }
 
       Box {
         orientation: horizontal;
         spacing: 12;
+
         Image im_linestyle {
           name: "linestyle";
           icon-name: "line-style-plain";
           pixel-size: 12;
-          styles ["icon-dropshadow"]
+
+          styles [
+            "icon-dropshadow"
+          ]
         }
+
         Image im_drawingtype {
           name: "drawingtype";
           icon-name: "arrow";
           pixel-size: 12;
-          styles ["icon-dropshadow"]
+
+          styles [
+            "icon-dropshadow"
+          ]
         }
       }
     }
-    
+
     Popover popover {
       has-arrow: true;
       name: "plain_popover";
-      
-      child: 
-      Grid {
+
+      child: Grid {
         margin-start: 12;
         margin-end: 12;
         row-spacing: 12;
         column-spacing: 12;
+
         Label {
           label: _("<b>Color</b>");
           use-markup: true;
-          layout {row:0; column:0;}
+
+          layout {
+            row: 0;
+            column: 0;
+          }
         }
+
         Box color_box {
-          layout {row:0; column:1;}
+          layout {
+            row: 0;
+            column: 1;
+          }
+
           orientation: horizontal;
           spacing: 12;
           // buttons for palette colors and ColorDialogButton added in code
         }
-        
+
         Label {
           label: _("<b>Fill</b>");
           use-markup: true;
-          layout {row:1; column:0;}
+
+          layout {
+            row: 1;
+            column: 0;
+          }
         }
-        
+
         Switch sw_filled {
           state-set => $on_filled_set();
           halign: start;
           valign: center;
-          layout {row:1; column:1;}
+
+          layout {
+            row: 1;
+            column: 1;
+          }
         }
 
         Label {
           label: _("<b>Line Style</b>");
           use-markup: true;
-          layout {row:2; column:0;}
+
+          layout {
+            row: 2;
+            column: 0;
+          }
         }
-        
+
         Box linestyle_box {
           orientation: horizontal;
           spacing: 12;
-          layout {row:2; column: 1;}
-          // line style buttons added in code  
+
+          layout {
+            row: 2;
+            column: 1;
+          }
+
+          // line style buttons added in code
         }
-        
+
         Label {
           label: _("<b>Thickness</b>");
           use-markup: true;
-          layout {row:3; column:0;}
+
+          layout {
+            row: 3;
+            column: 0;
+          }
         }
-        
+
         Scale scale_thickness {
           orientation: horizontal;
           margin-bottom: 18;
           width-request: 140;
-          layout {row:3; column:1;}
-          adjustment: 
-          Gtk.Adjustment ad_thickness {
+
+          layout {
+            row: 3;
+            column: 1;
+          }
+
+          adjustment: Gtk.Adjustment ad_thickness {
             value-changed => $on_thickness_changed();
             lower: -0.5;
             upper: 4.0;
@@ -104,35 +150,51 @@ template $Marker : Grid {
             step-increment: 0.001;
           };
         }
-        
 
         Label {
           label: _("<b>Drawing Type</b>");
           use-markup: true;
-          layout {row:4; column:0;}
+
+          layout {
+            row: 4;
+            column: 0;
+          }
         }
-        
+
         Box drawingtype_box {
           orientation: horizontal;
           spacing: 12;
-          layout {row:4; column: 1;}
+
+          layout {
+            row: 4;
+            column: 1;
+          }
+
           // drawing type buttons added in code
         }
 
         Label {
           label: _("<b>Opacity</b>");
           use-markup: true;
-          layout {row:5; column:0;}
+
+          layout {
+            row: 5;
+            column: 0;
+          }
         }
-        
+
         Scale scale_opacity {
           orientation: horizontal;
           margin-bottom: 18;
           width-request: 140;
           digits: 1;
-          layout {row:5; column:1;}
-          adjustment: 
-          Gtk.Adjustment ad_opacity {
+
+          layout {
+            row: 5;
+            column: 1;
+          }
+
+          adjustment: Gtk.Adjustment ad_opacity {
             value-changed => $on_opacity_changed();
             lower: 0.0;
             upper: 100.0;
@@ -140,8 +202,8 @@ template $Marker : Grid {
             step-increment: 0.1;
           };
         }
-
       };
     }
   }
 }
+
