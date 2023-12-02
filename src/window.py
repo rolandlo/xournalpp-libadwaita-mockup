@@ -32,7 +32,14 @@ class MainWindow(Adw.ApplicationWindow):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.marker = Marker()
+        self.marker = Marker(
+            color="#8ff0a4",
+            fill=True,
+            marker_opacity=50.0,
+            linestyle="dash-dot",
+            thickness=0.837,
+            drawingtype="arrow",
+        )
         self.content_box.prepend(self.marker)
 
         self.drawing_area.set_draw_func(self.draw)

@@ -49,6 +49,7 @@ xournalpp_demo_sources = [
   'uisymbols.py',
   'marker.py',
   'window.py',
+  'marker_config.py',
 ]
 
 install_data(xournalpp_demo_sources, install_dir: moduledir)
