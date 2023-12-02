@@ -18,8 +18,7 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 
-from gi.repository import Adw
-from gi.repository import Gtk
+from gi.repository import Adw, Gtk
 from .marker import Marker
 from .util import get_resource_path
 
@@ -29,8 +28,21 @@ class MainWindow(Adw.ApplicationWindow):
     __gtype_name__ = "MainWindow"
 
     content_box = Gtk.Template.Child()
+    drawing_area = Gtk.Template.Child()
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.marker = Marker()
-        self.content_box.append(self.marker)
+        self.content_box.prepend(self.marker)
+
+        self.drawing_area.set_draw_func(self.draw)
+
+    def draw(self, area, cr, width, height):
+        print("Drawing")
+        # Draw rectangle in drawing area
+        cr.rectangle(30, 10, width - 60, height - 20)
+        cr.set_source_rgba(0.9, 0.9, 0.9, 1)
+        cr.fill()
+        cr.rectangle(30, 10, width - 60, height - 20)
+        cr.set_source_rgba(1, 0, 0, 1)
+        cr.stroke()

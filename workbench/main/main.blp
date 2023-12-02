@@ -129,9 +129,14 @@ template $MainWindow: Adw.ApplicationWindow {
       };
 
       content: Box content_box {
+          orientation: vertical;
+          hexpand: true;
+          vexpand: true;
         DrawingArea drawing_area {
-          content-width: 0;
-          content-height: 300;
+          width-request: 400;
+          height-request: 600;
+          content-width: 400;
+          content-height: 600;
         }
       };
     };
