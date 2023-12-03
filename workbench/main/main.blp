@@ -2,10 +2,10 @@ using Gtk 4.0;
 using Adw 1;
 
 template $MainWindow: Adw.ApplicationWindow {
-  width-request: 400;
-  height-request: 400;
-  default-width: 1200;
-  default-height: 900;
+  width-request: 500;
+  height-request: 700;
+  default-width: 1000;
+  default-height: 1000;
   title: _("Unsaved - Xournal++");
 
   Adw.Breakpoint {
@@ -49,18 +49,39 @@ template $MainWindow: Adw.ApplicationWindow {
       show-sidebar: bind show_sidebar_button.active;
 
       sidebar: Box {
-        orientation: vertical;
+        orientation: horizontal;
         halign: center;
         valign: start;
         spacing: 12;
 
-        StackSwitcher stack_switcher {
-          stack: stack;
+        Box {
+          orientation: vertical;
+          spacing: 12;
+          margin-start: 6;
+          margin-end: 6;
+          margin-top: 6;
+          margin-bottom: 6;
+
+          Button button_preview {
+            icon-name: "xopp-sidebar-layer";
+            clicked => $on_button_preview_clicked();
+          }
+
+          Button button_workspace {
+            icon-name: "xopp-sidebar-layerstack";
+            clicked => $on_button_workspace_clicked();
+          }
+
+          Button button_library {
+            icon-name: "library-symbolic";
+            clicked => $on_button_library_clicked();
+          }
         }
 
         Stack stack {
           StackPage page_preview {
             title: _("Preview");
+            name: "page_preview";
 
             child: Box {
               orientation: vertical;
@@ -108,6 +129,7 @@ template $MainWindow: Adw.ApplicationWindow {
 
           StackPage page_workspace {
             title: _("Workspace");
+            name: "page_workspace";
 
             child: Adw.StatusPage {
               Label {
@@ -118,6 +140,7 @@ template $MainWindow: Adw.ApplicationWindow {
 
           StackPage page_library {
             title: _("Library");
+            name: "page_library";
 
             child: Adw.StatusPage {
               Label {
@@ -133,10 +156,10 @@ template $MainWindow: Adw.ApplicationWindow {
           hexpand: true;
           vexpand: true;
         DrawingArea drawing_area {
-          width-request: 400;
-          height-request: 600;
-          content-width: 400;
-          content-height: 600;
+          width-request: 100;
+          height-request: 100;
+          content-width: 600;
+          content-height: 900;
         }
       };
     };

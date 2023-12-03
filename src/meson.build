@@ -1,7 +1,5 @@
 pkgdatadir = get_option('prefix') / get_option('datadir') / meson.project_name()
 moduledir = pkgdatadir / 'xournalpp_demo'
-gnome = import('gnome')
-fs = import('fs')
 
 blueprints = custom_target('blueprints',
   input: files(    

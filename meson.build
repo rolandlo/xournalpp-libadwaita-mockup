@@ -8,3 +8,4 @@ gnome = import('gnome')
 
 
 subdir('src')
+subdir('files')
