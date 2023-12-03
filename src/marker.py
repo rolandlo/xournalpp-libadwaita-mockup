@@ -31,6 +31,7 @@ class Marker(Gtk.Grid):
         super().__init__()
         self.color = color
         self.marker_opacity = marker_opacity
+
         self.sw_filled.active = fill
         self.set_css_property(self.im_marker, "color", self.hex(color, marker_opacity))
         self.im_linestyle.set_from_icon_name(f"line-style-{linestyle}")
@@ -38,32 +39,23 @@ class Marker(Gtk.Grid):
         self.ad_opacity.set_value(marker_opacity)
         self.ad_thickness.set_value(thickness)
 
+        # Add scale marks
         for value in self.cfg.marks_thicknesses:
             self.scale_thickness.add_mark(value, Gtk.PositionType.TOP, "")
 
         for value, label in self.cfg.marks_opacity.items():
             self.scale_opacity.add_mark(value, Gtk.PositionType.TOP, label)
 
+        # Add palette colors
         for i, col in enumerate(self.cfg.palette):
             button = Gtk.Button()
             button.set_name(col["name"])
             button.add_css_class("circular")
             self.set_css_property(button, "background-color", col["color"])
-            button.connect(
-                "clicked",
-                lambda button: self.set_css_property(
-                    self.im_marker,
-                    "color",
-                    next(
-                        filter(
-                            lambda col: col["name"] == button.get_name(),
-                            self.cfg.palette,
-                        )
-                    )["color"],
-                ),
-            )
+            button.connect("clicked", self.on_color_button_clicked)
             self.color_box.append(button)
 
+        # Add color dialog button
         color_dialog = Gtk.ColorDialog()
         color_dialog.set_with_alpha(False)
         color_button = Gtk.ColorDialogButton()
@@ -72,40 +64,20 @@ class Marker(Gtk.Grid):
         color_button.connect("notify::rgba", self.set_color)
         self.color_box.append(color_button)
 
+        # Add linestyles
         for style in self.cfg.linestyles:
             button = Gtk.Button()
             button.set_name(style["name"])
             button.set_icon_name(style["icon"])
-            button.connect(
-                "clicked",
-                lambda data: self.im_linestyle.set_from_icon_name(
-                    next(
-                        filter(
-                            lambda style: style["name"] == data.get_name(),
-                            self.cfg.linestyles,
-                        )
-                    )["icon"]
-                ),
-            )
-
+            button.connect("clicked", self.on_linestyle_button_clicked)
             self.linestyle_box.append(button)
 
+        # Add drawingtypes
         for type in self.cfg.drawingtypes:
             button = Gtk.Button()
             button.set_name(type["name"])
             button.set_icon_name(type["icon"])
-            button.connect(
-                "clicked",
-                lambda data: self.im_drawingtype.set_from_icon_name(
-                    next(
-                        filter(
-                            lambda type: type["name"] == data.get_name(),
-                            self.cfg.drawingtypes,
-                        )
-                    )["icon"]
-                ),
-            )
-
+            button.connect("clicked", self.on_drawingtype_button_clicked)
             self.drawingtype_box.append(button)
 
     @Gtk.Template.Callback()
@@ -160,3 +132,30 @@ class Marker(Gtk.Grid):
         self.set_css_property(
             self.im_marker, "color", self.hex(self.color, self.marker_opacity)
         )
+
+    def on_color_button_clicked(self, button):
+        self.color = next(
+            filter(
+                lambda col: col["name"] == button.get_name(),
+                self.cfg.palette,
+            )
+        )["color"]
+        self.set_css_property(self.im_marker, "color", self.color)
+
+    def on_drawingtype_button_clicked(self, button):
+        type = next(
+            filter(
+                lambda type: type["name"] == button.get_name(),
+                self.cfg.drawingtypes,
+            )
+        )["icon"]
+        self.im_drawingtype.set_from_icon_name(type)
+
+    def on_linestyle_button_clicked(self, button):
+        style = next(
+            filter(
+                lambda style: style["name"] == button.get_name(),
+                self.cfg.linestyles,
+            )
+        )["icon"]
+        self.im_linestyle.set_from_icon_name(style)
