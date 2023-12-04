@@ -21,10 +21,13 @@
 import gi
 
 gi.require_version("Poppler", "0.18")
-from gi.repository import Adw, Gtk, Poppler
+gi.require_version("Gtk", "4.0")
+gi.require_version("Gdk", "4.0")
+from gi.repository import Adw, Gtk, Gdk, Poppler
 from .marker import Marker
 from .util import get_resource_path, get_files_uri
 from math import pi
+from itertools import pairwise
 
 
 @Gtk.Template(resource_path=get_resource_path("ui/window.ui"))
@@ -37,6 +40,7 @@ class MainWindow(Adw.ApplicationWindow):
 
     DOT_RADIUS = 5
     CROSS_SIZE = 4
+    STROKE_WIDTH = 3
     BOX = (300, 50, 50)  # x, y, r
 
     def __init__(self, **kwargs):
@@ -58,6 +62,7 @@ class MainWindow(Adw.ApplicationWindow):
 
         self.dots = []
         self.crosses = []
+        self.stroke = []
         self.delta = 0
         self.scale = 1
 
@@ -100,6 +105,16 @@ class MainWindow(Adw.ApplicationWindow):
         cr.rectangle(x - r, y - r, 2 * r, 2 * r)
         cr.restore()
         cr.fill()
+
+        cr.set_source_rgba(1, 0, 1, 1)  # magenta
+        if len(self.stroke) > 0:
+            first = self.stroke[0]
+            cr.move_to(first[0], first[1])
+            cr.set_line_width(self.STROKE_WIDTH * first[2])
+            for p, q in pairwise(self.stroke[1:]):
+                cr.set_line_width(self.STROKE_WIDTH * p[2])
+                cr.line_to(q[0], q[1])
+            cr.stroke()
 
     @Gtk.Template.Callback()
     def on_button_preview_clicked(self, button):
@@ -153,11 +168,34 @@ class MainWindow(Adw.ApplicationWindow):
 
     @Gtk.Template.Callback()
     def on_gesturestylus_down(self, gesture, x, y):
-        print(f"stylus down at ({x}, {y})")
+        pdata = gesture.get_axis(Gdk.AxisUse.PRESSURE)
+        p = pdata[0] and pdata.value or 1
+        print(f"stylus down at ({x}, {y}) with pressure {p}")
+        self.stroke = [(x, y, p)]
+        self.drawing_area.queue_draw()
 
     @Gtk.Template.Callback()
     def on_gesturestylus_motion(self, gesture, x, y):
         print(f"stylus motion at ({x}, {y})")
+        tool = gesture.get_device_tool()
+        print(f"tool type: {tool.get_tool_type()}, serial: {tool.get_serial()}, ")
+
+        log = gesture.get_backlog()
+        if log[0]:
+            for b in log.backlog:
+                ax, ay, ap = (
+                    b.axes[Gdk.AxisUse.X],
+                    b.axes[Gdk.AxisUse.Y],
+                    b.flags & Gdk.AxisFlags.PRESSURE
+                    and 2 * b.axes[Gdk.AxisUse.PRESSURE]
+                    or 1,
+                )
+                print(f"x = {ax}, y = {ay}, pressure = {ap}")
+                self.stroke.append((ax, ay, ap))
+        else:
+            p = gesture.stylus_axis_get(Gdk.AxisUse.PRESSURE) or 1
+            self.stroke.append((x, y, p))
+        self.drawing_area.queue_draw()
 
     @Gtk.Template.Callback()
     def on_gesturestylus_proximity(self, gesture, x, y):
@@ -166,3 +204,7 @@ class MainWindow(Adw.ApplicationWindow):
     @Gtk.Template.Callback()
     def on_gesturestylus_up(self, gesture, x, y):
         print(f"stylus up at ({x}, {y})")
+        pdata = gesture.get_axis(Gdk.AxisUse.PRESSURE)
+        p = pdata[0] and pdata.value or 1
+        self.stroke.append((x, y, p))
+        self.drawing_area.queue_draw()
