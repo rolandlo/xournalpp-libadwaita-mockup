@@ -160,6 +160,25 @@ template $MainWindow: Adw.ApplicationWindow {
           height-request: 100;
           content-width: 600;
           content-height: 900;
+          GestureClick {
+            pressed => $on_gestureclick_pressed();
+            released => $on_gestureclick_released();
+            stopped => $on_gestureclick_stopped();
+            unpaired-release => $on_gestureclick_unpaired_release();
+          }
+          GestureRotate {
+            angle-changed => $on_gesturerotate_angle_changed(); 
+          }
+          GestureZoom {
+            scale-changed => $on_gesturezoom_scale_changed();
+          }
+          GestureStylus {
+            stylus-only: true;  // With the X11 backend there are no signals with the stylus though
+            down => $on_gesturestylus_down();
+            motion => $on_gesturestylus_motion();
+            proximity => $on_gesturestylus_proximity();
+            up => $on_gesturestylus_up();
+          }
         }
       };
     };
