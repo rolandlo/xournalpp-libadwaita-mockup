@@ -56,7 +56,6 @@ class MainWindow(Adw.ApplicationWindow):
         self.content_box.prepend(self.marker)
 
         self.drawing_area.set_draw_func(self.draw)
-        print(get_files_uri("sample.pdf"))
         self.document = Poppler.Document.new_from_file(get_files_uri("sample.pdf"))
         self.page = self.document.get_page(0)
 
@@ -108,13 +107,11 @@ class MainWindow(Adw.ApplicationWindow):
 
         cr.set_source_rgba(1, 0, 1, 1)  # magenta
         if len(self.stroke) > 0:
-            first = self.stroke[0]
-            cr.move_to(first[0], first[1])
-            cr.set_line_width(self.STROKE_WIDTH * first[2])
             for p, q in pairwise(self.stroke[1:]):
+                cr.move_to(p[0], p[1])
                 cr.set_line_width(self.STROKE_WIDTH * p[2])
                 cr.line_to(q[0], q[1])
-            cr.stroke()
+                cr.stroke()
 
     @Gtk.Template.Callback()
     def on_button_preview_clicked(self, button):
@@ -140,45 +137,40 @@ class MainWindow(Adw.ApplicationWindow):
     @Gtk.Template.Callback()
     def on_gestureclick_pressed(self, gesture, n_press, x, y):
         if n_press == 1:
-            print(f"click at ({x}, {y})")
+            pass  # print(f"click at ({x}, {y})")
         elif n_press == 2:
-            print(f"double click at ({x}, {y})")
+            pass  # print(f"double click at ({x}, {y})")
 
     @Gtk.Template.Callback()
     def on_gestureclick_stopped(self, gesture):
-        print("click was stopped")
+        pass  # print("click was stopped")
 
     @Gtk.Template.Callback()
     def on_gestureclick_unpaired_release(self, gesture, x, y, button, sequence):
-        print("click release without press")
+        pass  # print("click release without press")
 
     @Gtk.Template.Callback()
     def on_gesturerotate_angle_changed(self, gesture, angle, angle_delta):
-        # delta = gesture.get_angle_delta()
-        center = gesture.get_bounding_box_center()
+        # center = gesture.get_bounding_box_center()
+        # print(f"rotation center = ({center.x}, {center.y})")
         self.delta = angle_delta
-        print(f"rotation center = ({center.x}, {center.y})")
-        print(f"rotation angle = {angle*180/pi}, delta = {angle_delta*180/pi}")
         self.drawing_area.queue_draw()
 
     @Gtk.Template.Callback()
     def on_gesturezoom_scale_changed(self, gesture, scale):
-        print(f"zoom scale = {scale}")
         self.scale = scale
 
     @Gtk.Template.Callback()
     def on_gesturestylus_down(self, gesture, x, y):
         pdata = gesture.get_axis(Gdk.AxisUse.PRESSURE)
         p = pdata[0] and pdata.value or 1
-        print(f"stylus down at ({x}, {y}) with pressure {p}")
         self.stroke = [(x, y, p)]
         self.drawing_area.queue_draw()
 
     @Gtk.Template.Callback()
     def on_gesturestylus_motion(self, gesture, x, y):
-        print(f"stylus motion at ({x}, {y})")
         tool = gesture.get_device_tool()
-        print(f"tool type: {tool.get_tool_type()}, serial: {tool.get_serial()}, ")
+        # print(f"tool type: {tool.get_tool_type()}, serial: {tool.get_serial()}, ")
 
         log = gesture.get_backlog()
         if log[0]:
@@ -190,20 +182,21 @@ class MainWindow(Adw.ApplicationWindow):
                     and 2 * b.axes[Gdk.AxisUse.PRESSURE]
                     or 1,
                 )
-                print(f"x = {ax}, y = {ay}, pressure = {ap}")
+                # print(f"x = {ax}, y = {ay}, pressure = {ap}")
                 self.stroke.append((ax, ay, ap))
         else:
-            p = gesture.stylus_axis_get(Gdk.AxisUse.PRESSURE) or 1
+            pdata = gesture.get_axis(Gdk.AxisUse.PRESSURE)
+            p = pdata[0] and pdata.value or 1
             self.stroke.append((x, y, p))
         self.drawing_area.queue_draw()
 
     @Gtk.Template.Callback()
     def on_gesturestylus_proximity(self, gesture, x, y):
-        print(f"stylus proximity at ({x}, {y})")
+        pass  # print(f"stylus proximity at ({x}, {y})")
 
     @Gtk.Template.Callback()
     def on_gesturestylus_up(self, gesture, x, y):
-        print(f"stylus up at ({x}, {y})")
+        # print(f"stylus up at ({x}, {y})")
         pdata = gesture.get_axis(Gdk.AxisUse.PRESSURE)
         p = pdata[0] and pdata.value or 1
         self.stroke.append((x, y, p))
