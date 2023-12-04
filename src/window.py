@@ -41,6 +41,7 @@ class MainWindow(Adw.ApplicationWindow):
     DOT_RADIUS = 5
     CROSS_SIZE = 4
     STROKE_WIDTH = 3
+    PRESSURE_MULTIPLIER = 2
     BOX = (300, 50, 50)  # x, y, r
 
     def __init__(self, **kwargs):
@@ -113,6 +114,10 @@ class MainWindow(Adw.ApplicationWindow):
                 cr.line_to(q[0], q[1])
                 cr.stroke()
 
+    def filtered_pressure(self, gesture):
+        pdata = gesture.get_axis(Gdk.AxisUse.PRESSURE)
+        return pdata[0] and self.PRESSURE_MULTIPLIER * pdata.value or 1
+
     @Gtk.Template.Callback()
     def on_button_preview_clicked(self, button):
         self.stack.set_visible_child_name("page_preview")
@@ -162,9 +167,7 @@ class MainWindow(Adw.ApplicationWindow):
 
     @Gtk.Template.Callback()
     def on_gesturestylus_down(self, gesture, x, y):
-        pdata = gesture.get_axis(Gdk.AxisUse.PRESSURE)
-        p = pdata[0] and pdata.value or 1
-        self.stroke = [(x, y, p)]
+        self.stroke = [(x, y, self.filtered_pressure(gesture))]
         self.drawing_area.queue_draw()
 
     @Gtk.Template.Callback()
@@ -179,15 +182,13 @@ class MainWindow(Adw.ApplicationWindow):
                     b.axes[Gdk.AxisUse.X],
                     b.axes[Gdk.AxisUse.Y],
                     b.flags & Gdk.AxisFlags.PRESSURE
-                    and 2 * b.axes[Gdk.AxisUse.PRESSURE]
+                    and self.PRESSURE_MULTIPLIER * b.axes[Gdk.AxisUse.PRESSURE]
                     or 1,
                 )
                 # print(f"x = {ax}, y = {ay}, pressure = {ap}")
                 self.stroke.append((ax, ay, ap))
         else:
-            pdata = gesture.get_axis(Gdk.AxisUse.PRESSURE)
-            p = pdata[0] and pdata.value or 1
-            self.stroke.append((x, y, p))
+            self.stroke.append((x, y, self.filtered_pressure(gesture)))
         self.drawing_area.queue_draw()
 
     @Gtk.Template.Callback()
@@ -197,7 +198,5 @@ class MainWindow(Adw.ApplicationWindow):
     @Gtk.Template.Callback()
     def on_gesturestylus_up(self, gesture, x, y):
         # print(f"stylus up at ({x}, {y})")
-        pdata = gesture.get_axis(Gdk.AxisUse.PRESSURE)
-        p = pdata[0] and pdata.value or 1
-        self.stroke.append((x, y, p))
+        self.stroke.append((x, y, self.filtered_pressure(gesture)))
         self.drawing_area.queue_draw()
