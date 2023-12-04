@@ -115,8 +115,8 @@ class MainWindow(Adw.ApplicationWindow):
                 cr.stroke()
 
     def filtered_pressure(self, gesture):
-        pdata = gesture.get_axis(Gdk.AxisUse.PRESSURE)
-        return pdata[0] and self.PRESSURE_MULTIPLIER * pdata.value or 1
+        has_pressure, pressure = gesture.get_axis(Gdk.AxisUse.PRESSURE)
+        return has_pressure and self.PRESSURE_MULTIPLIER * pressure or 1
 
     @Gtk.Template.Callback()
     def on_button_preview_clicked(self, button):
@@ -175,9 +175,9 @@ class MainWindow(Adw.ApplicationWindow):
         tool = gesture.get_device_tool()
         # print(f"tool type: {tool.get_tool_type()}, serial: {tool.get_serial()}, ")
 
-        log = gesture.get_backlog()
-        if log[0]:
-            for b in log.backlog:
+        has_backlog, backlog = gesture.get_backlog()
+        if has_backlog:
+            for b in backlog:
                 ax, ay, ap = (
                     b.axes[Gdk.AxisUse.X],
                     b.axes[Gdk.AxisUse.Y],
