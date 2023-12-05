@@ -33,6 +33,14 @@ class MyApp(Adw.Application):
         ]  # throw away objects
         self.builder.add_from_resource(get_resource_path("ui/preferences.ui"))
         self.win_prefs = self.builder.get_object("win_prefs")
+        self.builder.add_from_resource(get_resource_path("ui/latexeditor.ui"))
+        self.latexEditorDialog = self.builder.get_object("latexEditorDialog")
+        self.builder.add_from_resource(get_resource_path("ui/pagetemplate.ui"))
+        self.pageTemplateDialog = self.builder.get_object("pageTemplateDialog")
+        self.builder.add_from_resource(get_resource_path("ui/paperformat.ui"))
+        self.paperFormatDialog = self.builder.get_object("paperFormatDialog")
+        self.builder.add_from_resource(get_resource_path("ui/export.ui"))
+        self.exportDialog = self.builder.get_object("exportDialog")
 
         add_actions(self)
 

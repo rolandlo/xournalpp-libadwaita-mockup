@@ -71,3 +71,13 @@ def add_actions(app):
         ["F1"],
     )
     add_action(app, "preferences", lambda *_: app.win_prefs.present(), app_group)
+    add_action(
+        app, "latexeditor", lambda *_: app.latexEditorDialog.present(), app_group
+    )
+    add_action(
+        app, "pagetemplate", lambda *_: app.pageTemplateDialog.present(), app_group
+    )
+    add_action(
+        app, "paperformat", lambda *_: app.paperFormatDialog.present(), app_group
+    )
+    add_action(app, "export", lambda *_: app.exportDialog.present(), app_group)
