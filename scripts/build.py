@@ -22,4 +22,7 @@ for source, target in copy_dict.items():
     input_path = os.path.join(root_dir, "workbench", source)
     output_path = os.path.join(root_dir, "src", target)
     print(f"Copy {input_path} to {output_path}")
+    output_dir = os.path.dirname(output_path)
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
     shutil.copyfile(input_path, output_path)
