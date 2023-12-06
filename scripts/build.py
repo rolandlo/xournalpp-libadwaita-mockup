@@ -7,12 +7,12 @@ import shutil
 copy_dict = {
     "export/main.blp": "ui/export.blp",
     "latexeditor/main.blp": "ui/latexeditor.blp",
-    "main/main.blp": "ui/window.blp",
+    "window/main.blp": "ui/window.blp",
     "pagetemplate/main.blp": "ui/pagetemplate.blp",
     "paperformat/main.blp": "ui/paperformat.blp",
     "preferences/main.blp": "ui/preferences.blp",
-    "shortcuts/main.blp": "gtk/help-overlay.blp",
-    "splitbutton/main.blp": "ui/marker.blp",
+    "help-overlay/main.blp": "gtk/help-overlay.blp",
+    "marker/main.blp": "ui/marker.blp",
 }
 
 script_dir = os.path.dirname(os.path.realpath(__file__))
