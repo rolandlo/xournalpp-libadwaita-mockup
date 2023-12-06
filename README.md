@@ -6,11 +6,11 @@ Mockups for redesiging Xournal++ with Gtk4/Libadwaita are created, using Workben
 
 ### Linux
 
-Install Meson, Gtk 4, Poppler, GtkSourceView 5 and Libadwaita 1. 
+Install Meson, Gtk 4, Poppler, GtkSourceView 5, Libadwaita 1 and pygobject. 
 
 On Ubuntu:
 ```term
-sudo apt-get install meson libgtk-4-dev libpoppler-glib-dev libgtksourceview-5-dev libadwaita-1-dev
+sudo apt-get install meson libgtk-4-dev libpoppler-glib-dev libgtksourceview-5-dev \ libadwaita-1-dev python3-gi python3-gi-cairo
 ```
 
 Install the blueprint-compiler:
@@ -33,15 +33,16 @@ Update your packages (maybe multiple times) via
 pacman -Syuu
 ```
 
-Install Meson, Gtk 4, Poppler, GtkSourceView 5 and Libadwaita 1.
+Install Meson, Gtk 4, Poppler, GtkSourceView 5, Libadwaita 1 and pygobject.
 
 ```term
 pacman -S \
-  mingw-w64-x86_64-meson
+  mingw-w64-x86_64-meson \
   mingw-w64-x86_64-gtk4 \
   mingw-w64-x86_64-poppler \
   mingw-w64-x86_64-gtksourceview5 \
-  mingw-w64-x86_64-libadwaita1
+  mingw-w64-x86_64-libadwaita1 \
+  mingw-w64-x86_64-python-gobject
 ```
 
 Install the blueprint-compiler:
