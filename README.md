@@ -57,7 +57,23 @@ meson install
 
 ### MacOS
 
-Yet untested
+The simplest way is to use [Homebrew](https://brew.sh/) to install the dependencies. Consider creating a new user first if you don't want to mess with jhbuild before installing Homebrew.
+
+Install Meson, Gtk 4, Poppler, svn, GtkSourceView 5, Libadwaita 1 and pygobject via
+
+```term
+brew install meson gtk4 poppler svn gtksourceview5 libadwaita pygobject3
+```
+
+Install the blueprint-compiler:
+
+```term
+git clone https://gitlab.gnome.org/jwestman/blueprint-compiler.git
+cd blueprint-compiler
+meson setup build
+cd build
+meson install
+```
 
 ## Build
 
