@@ -5,7 +5,7 @@ from .marker_config import Marker_Config
 
 gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
-from gi.repository import Adw, Gtk
+from gi.repository import Gtk, GObject, Gdk
 
 
 @Gtk.Template(resource_path=get_resource_path("ui/marker.ui"))
@@ -27,17 +27,50 @@ class Marker(Gtk.Grid):
 
     cfg = Marker_Config()
 
-    def __init__(self, color, fill, marker_opacity, linestyle, thickness, drawingtype):
-        super().__init__()
-        self.color = color
-        self.marker_opacity = marker_opacity
+    fill = GObject.Property(type=bool, default=False)
+    thickness = GObject.Property(type=float, default=1.41, minimum=-0.5, maximum=4.0)
+    opacity = GObject.Property(type=int, default=50, minimum=0, maximum=100)
+    linestyle = GObject.Property(type=str, default="plain")
+    drawingtype = GObject.Property(type=str, default="rect")
+    rgba = GObject.Property(type=Gdk.RGBA, default=cfg.default_rgba)  # without alpha
 
-        self.sw_filled.active = fill
-        self.set_css_property(self.im_marker, "color", self.hex(color, marker_opacity))
-        self.im_linestyle.set_from_icon_name(f"line-style-{linestyle}")
-        self.im_drawingtype.set_from_icon_name(drawingtype)
-        self.ad_opacity.set_value(marker_opacity)
-        self.ad_thickness.set_value(thickness)
+    def __init__(self):
+        super().__init__()
+        self.bind_property(
+            "fill", self.sw_filled, "active", GObject.BindingFlags.SYNC_CREATE
+        )
+
+        self.bind_property(
+            "drawingtype",
+            self.im_drawingtype,
+            "icon-name",
+            GObject.BindingFlags.SYNC_CREATE,
+            lambda _, value: next(
+                filter(lambda type: type["name"] == value, self.cfg.drawingtypes)
+            )["icon"],
+            lambda _, value: next(
+                filter(lambda type: type["icon"] == value, self.cfg.drawingtypes)
+            )["name"],
+        )
+
+        self.bind_property(
+            "linestyle",
+            self.im_linestyle,
+            "icon-name",
+            GObject.BindingFlags.SYNC_CREATE,
+            lambda _, value: next(
+                filter(lambda style: style["name"] == value, self.cfg.linestyles)
+            )["icon"],
+            lambda _, value: next(
+                filter(lambda style: style["icon"] == value, self.cfg.linestyles)
+            )["name"],
+        )
+        self.bind_property(
+            "opacity", self.ad_opacity, "value", GObject.BindingFlags.BIDIRECTIONAL
+        )
+        self.bind_property(
+            "thickness", self.ad_thickness, "value", GObject.BindingFlags.BIDIRECTIONAL
+        )
 
         # Add scale marks
         for value in self.cfg.marks_thicknesses:
@@ -80,26 +113,19 @@ class Marker(Gtk.Grid):
             button.connect("clicked", self.on_drawingtype_button_clicked)
             self.drawingtype_box.append(button)
 
+        self.connect("notify::rgba", self.on_color_changed)
+        self.connect("notify::opacity", self.on_color_changed)
+
     @Gtk.Template.Callback()
     def on_button_clicked(self, splitbutton):
         print("Hello button")
 
     @Gtk.Template.Callback()
     def on_thickness_changed(self, adjustment):
-        self.thickness = adjustment.get_value()
         self.set_css_property(
             self.im_linestyle,
             "-gtk-icon-transform",
-            f"scale({(self.thickness + 2.0) / 3.0})",
-        )
-
-    @Gtk.Template.Callback()
-    def on_opacity_changed(self, adjustment):
-        self.marker_opacity = adjustment.get_value()
-        self.set_css_property(
-            self.im_marker,
-            "color",
-            self.hex(self.color, self.marker_opacity),
+            f"scale({(self.props.thickness + 2.0) / 3.0})",
         )
 
     @Gtk.Template.Callback()
@@ -116,46 +142,25 @@ class Marker(Gtk.Grid):
         context = widget.get_style_context()
         context.add_provider(provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
 
-    def hex(self, color, opacity):
-        alpha_decimal = floor((opacity + 100) * 1.275)
-        alpha = f"{alpha_decimal:x}"
-        return f"{color}{alpha}"
-
-    def get_color_from_rgba(self, rgba):
-        r = floor(rgba.red * 255)
-        g = floor(rgba.green * 255)
-        b = floor(rgba.b * 255)
-        return f"#{r:x}{g:x}{b:x}"
-
-    def set_color(self, button, whatever):
-        self.color = self.get_color_from_rgba(button.rgba)
-        self.set_css_property(
-            self.im_marker, "color", self.hex(self.color, self.marker_opacity)
-        )
+    def set_color(self, button, _):
+        self.props.rgba = button.get_rgba()
 
     def on_color_button_clicked(self, button):
-        self.color = next(
-            filter(
-                lambda col: col["name"] == button.get_name(),
-                self.cfg.palette,
-            )
-        )["color"]
-        self.set_css_property(self.im_marker, "color", self.color)
+        col = Gdk.RGBA()
+        col.parse(
+            next(
+                filter(lambda col: col["name"] == button.get_name(), self.cfg.palette)
+            )["color"]
+        )
+        self.props.rgba = col
 
     def on_drawingtype_button_clicked(self, button):
-        type = next(
-            filter(
-                lambda type: type["name"] == button.get_name(),
-                self.cfg.drawingtypes,
-            )
-        )["icon"]
-        self.im_drawingtype.set_from_icon_name(type)
+        self.props.drawingtype = button.get_name()
 
     def on_linestyle_button_clicked(self, button):
-        style = next(
-            filter(
-                lambda style: style["name"] == button.get_name(),
-                self.cfg.linestyles,
-            )
-        )["icon"]
-        self.im_linestyle.set_from_icon_name(style)
+        self.props.linestyle = button.get_name()
+
+    def on_color_changed(self, _, color):
+        rgba = self.props.rgba
+        rgba.alpha = self.props.opacity / 100
+        self.set_css_property(self.im_marker, "color", rgba.to_string())

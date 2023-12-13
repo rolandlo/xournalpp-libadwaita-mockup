@@ -1,3 +1,6 @@
+from gi.repository import Gdk
+
+
 class Marker_Config:
     marks_thicknesses = {
         0.132: "finer",  ### ln(0.42) + 1
@@ -26,25 +29,28 @@ class Marker_Config:
     ]
 
     linestyles = [
-        {"name": "linestyle_plain", "icon": "line-style-plain-symbolic"},
-        {"name": "linestyle_dash", "icon": "line-style-dash-symbolic"},
-        {"name": "linestyle_dash_dot", "icon": "line-style-dash-dot-symbolic"},
-        {"name": "linestyle_dot", "icon": "line-style-dot-symbolic"},
+        {"name": "plain", "icon": "line-style-plain-symbolic"},
+        {"name": "dash", "icon": "line-style-dash-symbolic"},
+        {"name": "dash_dot", "icon": "line-style-dash-dot-symbolic"},
+        {"name": "dot", "icon": "line-style-dot-symbolic"},
     ]
 
     drawingtypes = [
-        {"name": "drawingtype_rect", "icon": "rect"},
-        {"name": "drawingtype_ellipse", "icon": "ellipse"},
-        {"name": "drawingtype_arrow", "icon": "arrow"},
-        {"name": "drawingtype_doublearrow", "icon": "double-arrow"},
-        {"name": "drawingtype_line", "icon": "line"},
+        {"name": "rect", "icon": "rect"},
+        {"name": "ellipse", "icon": "ellipse"},
+        {"name": "arrow", "icon": "arrow"},
+        {"name": "doublearrow", "icon": "double-arrow"},
+        {"name": "line", "icon": "line"},
         {
-            "name": "drawingtype_coordinatesystem",
+            "name": "coordinatesystem",
             "icon": "coordinate-system",
         },
-        {"name": "drawingtype_spline", "icon": "spline"},
+        {"name": "spline", "icon": "spline"},
         {
-            "name": "drawingtype_shaperecognizer",
+            "name": "shaperecognizer",
             "icon": "shape-recognizer",
         },
     ]
+
+    default_rgba = Gdk.RGBA()
+    default_rgba.parse("red")

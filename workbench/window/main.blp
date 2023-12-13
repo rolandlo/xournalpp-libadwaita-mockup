@@ -5,7 +5,7 @@ template $MainWindow: Adw.ApplicationWindow {
   width-request: 500;
   height-request: 700;
   default-width: 1000;
-  default-height: 1000;
+  default-height: 1100;
   title: _("Unsaved - Xournal++");
 
   Adw.Breakpoint {
@@ -152,9 +152,17 @@ template $MainWindow: Adw.ApplicationWindow {
       };
 
       content: Box content_box {
-          orientation: vertical;
-          hexpand: true;
-          vexpand: true;
+        orientation: vertical;
+        hexpand: true;
+        vexpand: true;
+        $Marker mk {
+          fill: true;
+          thickness: 3.5;
+          opacity: 70;
+          linestyle: "dot";
+          drawingtype: "spline";
+          rgba: "red";
+        }
         DrawingArea drawing_area {
           width-request: 100;
           height-request: 100;
