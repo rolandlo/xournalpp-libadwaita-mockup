@@ -26,6 +26,13 @@ class Marker(Gtk.Grid):
     color_box = Gtk.Template.Child()
 
     cfg = Marker_Config()
+    palette_color_from_name, _ = cfg.dicts_from_list(cfg.palette, "name", "color")
+    linestyle_icon_from_name, linestyle_name_from_icon = cfg.dicts_from_list(
+        cfg.linestyles, "name", "icon"
+    )
+    drawingtype_icon_from_name, drawingtype_name_from_icon = cfg.dicts_from_list(
+        cfg.drawingtypes, "name", "icon"
+    )
 
     fill = GObject.Property(type=bool, default=False)
     thickness = GObject.Property(type=float, default=1.41, minimum=-0.5, maximum=4.0)
@@ -45,12 +52,8 @@ class Marker(Gtk.Grid):
             self.im_drawingtype,
             "icon-name",
             GObject.BindingFlags.SYNC_CREATE,
-            lambda _, value: next(
-                filter(lambda type: type["name"] == value, self.cfg.drawingtypes)
-            )["icon"],
-            lambda _, value: next(
-                filter(lambda type: type["icon"] == value, self.cfg.drawingtypes)
-            )["name"],
+            lambda _, name: self.drawingtype_icon_from_name[name],
+            lambda _, icon: self.drawingtype_name_from_icon[icon],
         )
 
         self.bind_property(
@@ -58,12 +61,8 @@ class Marker(Gtk.Grid):
             self.im_linestyle,
             "icon-name",
             GObject.BindingFlags.SYNC_CREATE,
-            lambda _, value: next(
-                filter(lambda style: style["name"] == value, self.cfg.linestyles)
-            )["icon"],
-            lambda _, value: next(
-                filter(lambda style: style["icon"] == value, self.cfg.linestyles)
-            )["name"],
+            lambda _, name: self.linestyle_icon_from_name[name],
+            lambda _, icon: self.linestyle_name_from_icon[icon],
         )
         self.bind_property(
             "opacity", self.ad_opacity, "value", GObject.BindingFlags.BIDIRECTIONAL
@@ -130,10 +129,9 @@ class Marker(Gtk.Grid):
 
     @Gtk.Template.Callback()
     def on_filled_set(self, switch, active):
-        if active:
-            self.im_marker.set_from_icon_name("marker-filled-symbolic")
-        else:
-            self.im_marker.set_from_icon_name("marker-not-filled-symbolic")
+        self.im_marker.set_from_icon_name(
+            "marker-filled-symbolic" if active else "marker-not-filled-symbolic"
+        )
 
     def set_css_property(self, widget, property, value):
         cssString = f"#{widget.get_name()} {{ {property}: {value}; }}"
@@ -147,11 +145,7 @@ class Marker(Gtk.Grid):
 
     def on_color_button_clicked(self, button):
         col = Gdk.RGBA()
-        col.parse(
-            next(
-                filter(lambda col: col["name"] == button.get_name(), self.cfg.palette)
-            )["color"]
-        )
+        col.parse(self.palette_color_from_name[button.get_name()])
         self.props.rgba = col
 
     def on_drawingtype_button_clicked(self, button):

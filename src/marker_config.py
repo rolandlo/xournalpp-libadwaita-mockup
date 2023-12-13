@@ -2,6 +2,14 @@ from gi.repository import Gdk
 
 
 class Marker_Config:
+    def dicts_from_list(self, li, key1, key2):
+        d12 = {}
+        d21 = {}
+        for l in li:
+            d12[l[key1]] = l[key2]
+            d21[l[key2]] = l[key1]
+        return d12, d21
+
     marks_thicknesses = {
         0.132: "finer",  ### ln(0.42) + 1
         0.837: "fine",  #### ln(0.85) + 1
