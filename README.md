@@ -1,5 +1,5 @@
 # xournalpp-libadwaita-mockup
-Mockups for redesiging Xournal++ with Gtk4/Libadwaita are created, using Workbench/blueprint.
+Mockups for redesiging Xournal++ with Gtk4/Libadwaita are created, using the blueprint format.
 
 
 ## Installation
@@ -90,12 +90,6 @@ Configure the meson project in a `build` folder:
 meson setup build --prefix=$(pwd)/build/inst
 ```
 
-Copy the .blp-files to the place they are needed:
-
-```term
-python3 scripts/build.py
-```
-
 Enter the build folder and install the project:
 
 ```term
@@ -112,10 +106,3 @@ inst/bin/xournalpp-demo
 ## Work with Blueprint files
 
 Blueprint is a markup language for Gtk user interfaces. Blueprint files `.blp` are translated to `.ui`-files using the `blueprint-compiler`. Blueprint files are more readable than `.ui` files and easier to modify.
-
-In this project the (original) Blueprint files are stored within different subdirectories of the `workbench` folder.
-If you are on Linux we suggest you install [Workbench](https://flathub.org/apps/re.sonny.Workbench), open the different subdirectories in Workbench and make the modifications there. You get live-preview and formatting for free.
-The code for the workbench projects is written in JavaScript, since that language
-is supported best there. 
-In the actual project we use Python, since
-it feels easiest to develop in Python.

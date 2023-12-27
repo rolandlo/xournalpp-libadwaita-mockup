@@ -1,7 +1,5 @@
 **/*.ui
-**/*.gresource
 biome.json
 **/*.pyc
 src/__pycache__
 .vscode/
-src/**/*.blp

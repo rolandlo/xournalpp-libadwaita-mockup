@@ -1,6 +1,0 @@
-{
-  "category": "uncategorized",
-  "description": "Xournal++ main window.",
-  "panels": ["ui", "preview"],
-  "autorun": false
-}

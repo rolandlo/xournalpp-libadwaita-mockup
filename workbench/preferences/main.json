@@ -1,6 +1,0 @@
-{
-  "category": "uncategorized",
-  "description": "The preferences dialog.",
-  "panels": ["ui", "preview"],
-  "autorun": false
-}
