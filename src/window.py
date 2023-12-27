@@ -37,6 +37,9 @@ class MainWindow(Adw.ApplicationWindow):
     content_box = Gtk.Template.Child()
     drawing_area = Gtk.Template.Child()
     stack = Gtk.Template.Child()
+    document_properties_popover = Gtk.Template.Child()
+    zoom_box = Gtk.Template.Child()
+    zoom_entry = Gtk.Template.Child()
 
     DOT_RADIUS = 5
     CROSS_SIZE = 4
@@ -46,6 +49,8 @@ class MainWindow(Adw.ApplicationWindow):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.document_properties_popover.add_child(self.zoom_box, "zoom_widgets")
+
         self.marker = Marker()
         self.content_box.prepend(self.marker)
 
@@ -58,6 +63,7 @@ class MainWindow(Adw.ApplicationWindow):
         self.stroke = []
         self.delta = 0
         self.scale = 1
+        self.zoom = 1
 
     def draw(self, area, cr, width, height):
         w, h = self.page.get_size()
@@ -193,3 +199,13 @@ class MainWindow(Adw.ApplicationWindow):
         # print(f"stylus up at ({x}, {y})")
         self.stroke.append((x, y, self.filtered_pressure(gesture)))
         self.drawing_area.queue_draw()
+
+    @Gtk.Template.Callback()
+    def on_entry_icon_press(self, entry, position):
+        self.zoom = float(self.zoom_entry.get_text()[:-1]) / 100
+        if position == Gtk.EntryIconPosition(0):
+            self.zoom /= 1.1
+        else:
+            self.zoom *= 1.1
+
+        self.zoom_entry.set_text(f"{int(self.zoom*100)}%")

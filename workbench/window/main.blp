@@ -26,7 +26,7 @@ template $MainWindow: Adw.ApplicationWindow {
         orientation: horizontal;
 
         ToggleButton show_sidebar_button {
-          icon-name: "dock-left";
+          icon-name: "sidebar-show-symbolic";
           tooltip-text: _("Toggle Sidebar");
           active: bind split_view.show-sidebar;
         }
@@ -36,9 +36,25 @@ template $MainWindow: Adw.ApplicationWindow {
       Box {
         orientation: horizontal;
 
+        MenuButton plugins {
+          icon-name: "extensions-symbolic";
+          tooltip-text: _("Plugins");
+          menu-model: plugins_button_menu;
+          primary: false;
+        }
+
+        MenuButton document_properties {
+          icon-name: "mypaint-document-properties-symbolic";
+          tooltip-text: _("Document Properties");
+          popover: PopoverMenu document_properties_popover {
+            menu-model: document_properties_menu;
+          };
+          primary: false;
+        }
+
         MenuButton primary {
           icon-name: "open-menu-symbolic";
-          tooltip-text: _("Main Menu");
+          tooltip-text: _("Primary Menu");
           menu-model: primary_button_menu;
           primary: true;
         }
@@ -193,18 +209,13 @@ template $MainWindow: Adw.ApplicationWindow {
   };
 }
 
-menu primary_button_menu {
+menu document_properties_menu {
   section {
     item {
-      label: _("Preferences");
-      action: "app.preferences";
+      custom: "zoom_widgets";
     }
-
-    item {
-      label: _("LaTeX");
-      action: "app.latexeditor";
-    }
-
+  }
+  section {
     item {
       label: _("Page Template");
       action: "app.pagetemplate";
@@ -214,10 +225,139 @@ menu primary_button_menu {
       label: _("Paper Format");
       action: "app.paperformat";
     }
+  } 
+  section {
+    submenu {
+      label: _("Layout");
+      section {
+        item {
+          label: _("Horizontal");
+        }
+        item {
+          label: _("Vertical");
+        }
+      }
+      section {
+        item {
+          label: _("Left to Right");
+        }
+        item {
+          label: _("Right to Left");
+        }
+      }
+      section {
+        item {
+          label: _("Top to Buttom");
+        }
+        item {
+          label: _("Buttom to Top");
+        }
+      }
+    }
+    submenu {
+      label: _("Cols/Rows");
+      submenu {
+        label: _("Set Columns");
+
+        item { 
+          label: _("1 Column");
+        }
+
+        item { 
+          label: _("2 Columns");
+        }
+
+        item { 
+          label: _("3 Columns");
+        }
+
+        item { 
+          label: _("4 Columns");
+        }
+
+        item { 
+          label: _("5 Columns");
+        }
+
+        item { 
+          label: _("6 Columns");
+        }
+
+        item { 
+          label: _("7 Columns");
+        }
+
+        item { 
+          label: _("8 Columns");
+        }
+
+      }
+      submenu {
+        label: _("Set Rows");
+
+        item {
+          label: _("1 Row");
+        }
+
+        item {
+          label: _("2 Rows");
+        }
+
+        item {
+          label: _("3 Rows");
+        }
+
+        item {
+          label: _("4 Rows");
+        }
+
+        item {
+          label: _("5 Rows");
+        }
+
+        item {
+          label: _("6 Rows");
+        }
+
+        item {
+          label: _("7 Rows");
+        }
+
+        item {
+          label: _("8 Rows");
+        }
+
+      }
+    }
+  }
+}
+
+menu plugins_button_menu {
+  section {
+    item {
+      label: _("Plugin Manager");
+      action: "app.plugin-manager";
+    }
+  }
+}
+
+menu primary_button_menu {
+  section {
+    item {
+      label: _("LaTeX");
+      action: "app.latexeditor";
+    }
 
     item {
       label: _("Export");
       action: "app.export";
+    }
+  }
+
+  section {
+    item {
+      label: _("Preferences");
+      action: "app.preferences";
     }
 
     item {
@@ -237,3 +377,23 @@ menu primary_button_menu {
   }
 }
 
+Box zoom_box {
+    orientation: horizontal;
+    spacing: 6;
+
+    Entry zoom_entry {
+      hexpand: false;
+      width-chars: 5;
+      max-width-chars: 5;
+      placeholder-text: "100%";
+      text: "100%";
+      input-purpose: digits;
+      primary-icon-name: "zoom-out-symbolic";
+      secondary-icon-name: "zoom-in-symbolic";
+      icon-press => $on_entry_icon_press();
+    }
+
+    Button {
+      icon-name: "zoom-fit-width-symbolic";
+    }
+}
