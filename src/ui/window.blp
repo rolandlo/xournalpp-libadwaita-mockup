@@ -30,6 +30,17 @@ template $MainWindow: Adw.ApplicationWindow {
           tooltip-text: _("Toggle Sidebar");
           active: bind split_view.show-sidebar;
         }
+
+        Button {
+          margin-start: 24;
+          icon-name: "document-save-symbolic";
+        }
+        Button {
+          icon-name: "edit-undo-symbolic";
+        }
+        Button {
+          icon-name: "edit-redo-symbolic";
+        }
       }
 
       [end]
@@ -46,9 +57,18 @@ template $MainWindow: Adw.ApplicationWindow {
         MenuButton document_properties {
           icon-name: "mypaint-document-properties-symbolic";
           tooltip-text: _("Document Properties");
+
           popover: PopoverMenu document_properties_popover {
             menu-model: document_properties_menu;
           };
+
+          primary: false;
+        }
+
+        MenuButton tools {
+          icon-name: "view-more-symbolic";
+          tooltip-text: _("Toggle Tools in Dock");
+          menu-model: tools_button_menu;
           primary: false;
         }
 
@@ -167,43 +187,54 @@ template $MainWindow: Adw.ApplicationWindow {
         }
       };
 
-      content: Box content_box {
-        orientation: vertical;
-        hexpand: true;
-        vexpand: true;
-        $Marker mk {
-          fill: true;
-          thickness: 3.5;
-          opacity: 70;
-          linestyle: "dot";
-          drawingtype: "spline";
-          rgba: "red";
-        }
-        DrawingArea drawing_area {
-          width-request: 100;
-          height-request: 100;
-          content-width: 600;
-          content-height: 850;
-          GestureClick {
-            pressed => $on_gestureclick_pressed();
-            released => $on_gestureclick_released();
-            stopped => $on_gestureclick_stopped();
-            unpaired-release => $on_gestureclick_unpaired_release();
+      content: Adw.OverlaySplitView {
+        sidebar-position: end;
+        content: Box content_box {
+          orientation: vertical;
+          hexpand: true;
+          vexpand: true;
+  
+          $Marker mk {
+            fill: true;
+            thickness: 3.5;
+            opacity: 70;
+            linestyle: "dot";
+            drawingtype: "spline";
+            rgba: "red";
           }
-          GestureRotate {
-            angle-changed => $on_gesturerotate_angle_changed(); 
+
+          DrawingArea drawing_area {
+            hexpand: true;
+            vexpand: true;
+
+            GestureClick {
+              pressed => $on_gestureclick_pressed();
+              released => $on_gestureclick_released();
+              stopped => $on_gestureclick_stopped();
+              unpaired-release => $on_gestureclick_unpaired_release();
+            }
+
+            GestureRotate {
+              angle-changed => $on_gesturerotate_angle_changed();
+            }
+
+            GestureZoom {
+              scale-changed => $on_gesturezoom_scale_changed();
+            }
+
+            GestureStylus {
+              stylus-only: false;
+              // With the X11 backend there are no signals with stylus-only = true
+              down => $on_gesturestylus_down();
+              motion => $on_gesturestylus_motion();
+              proximity => $on_gesturestylus_proximity();
+              up => $on_gesturestylus_up();
+            }
           }
-          GestureZoom {
-            scale-changed => $on_gesturezoom_scale_changed();
-          }
-          GestureStylus {
-            stylus-only: true;  // With the X11 backend there are no signals with the stylus though
-            down => $on_gesturestylus_down();
-            motion => $on_gesturestylus_motion();
-            proximity => $on_gesturestylus_proximity();
-            up => $on_gesturestylus_up();
-          }
-        }
+        };
+        sidebar: Adw.StatusPage {
+          title: _("Tools");
+        };
       };
     };
   };
@@ -215,6 +246,7 @@ menu document_properties_menu {
       custom: "zoom_widgets";
     }
   }
+
   section {
     item {
       label: _("Page Template");
@@ -225,73 +257,82 @@ menu document_properties_menu {
       label: _("Paper Format");
       action: "app.paperformat";
     }
-  } 
+  }
+
   section {
     submenu {
       label: _("Layout");
+
       section {
         item {
           label: _("Horizontal");
         }
+
         item {
           label: _("Vertical");
         }
       }
+
       section {
         item {
           label: _("Left to Right");
         }
+
         item {
           label: _("Right to Left");
         }
       }
+
       section {
         item {
           label: _("Top to Buttom");
         }
+
         item {
           label: _("Buttom to Top");
         }
       }
     }
+
     submenu {
       label: _("Cols/Rows");
+
       submenu {
         label: _("Set Columns");
 
-        item { 
+        item {
           label: _("1 Column");
         }
 
-        item { 
+        item {
           label: _("2 Columns");
         }
 
-        item { 
+        item {
           label: _("3 Columns");
         }
 
-        item { 
+        item {
           label: _("4 Columns");
         }
 
-        item { 
+        item {
           label: _("5 Columns");
         }
 
-        item { 
+        item {
           label: _("6 Columns");
         }
 
-        item { 
+        item {
           label: _("7 Columns");
         }
 
-        item { 
+        item {
           label: _("8 Columns");
         }
-
       }
+
       submenu {
         label: _("Set Rows");
 
@@ -326,8 +367,46 @@ menu document_properties_menu {
         item {
           label: _("8 Rows");
         }
-
       }
+    }
+  }
+}
+
+menu tools_button_menu {
+  section {
+    item {
+      label: _("Toggle Drawing Tools");
+    }
+    item {
+      label: _("Toggle Text/TeX Tools");
+    }
+    item {
+      label: _("Toggle Selection/Insertion Tools");
+    }
+    item {
+      label: _("Toggle Page/Layer Tools");
+    }
+    item {
+      label: _("Toggle Background Tools");
+    }
+    item {
+      label: _("Toggle Audio Recording Tools");
+    }
+    item {
+      label: _("Toggle Geometry Tools");
+    }
+  }
+  section {
+    item {
+      label: _("Show Tools Sidebar");
+    }
+    item {
+      label: _("Hide Tools Sidebar");
+    }
+  }
+  section {
+    item {
+      label: _("Toggle all Tools");
     }
   }
 }
@@ -378,22 +457,22 @@ menu primary_button_menu {
 }
 
 Box zoom_box {
-    orientation: horizontal;
-    spacing: 6;
+  orientation: horizontal;
+  spacing: 6;
 
-    Entry zoom_entry {
-      hexpand: false;
-      width-chars: 5;
-      max-width-chars: 5;
-      placeholder-text: "100%";
-      text: "100%";
-      input-purpose: digits;
-      primary-icon-name: "zoom-out-symbolic";
-      secondary-icon-name: "zoom-in-symbolic";
-      icon-press => $on_entry_icon_press();
-    }
+  Entry zoom_entry {
+    hexpand: false;
+    width-chars: 5;
+    max-width-chars: 5;
+    placeholder-text: "100%";
+    text: "100%";
+    input-purpose: digits;
+    primary-icon-name: "zoom-out-symbolic";
+    secondary-icon-name: "zoom-in-symbolic";
+    icon-press => $on_entry_icon_press();
+  }
 
-    Button {
-      icon-name: "zoom-fit-width-symbolic";
-    }
+  Button {
+    icon-name: "zoom-fit-width-symbolic";
+  }
 }
