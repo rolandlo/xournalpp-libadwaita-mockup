@@ -1,0 +1,45 @@
+using Gtk 4.0;
+using Adw 1;
+
+Adw.Window plugin_manager {
+    title: _("Plugin Manager");
+  Adw.ToolbarView {
+    [top]
+    Adw.HeaderBar {}
+
+    ScrolledWindow {
+        margin-bottom: 24;
+        margin-top: 24;
+        width-request: 600;
+        has-frame: true;
+        propagate-natural-height: true;
+        max-content-height: 1000;
+  
+    ListBox {
+      styles [
+        "boxed-list"
+      ]
+
+      $PluginEntry {
+        title: "Quick Screenshot";
+        description: "Capture a region of the screen and save to PNG, or other";
+        author: "Debbie Reynolds";
+        path: "/usr/share/xournalpp/plugins/QuickScreenshot";
+        version: "1.2.2";
+        enabled: true;
+        default_enabled: false;
+      }
+
+      $PluginEntry {
+        title: "Example Plugin";
+        description: "This is a minimal example plugin, for reference";
+        author: "Andreas Butti";
+        path: "/usr/share/xournalpp/plugins/Example";
+        version: "1.2.1";
+        enabled: false;
+        default_enabled: false;
+      }
+    }
+    }
+  }
+}

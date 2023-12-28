@@ -81,3 +81,4 @@ def add_actions(app):
         app, "paperformat", lambda *_: app.paperFormatDialog.present(), app_group
     )
     add_action(app, "export", lambda *_: app.exportDialog.present(), app_group)
+    add_action(app, "plugin-manager", lambda *_: app.pluginManager.present(), app_group)

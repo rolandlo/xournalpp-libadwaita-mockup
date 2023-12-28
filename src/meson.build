@@ -10,6 +10,8 @@ blueprints = custom_target('blueprints',
     'ui/paperformat.blp',
     'ui/preferences.blp',
     'ui/marker.blp',
+    'ui/pluginmanager.blp',
+    'ui/pluginentry.blp',
     'gtk/help-overlay.blp',
   ),
   output: '.',
@@ -48,6 +50,7 @@ xournalpp_demo_sources = [
   'marker.py',
   'window.py',
   'marker_config.py',
+  'pluginentry.py',
 ]
 
 install_data(xournalpp_demo_sources, install_dir: moduledir)

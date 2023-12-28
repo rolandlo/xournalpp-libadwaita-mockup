@@ -1,0 +1,52 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $PluginEntry: ListBox {
+  width-request: 400;
+  selection-mode: none;
+
+  styles [
+    "rich-list"
+  ]
+
+  Label lbl_title {
+    styles [
+      "heading"
+    ]
+  }
+
+  Adw.ActionRow {
+    title: _("Description:");
+
+    Label lbl_description {
+      wrap: true;
+    }
+  }
+
+  Adw.ActionRow {
+    title: "Author:";
+
+    Label lbl_author {
+    }
+  }
+
+  Adw.ActionRow {
+    title: _("Path:");
+
+    Label lbl_path {
+      use-markup: true;
+      wrap: true;
+    }
+  }
+
+  Adw.ActionRow {
+    title: _("Version:");
+
+    Label lbl_version{
+    }
+  }
+
+  Adw.SwitchRow sw_enabled {
+    title: "Enabled (default = disabled)";
+  }
+}
