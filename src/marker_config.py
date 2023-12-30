@@ -61,4 +61,4 @@ class Marker_Config:
     ]
 
     default_rgba = Gdk.RGBA()
-    default_rgba.parse("red")
+    default_rgba.parse("black")

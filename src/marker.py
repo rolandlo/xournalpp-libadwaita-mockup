@@ -41,8 +41,8 @@ class Marker(Gtk.Grid):
     drawingtype = GObject.Property(type=str, default="rect")
     rgba = GObject.Property(type=Gdk.RGBA, default=cfg.default_rgba)  # without alpha
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.bind_property(
             "fill", self.sw_filled, "active", GObject.BindingFlags.SYNC_CREATE
         )
@@ -65,10 +65,10 @@ class Marker(Gtk.Grid):
             lambda _, icon: self.linestyle_name_from_icon[icon],
         )
         self.bind_property(
-            "opacity", self.ad_opacity, "value", GObject.BindingFlags.BIDIRECTIONAL
+            "opacity", self.ad_opacity, "value", GObject.BindingFlags.SYNC_CREATE
         )
         self.bind_property(
-            "thickness", self.ad_thickness, "value", GObject.BindingFlags.BIDIRECTIONAL
+            "thickness", self.ad_thickness, "value", GObject.BindingFlags.SYNC_CREATE
         )
 
         # Add scale marks
@@ -114,6 +114,7 @@ class Marker(Gtk.Grid):
 
         self.connect("notify::rgba", self.on_color_changed)
         self.connect("notify::opacity", self.on_color_changed)
+        self.on_color_changed(None, None)
 
     @Gtk.Template.Callback()
     def on_button_clicked(self, splitbutton):
