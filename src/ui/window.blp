@@ -4,8 +4,8 @@ using Adw 1;
 template $MainWindow: Adw.ApplicationWindow {
   width-request: 500;
   height-request: 700;
-  default-width: 1000;
-  default-height: 1100;
+  default-width: 1500;
+  default-height: 1200;
   title: _("Unsaved - Xournal++");
 
   Adw.Breakpoint {
@@ -40,6 +40,9 @@ template $MainWindow: Adw.ApplicationWindow {
         }
         Button {
           icon-name: "edit-redo-symbolic";
+        }
+        Button {
+          icon-name: "edit-find-symbolic";
         }
       }
 
@@ -115,6 +118,7 @@ template $MainWindow: Adw.ApplicationWindow {
         }
 
         Stack stack {
+          margin-top: 6;
           StackPage page_preview {
             title: _("Preview");
             name: "page_preview";
@@ -193,15 +197,6 @@ template $MainWindow: Adw.ApplicationWindow {
           orientation: vertical;
           hexpand: true;
           vexpand: true;
-  
-          $Marker mk {
-            fill: true;
-            thickness: 3.5;
-            opacity: 70;
-            linestyle: "dot";
-            drawingtype: "spline";
-            rgba: "red";
-          }
 
           DrawingArea drawing_area {
             hexpand: true;
@@ -232,8 +227,45 @@ template $MainWindow: Adw.ApplicationWindow {
             }
           }
         };
-        sidebar: Adw.StatusPage {
-          title: _("Tools");
+        sidebar: 
+        ScrolledWindow {
+        propagate-natural-height: true;
+
+        Box tool_box {
+          orientation: vertical;
+          spacing: 6;
+          margin-start: 6;
+          margin-end: 6;
+          margin-bottom: 6;
+          margin-top: 6;
+          $ToolBox drawing_tools {
+            title: _("Drawing");
+          }
+          $ToolBox color_tools {
+            title: _("Colors");
+          }
+          $ToolBox text_tools {
+            title: _("Text/TeX");
+          }
+          $ToolBox selection_insertion_tools {
+            title: _("Selection/Insertion");
+          }
+          $ToolBox page_layer_tools {
+            title: _("Page/Layer");
+          }
+          $ToolBox background_tools {
+            title: _("Background");
+          }
+          $ToolBox audio_recording_tools {
+            title: _("Audio Recording");
+          }
+          $ToolBox geometry_tools {
+            title: _("Geometry Tools");
+          }
+          $ToolBox custom_tools {
+            title: _("Custom Tools");
+          }
+        }
         };
       };
     };
@@ -378,6 +410,9 @@ menu tools_button_menu {
       label: _("Toggle Drawing Tools");
     }
     item {
+      label: _("Toggle Color Palette");
+    }
+    item {
       label: _("Toggle Text/TeX Tools");
     }
     item {
@@ -422,11 +457,6 @@ menu plugins_button_menu {
 
 menu primary_button_menu {
   section {
-    item {
-      label: _("LaTeX");
-      action: "app.latexeditor";
-    }
-
     item {
       label: _("Export");
       action: "app.export";

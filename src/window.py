@@ -26,6 +26,10 @@ gi.require_version("Gdk", "4.0")
 from gi.repository import Adw, Gtk, Gdk, Poppler
 from .marker import Marker
 from .util import get_resource_path, get_files_uri
+from .toolbox import ToolBox
+from .palettecolor import PaletteColor
+from .marker_config import Marker_Config
+
 from math import pi
 from itertools import pairwise
 
@@ -40,6 +44,15 @@ class MainWindow(Adw.ApplicationWindow):
     document_properties_popover = Gtk.Template.Child()
     zoom_box = Gtk.Template.Child()
     zoom_entry = Gtk.Template.Child()
+    drawing_tools = Gtk.Template.Child()
+    color_tools = Gtk.Template.Child()
+    text_tools = Gtk.Template.Child()
+    selection_insertion_tools = Gtk.Template.Child()
+    page_layer_tools = Gtk.Template.Child()
+    background_tools = Gtk.Template.Child()
+    audio_recording_tools = Gtk.Template.Child()
+    geometry_tools = Gtk.Template.Child()
+    custom_tools = Gtk.Template.Child()
 
     DOT_RADIUS = 5
     CROSS_SIZE = 4
@@ -51,12 +64,129 @@ class MainWindow(Adw.ApplicationWindow):
         super().__init__(**kwargs)
         self.document_properties_popover.add_child(self.zoom_box, "zoom_widgets")
 
-        self.marker = Marker()
-        self.content_box.prepend(self.marker)
-
         self.drawing_area.set_draw_func(self.draw)
         self.document = Poppler.Document.new_from_file(get_files_uri("sample.pdf"))
         self.page = self.document.get_page(0)
+
+        drawing_tool_icons = [
+            "tool-pencil",
+            "tool-highlighter",
+            "tool-eraser",
+            "line-style-plain-with-pen",
+            "line-style-dot-with-pen",
+            "line-style-dash-with-pen",
+            "line-style-dash-dot-with-pen",
+            "thickness-finer",
+            "thickness-fine",
+            "thickness-medium",
+            "thickness-thick",
+            "thickness-thicker",
+            "fill",
+            "fill-opacity",
+            "draw-rect",
+            "draw-ellipse",
+            "draw-arrow",
+            "draw-double-arrow",
+            "draw-line",
+            "draw-coordinate-system",
+            "draw-spline",
+            "shape-recognizer",
+            "snapping-grid",
+            "snapping-rotation",
+        ]
+        self.drawing_tools.init_widgets(
+            [Gtk.Button(icon_name=f"xopp-{icon}") for icon in drawing_tool_icons]
+        )
+
+        color_tools = []
+        col = Gdk.RGBA()
+        for palette_color in Marker_Config.palette:
+            col.parse(palette_color["color"])
+            color_tools.append(PaletteColor(rgba=col))
+        col.parse("orange")
+        color_tools.append(Gtk.ColorButton(rgba=col))
+
+        self.color_tools.init_widgets(color_tools)
+
+        self.text_tools.init_widgets(
+            [
+                Gtk.Button(icon_name="xopp-tool-text"),
+                Gtk.FontButton(),
+                Gtk.Button(
+                    icon_name="xopp-tool-math-tex", action_name="app.latexeditor"
+                ),
+            ]
+        )
+
+        selection_insertion_icons = [
+            "select-rect",
+            "select-lasso",
+            "object-select",
+            "spacer",
+            "tool-image",
+            "edit-copy",
+            "edit-cut",
+            "edit-paste",
+        ]
+        self.selection_insertion_tools.init_widgets(
+            [Gtk.Button(icon_name=f"xopp-{icon}") for icon in selection_insertion_icons]
+        )
+
+        page_tool_icons = [
+            "xopp-page-add",
+            "xopp-page-delete",
+            "go-previous-symbolic",
+            "go-next-symbolic",
+            "go-first-symbolic",
+            "go-last-symbolic",
+            "xopp-page-annotated-next",
+        ]
+        self.page_layer_tools.init_widgets(
+            [Gtk.Button(icon_name=icon) for icon in page_tool_icons]
+        )
+
+        background_tool_icons = [
+            "select-pdf-text-ht",
+            "select-pdf-text-area",
+            "hand",
+            "append-pdf-pages",
+        ]
+        self.background_tools.init_widgets(
+            [Gtk.Button(icon_name=f"xopp-{icon}") for icon in background_tool_icons]
+        )
+
+        audio_recording_icons = [
+            "audio-record",
+            "audio-seek-backwards",
+            "audio-playback-pause",
+            "audio-seek-forwards",
+            "audio-playback-stop",
+        ]
+        self.audio_recording_tools.init_widgets(
+            [Gtk.Button(icon_name=f"xopp-{icon}") for icon in audio_recording_icons]
+        )
+        self.geometry_tools.init_widgets(
+            [
+                Gtk.Button(icon_name="xopp-setsquare"),
+                Gtk.Button(icon_name="xopp-compass"),
+            ]
+        )
+
+        splinecol = Gdk.RGBA()
+        splinecol.parse("violet")
+        self.custom_tools.init_widgets(
+            [
+                Marker(),
+                Marker(
+                    fill=True,
+                    drawingtype="spline",
+                    thickness=3.0,
+                    opacity=80,
+                    linestyle="dash",
+                    rgba=splinecol,
+                ),
+            ]
+        )
 
         self.dots = []
         self.crosses = []

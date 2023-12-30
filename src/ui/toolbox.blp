@@ -1,0 +1,54 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $ToolBox: Box {
+  Adw.Clamp {
+    maximum-size: 300;
+
+    [child]
+    Frame {
+      Box {
+        orientation: vertical;
+        spacing: 6;
+        margin-start: 6;
+        margin-end: 6;
+        margin-top: 6;
+        margin-bottom: 6;
+
+        CenterBox {
+          [start]
+          Label lbl_title {
+            styles [
+              "heading"
+            ]
+          }
+
+          [end]
+          Box {
+            spacing: 6;
+            Button {
+              icon-name: "document-properties-symbolic";
+
+              styles [
+                "circular"
+              ]
+            }
+
+            Button {
+              icon-name: "window-close-symbolic";
+
+              styles [
+                "circular"
+              ]
+            }
+          }
+        }
+
+        FlowBox widget_box {
+          column-spacing: 6;
+          row-spacing: 6;
+        }
+      }
+    }
+  }
+}
