@@ -29,6 +29,7 @@ from .util import get_resource_path, get_files_uri
 from .toolbox import ToolBox
 from .palettecolor import PaletteColor
 from .marker_config import Marker_Config
+from .tools_config import Tools_Config
 
 from math import pi
 from itertools import pairwise
@@ -67,108 +68,77 @@ class MainWindow(Adw.ApplicationWindow):
         self.drawing_area.set_draw_func(self.draw)
         self.document = Poppler.Document.new_from_file(get_files_uri("sample.pdf"))
         self.page = self.document.get_page(0)
-
-        drawing_tool_icons = [
-            "tool-pencil",
-            "tool-highlighter",
-            "tool-eraser",
-            "line-style-plain-with-pen",
-            "line-style-dot-with-pen",
-            "line-style-dash-with-pen",
-            "line-style-dash-dot-with-pen",
-            "thickness-finer",
-            "thickness-fine",
-            "thickness-medium",
-            "thickness-thick",
-            "thickness-thicker",
-            "fill",
-            "fill-opacity",
-            "draw-rect",
-            "draw-ellipse",
-            "draw-arrow",
-            "draw-double-arrow",
-            "draw-line",
-            "draw-coordinate-system",
-            "draw-spline",
-            "shape-recognizer",
-            "snapping-grid",
-            "snapping-rotation",
-        ]
+        tools_config = Tools_Config()
         self.drawing_tools.init_widgets(
-            [Gtk.Button(icon_name=f"xopp-{icon}") for icon in drawing_tool_icons]
+            [
+                Gtk.Button(
+                    icon_name=f"xopp-{tool['icon']}", tooltip_text=tool["tooltip"]
+                )
+                for tool in tools_config.drawing_tool_list
+            ]
         )
 
         color_tools = []
         col = Gdk.RGBA()
         for palette_color in Marker_Config.palette:
             col.parse(palette_color["color"])
-            color_tools.append(PaletteColor(rgba=col))
+            color_tools.append(
+                PaletteColor(rgba=col, tooltip_text=palette_color["name"])
+            )
         col.parse("orange")
-        color_tools.append(Gtk.ColorButton(rgba=col))
+        color_tools.append(Gtk.ColorButton(rgba=col, tooltip_text="Choose Color"))
 
         self.color_tools.init_widgets(color_tools)
 
         self.text_tools.init_widgets(
             [
-                Gtk.Button(icon_name="xopp-tool-text"),
-                Gtk.FontButton(),
+                Gtk.Button(icon_name="xopp-tool-text", tooltip_text="Text"),
+                Gtk.FontButton(tooltip_text="Font"),
                 Gtk.Button(
-                    icon_name="xopp-tool-math-tex", action_name="app.latexeditor"
+                    icon_name="xopp-tool-math-tex",
+                    tooltip_text="Insert/Edit LaTeX",
+                    action_name="app.latexeditor",
                 ),
             ]
         )
 
-        selection_insertion_icons = [
-            "select-rect",
-            "select-lasso",
-            "object-select",
-            "spacer",
-            "tool-image",
-            "edit-copy",
-            "edit-cut",
-            "edit-paste",
-        ]
         self.selection_insertion_tools.init_widgets(
-            [Gtk.Button(icon_name=f"xopp-{icon}") for icon in selection_insertion_icons]
+            [
+                Gtk.Button(
+                    icon_name=f"xopp-{tool['icon']}", tooltip_text=tool["tooltip"]
+                )
+                for tool in tools_config.selection_insertion_list
+            ]
         )
 
-        page_tool_icons = [
-            "xopp-page-add",
-            "xopp-page-delete",
-            "go-previous-symbolic",
-            "go-next-symbolic",
-            "go-first-symbolic",
-            "go-last-symbolic",
-            "xopp-page-annotated-next",
-        ]
         self.page_layer_tools.init_widgets(
-            [Gtk.Button(icon_name=icon) for icon in page_tool_icons]
+            [
+                Gtk.Button(icon_name=tool["icon"], tooltip_text=tool["tooltip"])
+                for tool in tools_config.page_tool_list
+            ]
         )
 
-        background_tool_icons = [
-            "select-pdf-text-ht",
-            "select-pdf-text-area",
-            "hand",
-            "append-pdf-pages",
-        ]
         self.background_tools.init_widgets(
-            [Gtk.Button(icon_name=f"xopp-{icon}") for icon in background_tool_icons]
+            [
+                Gtk.Button(
+                    icon_name=f"xopp-{tool['icon']}", tooltip_text=tool["tooltip"]
+                )
+                for tool in tools_config.background_tool_list
+            ]
         )
 
-        audio_recording_icons = [
-            "audio-record",
-            "audio-seek-backwards",
-            "audio-playback-pause",
-            "audio-seek-forwards",
-            "audio-playback-stop",
-        ]
         self.audio_recording_tools.init_widgets(
-            [Gtk.Button(icon_name=f"xopp-{icon}") for icon in audio_recording_icons]
+            [
+                Gtk.Button(
+                    icon_name=f"xopp-{tool['icon']}", tooltip_text=tool["tooltip"]
+                )
+                for tool in tools_config.audio_recording_list
+            ]
         )
         self.geometry_tools.init_widgets(
             [
-                Gtk.Button(icon_name="xopp-setsquare"),
-                Gtk.Button(icon_name="xopp-compass"),
+                Gtk.Button(icon_name="xopp-setsquare", tooltip_text="Setsquare"),
+                Gtk.Button(icon_name="xopp-compass", tooltip_text="Compass"),
             ]
         )
 

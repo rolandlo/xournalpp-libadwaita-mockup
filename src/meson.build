@@ -55,6 +55,7 @@ xournalpp_demo_sources = [
   'pluginentry.py',
   'toolbox.py',
   'palettecolor.py',
+  'tools_config.py',
 ]
 
 install_data(xournalpp_demo_sources, install_dir: moduledir)
