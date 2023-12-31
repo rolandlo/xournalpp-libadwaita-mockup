@@ -3,7 +3,7 @@ from util import get_resource_path
 
 gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
-from gi.repository import Gtk, Gio, Gdk, Adw
+from gi.repository import Gtk, Gio, Gdk, Adw, GLib
 
 
 def openAboutWindow(app):
@@ -43,8 +43,28 @@ def openAboutWindow(app):
     dialog.present()
 
 
+def toggle_group(group):
+    if group.get_visible():
+        group.hide()
+    else:
+        group.show()
+
+
+def toggle_all_tools(win):
+    win.content_split_view.set_show_sidebar(True)
+    win.drawing_tools.show()
+    win.color_tools.show()
+    win.text_tools.show()
+    win.selection_insertion_tools.show()
+    win.page_layer_tools.show()
+    win.background_tools.show()
+    win.audio_recording_tools.show()
+    win.geometry_tools.show()
+    win.custom_tools.show()
+
+
 def add_action(app, name, callback, group, shortcuts=None):
-    action = Gio.SimpleAction.new(name, None)
+    action = Gio.SimpleAction(name=name)
     action.connect("activate", callback)
     app.add_action(action)
     group.add_action(action)
@@ -88,3 +108,64 @@ def add_actions(app):
     )
     add_action(app, "export", lambda *_: app.exportDialog.present(), app_group)
     add_action(app, "plugin-manager", lambda *_: app.pluginManager.present(), app_group)
+    add_action(
+        app,
+        "toggle-drawing-tools",
+        lambda *_: toggle_group(win.drawing_tools),
+        app_group,
+    )
+    add_action(
+        app,
+        "toggle-colors",
+        lambda *_: toggle_group(win.color_tools),
+        app_group,
+    )
+    add_action(
+        app,
+        "toggle-text-tools",
+        lambda *_: toggle_group(win.text_tools),
+        app_group,
+    )
+    add_action(
+        app,
+        "toggle-selection-tools",
+        lambda *_: toggle_group(win.selection_insertion_tools),
+        app_group,
+    )
+    add_action(
+        app,
+        "toggle-page-layer-tools",
+        lambda *_: toggle_group(win.page_layer_tools),
+        app_group,
+    )
+    add_action(
+        app,
+        "toggle-background-tools",
+        lambda *_: toggle_group(win.background_tools),
+        app_group,
+    )
+    add_action(
+        app,
+        "toggle-audio-tools",
+        lambda *_: toggle_group(win.audio_recording_tools),
+        app_group,
+    )
+    add_action(
+        app,
+        "toggle-geometry-tools",
+        lambda *_: toggle_group(win.geometry_tools),
+        app_group,
+    )
+    add_action(
+        app,
+        "show-tools-sidebar",
+        lambda *_: win.content_split_view.set_show_sidebar(True),
+        app_group,
+    )
+    add_action(
+        app,
+        "hide-tools-sidebar",
+        lambda *_: win.content_split_view.set_show_sidebar(False),
+        app_group,
+    )
+    add_action(app, "toggle-all-tools", lambda *_: toggle_all_tools(win), app_group)

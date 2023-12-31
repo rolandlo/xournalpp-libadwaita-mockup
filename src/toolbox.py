@@ -21,6 +21,10 @@ class ToolBox(Gtk.Box):
             "title", self.lbl_title, "label", GObject.BindingFlags.SYNC_CREATE
         )
 
+    @Gtk.Template.Callback()
+    def on_close_button_clicked(self, button):
+        self.hide()
+
     def init_widgets(self, widget_list):
         for widget in widget_list:
             self.append_widget(widget)

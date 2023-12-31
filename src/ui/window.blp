@@ -191,7 +191,7 @@ template $MainWindow: Adw.ApplicationWindow {
         }
       };
 
-      content: Adw.OverlaySplitView {
+      content: Adw.OverlaySplitView content_split_view {
         sidebar-position: end;
         content: Box content_box {
           orientation: vertical;
@@ -413,40 +413,51 @@ menu tools_button_menu {
   section {
     item {
       label: _("Toggle Drawing Tools");
+      action: "app.toggle-drawing-tools";
     }
     item {
       label: _("Toggle Color Palette");
+      action: "app.toggle-colors";
     }
     item {
       label: _("Toggle Text/TeX Tools");
+      action: "app.toggle-text-tools";
     }
     item {
       label: _("Toggle Selection/Insertion Tools");
+      action: "app.toggle-selection-tools";
     }
     item {
       label: _("Toggle Page/Layer Tools");
+      action: "app.toggle-page-layer-tools";
     }
     item {
       label: _("Toggle Background Tools");
+      action: "app.toggle-background-tools";
     }
     item {
       label: _("Toggle Audio Recording Tools");
+      action: "app.toggle-audio-tools";
     }
     item {
       label: _("Toggle Geometry Tools");
+      action: "app.toggle-geometry-tools";
     }
   }
   section {
     item {
       label: _("Show Tools Sidebar");
+      action: "app.show-tools-sidebar";
     }
     item {
       label: _("Hide Tools Sidebar");
+      action: "app.hide-tools-sidebar";
     }
   }
   section {
     item {
-      label: _("Toggle all Tools");
+      label: _("Show all Tools");
+      action: "app.toggle-all-tools";
     }
   }
 }
@@ -472,10 +483,18 @@ menu primary_button_menu {
       label: _("Recent Documents");
       section {
         item {
+          label: _("Test.xopp");
+        }
+        item {
+          label: _("Paper.xopp");
+        }
+      }
+      section {
+        item {
           label: _("Sample.pdf");
         }
         item {
-          label: _("Test.xopp");
+          label: _("Another.pdf");
         }
       }
       section {

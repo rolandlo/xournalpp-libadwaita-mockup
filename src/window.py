@@ -45,6 +45,7 @@ class MainWindow(Adw.ApplicationWindow):
     document_properties_popover = Gtk.Template.Child()
     zoom_box = Gtk.Template.Child()
     zoom_entry = Gtk.Template.Child()
+    content_split_view = Gtk.Template.Child()
     drawing_tools = Gtk.Template.Child()
     color_tools = Gtk.Template.Child()
     text_tools = Gtk.Template.Child()
