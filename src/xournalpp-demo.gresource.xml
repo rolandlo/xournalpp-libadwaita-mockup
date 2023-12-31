@@ -5,6 +5,7 @@
     <file preprocess="xml-stripblanks">ui/latexeditor.ui</file>
     <file preprocess="xml-stripblanks">ui/window.ui</file>
     <file preprocess="xml-stripblanks">ui/pagetemplate.ui</file>
+    <file preprocess="xml-stripblanks">ui/papercolor.ui</file>
     <file preprocess="xml-stripblanks">ui/paperformat.ui</file>
     <file preprocess="xml-stripblanks">ui/preferences.ui</file>
     <file preprocess="xml-stripblanks">ui/marker.ui</file>

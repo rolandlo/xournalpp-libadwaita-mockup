@@ -78,6 +78,12 @@ def add_actions(app):
         app, "pagetemplate", lambda *_: app.pageTemplateDialog.present(), app_group
     )
     add_action(
+        app,
+        "papercolor",
+        lambda *_: app.paperColorDialog.choose_rgba(win, Gdk.RGBA(), None, None, None),
+        app_group,
+    )
+    add_action(
         app, "paperformat", lambda *_: app.paperFormatDialog.present(), app_group
     )
     add_action(app, "export", lambda *_: app.exportDialog.present(), app_group)

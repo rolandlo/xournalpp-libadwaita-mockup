@@ -41,6 +41,8 @@ class MyApp(Adw.Application):
         self.builder.add_from_resource(get_resource_path("ui/pagetemplate.ui"))
         self.pageTemplateDialog = self.builder.get_object("pageTemplateDialog")
         self.pageTemplateDialog.set_hide_on_close(True)
+        self.builder.add_from_resource(get_resource_path("ui/papercolor.ui"))
+        self.paperColorDialog = self.builder.get_object("paperColorDialog")
         self.builder.add_from_resource(get_resource_path("ui/paperformat.ui"))
         self.paperFormatDialog = self.builder.get_object("paperFormatDialog")
         self.paperFormatDialog.set_hide_on_close(True)
