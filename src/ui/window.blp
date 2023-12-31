@@ -102,12 +102,12 @@ template $MainWindow: Adw.ApplicationWindow {
           margin-bottom: 6;
 
           Button button_preview {
-            icon-name: "xopp-sidebar-layer";
+            icon-name: "xapp-prefs-preview-symbolic";
             clicked => $on_button_preview_clicked();
           }
 
           Button button_workspace {
-            icon-name: "xopp-sidebar-layerstack";
+            icon-name: "folder-documents-symbolic";
             clicked => $on_button_workspace_clicked();
           }
 
@@ -463,8 +463,54 @@ menu plugins_button_menu {
 menu primary_button_menu {
   section {
     item {
-      label: _("Export");
+      label: _("New");
+    }
+    item {
+      label: _("Open");
+    }
+    submenu {
+      label: _("Recent Documents");
+      section {
+        item {
+          label: _("Sample.pdf");
+        }
+        item {
+          label: _("Test.xopp");
+        }
+      }
+      section {
+        item {
+          label: _("Clear List");
+        }
+      }
+    }
+    item {
+      label: _("Annotate PDF");
+    }
+  }
+
+  section {
+    item {
+      label: _("Save");
+    }
+    item {
+      label: _("Save As");
+    }
+  }
+
+  section {
+    item {
+      label: _("Quick PDF Export");
+    }
+    item {
+      label: _("Export as..");
       action: "app.export";
+    }
+  }
+
+  section {
+    item {
+      label: _("Print");
     }
   }
 
