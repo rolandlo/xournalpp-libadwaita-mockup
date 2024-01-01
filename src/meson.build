@@ -50,6 +50,7 @@ xournalpp_demo_sources = [
   'scope.py',
   'uisymbols.py',
   'marker.py',
+  'export.py',
   'window.py',
   'marker_config.py',
   'pluginentry.py',

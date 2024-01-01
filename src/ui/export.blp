@@ -1,8 +1,10 @@
 using Gtk 4.0;
 using Adw 1;
 
-Adw.Window exportDialog {
+template $ExportDialog: Adw.Window {
   title: _("Export");
+  default-width: 450;
+  default-height: 750;
 
   Adw.ToolbarView {
     [top]
@@ -12,7 +14,33 @@ Adw.Window exportDialog {
       title: _("Document Export Settings");
 
       Adw.PreferencesGroup {
-        visible: false;
+        title: _("Export File");
+        Adw.ComboRow format {
+          title: _("Format");
+
+          model: StringList {
+            strings ["pdf", "svg", "png"]
+          };
+        }
+        
+        Adw.ActionRow {
+          title: _("File Name");
+          subtitle: _("Set the file path.");
+
+          [suffix]
+          Button btn_export_file {
+            clicked => $selectExportFile();
+
+            Adw.ButtonContent {
+              label: _("filename");
+              icon-name: "folder-documents-symbolic";
+            }
+          }
+        }
+      }
+
+      Adw.PreferencesGroup {
+        visible: bind $image_quality_visible(format.selected-item) as <bool>;
         title: _("Image Quality");
 
         Adw.ComboRow {

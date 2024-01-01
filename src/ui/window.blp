@@ -5,7 +5,7 @@ template $MainWindow: Adw.ApplicationWindow {
   width-request: 500;
   height-request: 700;
   default-width: 1500;
-  default-height: 1200;
+  default-height: 1150;
   title: _("Unsaved - Xournal++");
 
   Adw.Breakpoint {
@@ -554,19 +554,22 @@ menu primary_button_menu {
   section {
     item {
       label: _("Save");
+      action: "app.save";
     }
     item {
       label: _("Save As");
+      action: "app.save-as";
     }
   }
 
   section {
     item {
       label: _("Quick PDF Export");
+      action: "app.export";
     }
     item {
-      label: _("Export as..");
-      action: "app.export";
+      label: _("Export as ..");
+      action: "app.export-as";
     }
   }
 

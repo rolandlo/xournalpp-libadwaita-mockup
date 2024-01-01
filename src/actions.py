@@ -106,7 +106,7 @@ def add_actions(app):
     add_action(
         app, "paperformat", lambda *_: app.paperFormatDialog.present(), app_group
     )
-    add_action(app, "export", lambda *_: app.exportDialog.present(), app_group)
+    add_action(app, "export-as", lambda *_: app.exportDialog.present(), app_group)
     add_action(app, "plugin-manager", lambda *_: app.pluginManager.present(), app_group)
     add_action(
         app,
@@ -169,3 +169,6 @@ def add_actions(app):
         app_group,
     )
     add_action(app, "toggle-all-tools", lambda *_: toggle_all_tools(win), app_group)
+    add_action(app, "export", lambda *_: Gtk.FileDialog().save(), app_group)
+    add_action(app, "save", lambda *_: Gtk.FileDialog().save(), app_group)
+    add_action(app, "save-as", lambda *_: Gtk.FileDialog().save(), app_group)

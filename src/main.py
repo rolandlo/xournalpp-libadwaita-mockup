@@ -13,6 +13,7 @@ from .scope import define_builder_scope
 from .actions import add_actions
 from .pluginentry import PluginEntry
 from .pluginmanager import PluginManager
+from .export import ExportDialog
 
 
 class MyApp(Adw.Application):
@@ -47,8 +48,7 @@ class MyApp(Adw.Application):
         self.builder.add_from_resource(get_resource_path("ui/paperformat.ui"))
         self.paperFormatDialog = self.builder.get_object("paperFormatDialog")
         self.paperFormatDialog.set_hide_on_close(True)
-        self.builder.add_from_resource(get_resource_path("ui/export.ui"))
-        self.exportDialog = self.builder.get_object("exportDialog")
+        self.exportDialog = ExportDialog()
         self.exportDialog.set_hide_on_close(True)
         self.pluginManager = PluginManager()
         self.pluginManager.set_hide_on_close(True)
