@@ -43,6 +43,7 @@ template $MainWindow: Adw.ApplicationWindow {
         }
         Button {
           icon-name: "edit-find-symbolic";
+          clicked => $on_search_button_clicked();
         }
       }
 
@@ -197,6 +198,32 @@ template $MainWindow: Adw.ApplicationWindow {
           orientation: vertical;
           hexpand: true;
           vexpand: true;
+          
+          Box search_box {
+            margin-top: 6;
+            margin-bottom: 6;
+            margin-start: 6;
+            margin-end: 6;
+            visible: bind searchbar.search-mode-enabled;
+            SearchBar searchbar {
+              key-capture-widget: search_box;
+              search-mode-enabled: false;
+              show-close-button: true;
+            }
+            SearchEntry searchentry {
+              search-delay: 100;
+              placeholder-text: _("Search for Text in PDF");
+              width-request: 200;
+            }
+              Box {
+                Button {
+                  icon-name: "go-previous-symbolic";
+                }
+                Button {
+                  icon-name: "go-next-symbolic";
+                }
+              }
+          }
 
           DrawingArea drawing_area {
             hexpand: true;

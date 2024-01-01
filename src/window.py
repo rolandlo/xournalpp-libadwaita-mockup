@@ -46,6 +46,8 @@ class MainWindow(Adw.ApplicationWindow):
     zoom_box = Gtk.Template.Child()
     zoom_entry = Gtk.Template.Child()
     content_split_view = Gtk.Template.Child()
+    search_box = Gtk.Template.Child()
+    searchbar = Gtk.Template.Child()
     drawing_tools = Gtk.Template.Child()
     color_tools = Gtk.Template.Child()
     text_tools = Gtk.Template.Child()
@@ -310,3 +312,7 @@ class MainWindow(Adw.ApplicationWindow):
             self.zoom *= 1.1
 
         self.zoom_entry.set_text(f"{int(self.zoom*100)}%")
+
+    @Gtk.Template.Callback()
+    def on_search_button_clicked(self, button):
+        self.searchbar.set_search_mode(not self.searchbar.get_search_mode())
