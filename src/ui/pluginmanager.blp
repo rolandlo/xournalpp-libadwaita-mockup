@@ -1,45 +1,81 @@
 using Gtk 4.0;
 using Adw 1;
 
-Adw.Window plugin_manager {
-    title: _("Plugin Manager");
+template $PluginManager: Adw.Window {
+  title: _("Plugin Manager");
+
   Adw.ToolbarView {
     [top]
-    Adw.HeaderBar {}
+    Adw.HeaderBar {
+      ToggleButton button_search {
+        icon-name: "edit-find-symbolic";
+        clicked => $on_plugin_search_button_clicked();
+      }
+    }
 
-    ScrolledWindow {
-        margin-bottom: 24;
-        margin-top: 24;
+    Box {
+      orientation: vertical;
+
+      Box container {
+        visible: bind plugin_searchbar.search-mode-enabled;
+
+        SearchBar plugin_searchbar {
+          key-capture-widget: container;
+          search-mode-enabled: true;
+
+          SearchEntry plugin_searchentry {
+            search-delay: 100;
+            placeholder-text: _("Search for Plugin Titles");
+            width-request: 200;
+            search-changed => $on_searchentry_search_changed();
+          }
+        }
+      }
+
+      ScrolledWindow {
+        margin-bottom: 12;
+        margin-top: 12;
         width-request: 600;
         has-frame: true;
         propagate-natural-height: true;
         max-content-height: 1000;
-  
-    ListBox {
-      styles [
-        "boxed-list"
-      ]
 
-      $PluginEntry {
-        title: "Quick Screenshot";
-        description: "Capture a region of the screen and save to PNG, or other";
-        author: "Debbie Reynolds";
-        path: "/usr/share/xournalpp/plugins/QuickScreenshot";
-        version: "1.2.2";
-        enabled: true;
-        default_enabled: false;
-      }
+        ListBox plugin_listbox {
+          styles [
+            "boxed-list"
+          ]
 
-      $PluginEntry {
-        title: "Example Plugin";
-        description: "This is a minimal example plugin, for reference";
-        author: "Andreas Butti";
-        path: "/usr/share/xournalpp/plugins/Example";
-        version: "1.2.1";
-        enabled: false;
-        default_enabled: false;
+          $PluginEntry {
+            title: "Quick Screenshot";
+            description: "Capture a region of the screen and save to PNG, or other";
+            author: "Debbie Reynolds";
+            path: "/usr/share/xournalpp/plugins/QuickScreenshot";
+            version: "1.2.2";
+            enabled: true;
+            default_enabled: false;
+          }
+
+          $PluginEntry {
+            title: "Example Plugin";
+            description: "This is a minimal example plugin, for reference";
+            author: "Andreas Butti";
+            path: "/usr/share/xournalpp/plugins/Example";
+            version: "1.2.1";
+            enabled: false;
+            default_enabled: false;
+          }
+
+          $PluginEntry {
+            title: "Export Plugin";
+            description: "Export to pdf, svg and png";
+            author: "Roland Lötscher";
+            path: "/usr/share/xournalpp/plugins/Export";
+            version: "1.2.2";
+            enabled: true;
+            default_enabled: false;
+          }
+        }
       }
-    }
     }
   }
 }

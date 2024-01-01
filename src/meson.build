@@ -53,6 +53,7 @@ xournalpp_demo_sources = [
   'window.py',
   'marker_config.py',
   'pluginentry.py',
+  'pluginmanager.py',
   'toolbox.py',
   'palettecolor.py',
   'tools_config.py',

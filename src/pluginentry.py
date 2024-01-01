@@ -52,3 +52,6 @@ class PluginEntry(Gtk.ListBox):
         self.bind_property(
             "enabled", self.sw_enabled, "active", GObject.BindingFlags.SYNC_CREATE
         )
+
+    def get_title(self):
+        return self.lbl_title.get_label()
