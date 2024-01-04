@@ -30,8 +30,6 @@ class SidebarPage(Gtk.Box):
         self.page = self.document.get_page(self.pageno)
 
         self.page_area.set_draw_func(self.draw)
-        self.page_area.set_content_width(self.width * self.scale)
-        self.page_area.set_content_height(self.height * self.scale)
         self.connect("notify::height", self.on_size_changed)
         self.connect("notify::width", self.on_size_changed)
         self.connect("notify::scale", self.on_size_changed)
@@ -73,9 +71,9 @@ class SidebarPage(Gtk.Box):
         self.page.render(cr)
 
     def on_size_changed(self, page, param):
-        print(self.width * self.scale, self.height * self.scale)
         self.page_area.set_content_width(self.width * self.scale)
         self.page_area.set_content_height(self.height * self.scale)
 
     def on_pageno_changed(self, page, param):
         self.page = self.document.get_page(self.pageno)
+        self.width, self.height = self.page.get_size()
