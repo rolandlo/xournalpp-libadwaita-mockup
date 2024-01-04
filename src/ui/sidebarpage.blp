@@ -21,8 +21,8 @@ template $SidebarPage: Box {
 
   Box page_tools {
     orientation: vertical;
-    spacing: 6;
-    visible: false;
+    spacing: 0;
+    sensitive: false;
 
     Button add_before {
       icon-name: "list-add-symbolic";
@@ -32,11 +32,13 @@ template $SidebarPage: Box {
     Button copy {
       icon-name: "edit-copy-symbolic";
       tooltip-text: _("Duplicate Page");
+      clicked => $on_sidebar_page_duplicated();
     }
 
     Button trash_page {
       icon-name: "trash-symbolic";
-      tooltip-text: _("Delete Text");
+      tooltip-text: _("Delete Page");
+      clicked => $on_sidebar_page_deleted();
     }
 
     Button add_after {

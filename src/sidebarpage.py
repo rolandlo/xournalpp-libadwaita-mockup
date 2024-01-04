@@ -37,11 +37,11 @@ class SidebarPage(Gtk.Box):
 
     @Gtk.Template.Callback()
     def on_enter(self, x, y, data):
-        self.page_tools.set_visible(True)
+        self.page_tools.set_sensitive(True)
 
     @Gtk.Template.Callback()
     def on_leave(self, data):
-        self.page_tools.set_visible(False)
+        self.page_tools.set_sensitive(False)
 
     @Gtk.Template.Callback()
     def on_dragsource_prepare(self, dragsource, x, y):
@@ -62,6 +62,21 @@ class SidebarPage(Gtk.Box):
         icon = Gtk.DragIcon.get_for_drag(drag)
         icon.set_child(drag_widget)
         drag.set_hotspot(self.drag_x, self.drag_y)
+
+    @Gtk.Template.Callback()
+    def on_sidebar_page_deleted(self, button):
+        flowboxchild = self.get_parent()
+        flowbox = flowboxchild.get_parent()
+        flowbox.remove(flowboxchild)
+
+    @Gtk.Template.Callback()
+    def on_sidebar_page_duplicated(self, button):
+        flowboxchild = self.get_parent()
+        index = flowboxchild.get_index()
+        flowbox = flowboxchild.get_parent()
+        duplicated_page = SidebarPage()
+        duplicated_page.props.pageno = self.pageno
+        flowbox.insert(duplicated_page, index)
 
     def draw(self, area, cr, width, height):
         cr.set_source_rgba(1.0, 1.0, 1.0, 1.0)
