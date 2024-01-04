@@ -26,6 +26,7 @@ template $ToolBox: Box {
           [end]
           Box {
             spacing: 6;
+
             Button {
               icon-name: "document-properties-symbolic";
 
@@ -37,6 +38,7 @@ template $ToolBox: Box {
             Button {
               icon-name: "window-close-symbolic";
               clicked => $on_close_button_clicked();
+
               styles [
                 "circular"
               ]

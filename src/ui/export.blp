@@ -15,14 +15,19 @@ template $ExportDialog: Adw.Window {
 
       Adw.PreferencesGroup {
         title: _("Export File");
+
         Adw.ComboRow format {
           title: _("Format");
 
           model: StringList {
-            strings ["pdf", "svg", "png"]
+            strings [
+              "pdf",
+              "svg",
+              "png"
+            ]
           };
         }
-        
+
         Adw.ActionRow {
           title: _("File Name");
           subtitle: _("Set the file path.");
@@ -189,4 +194,3 @@ Adjustment ad_widthOrHeight {
   step-increment: 100;
   value: 1000;
 }
-

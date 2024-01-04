@@ -35,12 +35,15 @@ template $MainWindow: Adw.ApplicationWindow {
           margin-start: 24;
           icon-name: "document-save-symbolic";
         }
+
         Button {
           icon-name: "edit-undo-symbolic";
         }
+
         Button {
           icon-name: "edit-redo-symbolic";
         }
+
         Button {
           icon-name: "edit-find-symbolic";
           clicked => $on_search_button_clicked();
@@ -120,6 +123,7 @@ template $MainWindow: Adw.ApplicationWindow {
 
         Stack stack {
           margin-top: 6;
+
           StackPage page_preview {
             title: _("Preview");
             name: "page_preview";
@@ -141,50 +145,57 @@ template $MainWindow: Adw.ApplicationWindow {
                     margin-top: 12;
                     propagate-natural-height: true;
                     max-content-height: 1000;
+
                     Box {
                       hexpand: true;
-                      orientation: horizontal;  
-                    FlowBox pages_box {
-                      margin-start: 6;
-                      margin-end: 6;
-                      margin-top: 6;
-                      margin-bottom: 6;
-                      column-spacing: 6;
-                      row-spacing: 6;
-                      homogeneous: false;
                       orientation: horizontal;
-                      min-children-per-line: 2;
-                      valign: start;
 
-                      DropTarget drop_target {
-                        drop => $on_droptarget_drop();
-                      }
+                      FlowBox pages_box {
+                        margin-start: 6;
+                        margin-end: 6;
+                        margin-top: 6;
+                        margin-bottom: 6;
+                        column-spacing: 6;
+                        row-spacing: 6;
+                        homogeneous: false;
+                        orientation: horizontal;
+                        min-children-per-line: 2;
+                        valign: start;
 
-                      $SidebarPage {
-                        scale: 0.15;
-                        pageno: 0;
+                        DropTarget drop_target {
+                          drop => $on_droptarget_drop();
+                        }
+
+                        $SidebarPage {
+                          scale: 0.15;
+                          pageno: 0;
+                        }
+
+                        $SidebarPage {
+                          scale: 0.15;
+                          pageno: 1;
+                        }
+
+                        $SidebarPage {
+                          scale: 0.15;
+                          pageno: 2;
+                        }
+
+                        $SidebarPage {
+                          scale: 0.15;
+                          pageno: 3;
+                        }
+
+                        $SidebarPage {
+                          scale: 0.15;
+                          pageno: 4;
+                        }
+
+                        $SidebarPage {
+                          scale: 0.15;
+                          pageno: 5;
+                        }
                       }
-                      $SidebarPage {
-                        scale: 0.15;
-                        pageno: 1;
-                      }
-                      $SidebarPage {
-                        scale: 0.15;
-                        pageno: 2;
-                      }
-                      $SidebarPage {
-                        scale: 0.15;
-                        pageno: 3;
-                      }
-                      $SidebarPage {
-                        scale: 0.15;
-                        pageno: 4;
-                      }
-                      $SidebarPage {
-                        scale: 0.15;
-                        pageno: 5;
-                      }
-                    }
                     }
                   };
                 }
@@ -240,35 +251,40 @@ template $MainWindow: Adw.ApplicationWindow {
 
       content: Adw.OverlaySplitView content_split_view {
         sidebar-position: end;
+
         content: Box content_box {
           orientation: vertical;
           hexpand: true;
           vexpand: true;
-          
+
           Box search_box {
             margin-top: 6;
             margin-bottom: 6;
             margin-start: 6;
             margin-end: 6;
             visible: bind searchbar.search-mode-enabled;
+
             SearchBar searchbar {
               key-capture-widget: search_box;
               search-mode-enabled: false;
               show-close-button: true;
             }
+
             SearchEntry searchentry {
               search-delay: 100;
               placeholder-text: _("Search for Text in PDF");
               width-request: 200;
             }
-              Box {
-                Button {
-                  icon-name: "go-previous-symbolic";
-                }
-                Button {
-                  icon-name: "go-next-symbolic";
-                }
+
+            Box {
+              Button {
+                icon-name: "go-previous-symbolic";
               }
+
+              Button {
+                icon-name: "go-next-symbolic";
+              }
+            }
           }
 
           DrawingArea drawing_area {
@@ -300,45 +316,54 @@ template $MainWindow: Adw.ApplicationWindow {
             }
           }
         };
-        sidebar: 
-        ScrolledWindow {
-        propagate-natural-height: true;
 
-        Box tool_box {
-          orientation: vertical;
-          spacing: 6;
-          margin-start: 6;
-          margin-end: 6;
-          margin-bottom: 6;
-          margin-top: 6;
-          $ToolBox drawing_tools {
-            title: _("Drawing");
+        sidebar: ScrolledWindow {
+          propagate-natural-height: true;
+
+          Box tool_box {
+            orientation: vertical;
+            spacing: 6;
+            margin-start: 6;
+            margin-end: 6;
+            margin-bottom: 6;
+            margin-top: 6;
+
+            $ToolBox drawing_tools {
+              title: _("Drawing");
+            }
+
+            $ToolBox color_tools {
+              title: _("Colors");
+            }
+
+            $ToolBox text_tools {
+              title: _("Text/TeX");
+            }
+
+            $ToolBox selection_insertion_tools {
+              title: _("Selection/Insertion");
+            }
+
+            $ToolBox page_layer_tools {
+              title: _("Page/Layer");
+            }
+
+            $ToolBox background_tools {
+              title: _("Background");
+            }
+
+            $ToolBox audio_recording_tools {
+              title: _("Audio Recording");
+            }
+
+            $ToolBox geometry_tools {
+              title: _("Geometry Tools");
+            }
+
+            $ToolBox custom_tools {
+              title: _("Custom Tools");
+            }
           }
-          $ToolBox color_tools {
-            title: _("Colors");
-          }
-          $ToolBox text_tools {
-            title: _("Text/TeX");
-          }
-          $ToolBox selection_insertion_tools {
-            title: _("Selection/Insertion");
-          }
-          $ToolBox page_layer_tools {
-            title: _("Page/Layer");
-          }
-          $ToolBox background_tools {
-            title: _("Background");
-          }
-          $ToolBox audio_recording_tools {
-            title: _("Audio Recording");
-          }
-          $ToolBox geometry_tools {
-            title: _("Geometry Tools");
-          }
-          $ToolBox custom_tools {
-            title: _("Custom Tools");
-          }
-        }
         };
       };
     };
@@ -488,45 +513,55 @@ menu tools_button_menu {
       label: _("Toggle Drawing Tools");
       action: "app.toggle-drawing-tools";
     }
+
     item {
       label: _("Toggle Color Palette");
       action: "app.toggle-colors";
     }
+
     item {
       label: _("Toggle Text/TeX Tools");
       action: "app.toggle-text-tools";
     }
+
     item {
       label: _("Toggle Selection/Insertion Tools");
       action: "app.toggle-selection-tools";
     }
+
     item {
       label: _("Toggle Page/Layer Tools");
       action: "app.toggle-page-layer-tools";
     }
+
     item {
       label: _("Toggle Background Tools");
       action: "app.toggle-background-tools";
     }
+
     item {
       label: _("Toggle Audio Recording Tools");
       action: "app.toggle-audio-tools";
     }
+
     item {
       label: _("Toggle Geometry Tools");
       action: "app.toggle-geometry-tools";
     }
   }
+
   section {
     item {
       label: _("Show Tools Sidebar");
       action: "app.show-tools-sidebar";
     }
+
     item {
       label: _("Hide Tools Sidebar");
       action: "app.hide-tools-sidebar";
     }
   }
+
   section {
     item {
       label: _("Show all Tools");
@@ -542,18 +577,22 @@ menu plugins_button_menu {
       action: "app.plugin-manager";
     }
   }
+
   section {
-    item { 
+    item {
       label: "Quick Screenshot";
     }
   }
+
   section {
     item {
       label: "Export to pdf";
     }
+
     item {
       label: "Export to svg";
     }
+
     item {
       label: "Export to png";
     }
@@ -565,33 +604,41 @@ menu primary_button_menu {
     item {
       label: _("New");
     }
+
     item {
       label: _("Open");
     }
+
     submenu {
       label: _("Recent Documents");
+
       section {
         item {
           label: _("Test.xopp");
         }
+
         item {
           label: _("Paper.xopp");
         }
       }
+
       section {
         item {
           label: _("Sample.pdf");
         }
+
         item {
           label: _("Another.pdf");
         }
       }
+
       section {
         item {
           label: _("Clear List");
         }
       }
     }
+
     item {
       label: _("Annotate PDF");
     }
@@ -602,6 +649,7 @@ menu primary_button_menu {
       label: _("Save");
       action: "app.save";
     }
+
     item {
       label: _("Save As");
       action: "app.save-as";
@@ -613,6 +661,7 @@ menu primary_button_menu {
       label: _("Quick PDF Export");
       action: "app.export";
     }
+
     item {
       label: _("Export as ..");
       action: "app.export-as";
