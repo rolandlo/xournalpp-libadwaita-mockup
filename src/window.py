@@ -30,6 +30,7 @@ from .toolbox import ToolBox
 from .palettecolor import PaletteColor
 from .marker_config import Marker_Config
 from .tools_config import Tools_Config
+from .sidebarpage import SidebarPage
 
 from math import pi
 from itertools import pairwise
@@ -58,6 +59,9 @@ class MainWindow(Adw.ApplicationWindow):
     geometry_tools = Gtk.Template.Child()
     custom_tools = Gtk.Template.Child()
 
+    pages_box = Gtk.Template.Child()
+    drop_target = Gtk.Template.Child()
+
     DOT_RADIUS = 5
     CROSS_SIZE = 4
     STROKE_WIDTH = 3
@@ -69,7 +73,9 @@ class MainWindow(Adw.ApplicationWindow):
         self.document_properties_popover.add_child(self.zoom_box, "zoom_widgets")
 
         self.drawing_area.set_draw_func(self.draw)
-        self.document = Poppler.Document.new_from_file(get_files_uri("sample.pdf"))
+        self.document = Poppler.Document.new_from_file(
+            get_files_uri("test_document.pdf")
+        )
         self.page = self.document.get_page(0)
         tools_config = Tools_Config()
         self.drawing_tools.init_widgets(
@@ -167,6 +173,9 @@ class MainWindow(Adw.ApplicationWindow):
         self.delta = 0
         self.scale = 1
         self.zoom = 1
+
+        self.drop_target.set_actions(Gdk.DragAction.COPY)
+        self.drop_target.set_gtypes([SidebarPage])
 
     def draw(self, area, cr, width, height):
         w, h = self.page.get_size()
@@ -316,3 +325,12 @@ class MainWindow(Adw.ApplicationWindow):
     @Gtk.Template.Callback()
     def on_search_button_clicked(self, button):
         self.searchbar.set_search_mode(not self.searchbar.get_search_mode())
+
+    @Gtk.Template.Callback()
+    def on_droptarget_drop(self, droptarget, value, x, y):
+        target_index = self.pages_box.get_child_at_pos(x, y).get_index()
+        self.pages_box.remove(value)
+        self.pages_box.insert(value, target_index)
+        self.page = self.document.get_page(value.pageno)
+        self.drawing_area.queue_draw()
+        return True

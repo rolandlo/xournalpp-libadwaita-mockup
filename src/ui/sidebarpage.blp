@@ -1,0 +1,44 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $SidebarPage : Box {
+    spacing: 0;
+
+    EventControllerMotion {
+      enter => $on_enter();
+      leave => $on_leave();
+    }
+
+    DragSource {
+        prepare => $on_dragsource_prepare();
+        drag-begin => $on_dragsource_drag_begin();
+    }
+ 
+    DrawingArea page_area {
+      halign: start;
+      valign: start;
+    }
+
+    Box page_tools {
+      orientation: vertical;
+      spacing: 6;
+      visible: false;
+      
+      Button add_before {
+        icon-name: "list-add-symbolic";
+        tooltip-text: _("Add Page Before");
+      }
+      Button copy {
+        icon-name: "edit-copy-symbolic";
+        tooltip-text: _("Duplicate Page");
+      }
+      Button trash_page {
+        icon-name: "trash-symbolic";
+        tooltip-text: _("Delete Text");
+      }
+      Button add_after {
+        icon-name: "list-add-symbolic";
+        tooltip-text: _("Add Page After");
+      }
+    }   
+}

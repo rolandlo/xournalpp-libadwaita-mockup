@@ -136,9 +136,50 @@ template $MainWindow: Adw.ApplicationWindow {
                   title: _("Pages");
                   icon-name: "xopp-sidebar-page-preview";
 
-                  child: Adw.StatusPage {
-                    Label {
-                      label: "Page preview";
+                  child: ScrolledWindow {
+                    margin-bottom: 12;
+                    margin-top: 12;
+                    propagate-natural-height: true;
+                    max-content-height: 1000;
+
+                    FlowBox pages_box {
+                      margin-start: 6;
+                      margin-end: 6;
+                      margin-top: 6;
+                      margin-bottom: 6;
+                      column-spacing: 6;
+                      row-spacing: 6;
+                      homogeneous: false;
+                      orientation: horizontal;
+
+                      DropTarget drop_target {
+                        drop => $on_droptarget_drop();
+                      }
+
+                      $SidebarPage {
+                        scale: 0.15;
+                        pageno: 0;
+                      }
+                      $SidebarPage {
+                        scale: 0.15;
+                        pageno: 1;
+                      }
+                      $SidebarPage {
+                        scale: 0.15;
+                        pageno: 2;
+                      }
+                      $SidebarPage {
+                        scale: 0.15;
+                        pageno: 3;
+                      }
+                      $SidebarPage {
+                        scale: 0.15;
+                        pageno: 4;
+                      }
+                      $SidebarPage {
+                        scale: 0.15;
+                        pageno: 5;
+                      }
                     }
                   };
                 }
