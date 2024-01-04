@@ -141,7 +141,9 @@ template $MainWindow: Adw.ApplicationWindow {
                     margin-top: 12;
                     propagate-natural-height: true;
                     max-content-height: 1000;
-
+                    Box {
+                      hexpand: true;
+                      orientation: horizontal;  
                     FlowBox pages_box {
                       margin-start: 6;
                       margin-end: 6;
@@ -151,6 +153,8 @@ template $MainWindow: Adw.ApplicationWindow {
                       row-spacing: 6;
                       homogeneous: false;
                       orientation: horizontal;
+                      min-children-per-line: 2;
+                      valign: start;
 
                       DropTarget drop_target {
                         drop => $on_droptarget_drop();
@@ -180,6 +184,7 @@ template $MainWindow: Adw.ApplicationWindow {
                         scale: 0.15;
                         pageno: 5;
                       }
+                    }
                     }
                   };
                 }
