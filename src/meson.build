@@ -15,6 +15,7 @@ blueprints = custom_target('blueprints',
     'ui/pluginentry.blp',
     'ui/toolbox.blp',
     'ui/sidebarpage.blp',
+    'ui/maincontent.blp',
     'gtk/help-overlay.blp',
   ),
   output: '.',
@@ -60,6 +61,7 @@ xournalpp_demo_sources = [
   'palettecolor.py',
   'sidebarpage.py',
   'tools_config.py',
+  'maincontent.py',
 ]
 
 install_data(xournalpp_demo_sources, install_dir: moduledir)

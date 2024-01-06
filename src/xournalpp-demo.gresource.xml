@@ -13,6 +13,7 @@
     <file preprocess="xml-stripblanks">ui/pluginentry.ui</file>
     <file preprocess="xml-stripblanks">ui/toolbox.ui</file>
     <file preprocess="xml-stripblanks">ui/sidebarpage.ui</file>
+    <file preprocess="xml-stripblanks">ui/maincontent.ui</file>
     <file preprocess="xml-stripblanks">gtk/help-overlay.ui</file>
   </gresource>
 </gresources>

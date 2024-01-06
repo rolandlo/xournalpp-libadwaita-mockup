@@ -281,34 +281,7 @@ template $MainWindow: Adw.ApplicationWindow {
             }
           }
 
-          DrawingArea drawing_area {
-            hexpand: true;
-            vexpand: true;
-
-            GestureClick {
-              pressed => $on_gestureclick_pressed();
-              released => $on_gestureclick_released();
-              stopped => $on_gestureclick_stopped();
-              unpaired-release => $on_gestureclick_unpaired_release();
-            }
-
-            GestureRotate {
-              angle-changed => $on_gesturerotate_angle_changed();
-            }
-
-            GestureZoom {
-              scale-changed => $on_gesturezoom_scale_changed();
-            }
-
-            GestureStylus {
-              stylus-only: false;
-              // With the X11 backend there are no signals with stylus-only = true
-              down => $on_gesturestylus_down();
-              motion => $on_gesturestylus_motion();
-              proximity => $on_gesturestylus_proximity();
-              up => $on_gesturestylus_up();
-            }
-          }
+          $MainContent maincontent {}
         };
 
         sidebar: ScrolledWindow {
