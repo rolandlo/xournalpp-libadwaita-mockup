@@ -1,0 +1,146 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $InputPage: Adw.PreferencesPage {
+  title: _("Input System");
+  icon-name: "notepad-symbolic";
+
+  Adw.PreferencesGroup {
+    title: _("Input Devices");
+    description: _("Assign device classes to each input device of your system. Only change these values if your devices are not correctly matched (e.g. your pen show up as a touchscreen).");
+
+    Adw.PreferencesRow {
+      title: _("Map Input Devices");
+
+      Box {
+        orientation: vertical;
+        spacing: 6;
+      }
+    }
+  }
+
+  Adw.PreferencesGroup {
+    title: _("Options");
+
+    Adw.SwitchRow {
+      title: _("Drawing Outside of Window");
+      subtitle: _("If enabled drawing will not stop at the border of the window.");
+    }
+
+    Adw.SwitchRow {
+      title: _("Merge button events with stylus tip events");
+      subtitle: _("This settings should be enabled on MS Windows and on X11 (Linux) when 'xsetwacom get *deviceI-d* TabletPCButton' returns 'on'");
+    }
+
+    Adw.SwitchRow {
+      title: _("Pressure Inference");
+      subtitle: _("If enabled pressure will be infered from drawing speed when device-supplied pressure is not available");
+    }
+  }
+
+  Adw.PreferencesGroup {
+    title: _("Input Stabilization");
+    description: _("Pick an input stabilization algorithm and its parameters");
+
+    Adw.ComboRow cb_averagingMethod {
+      title: _("Averaging method");
+
+      model: StringList {
+        strings [
+          _("None"),
+          _("Arithmetic Mean"),
+          _("Gaussian weights")
+        ]
+      };
+    }
+
+    Adw.SpinRow row_bufferSize {
+      title: _("Buffer Size");
+      visible: bind $showMean(cb_averagingMethod.selected-item) as <bool>;
+
+      adjustment: Adjustment {
+        lower: 2;
+        upper: 100;
+        step-increment: 1;
+        value: 5;
+      };
+    }
+
+    Adw.SpinRow row_sigma {
+      title: "σ";
+      subtitle: _("Gaussian parameter: the higher, the more stabilization and the more lag between your cursor and the painting tip.");
+      visible: bind $showGauss(cb_averagingMethod.selected-item) as <bool>;
+      digits: 2;
+
+      adjustment: Adjustment {
+        lower: 0.05;
+        upper: 5.00;
+        step-increment: 0.05;
+        value: 0.50;
+      };
+    }
+
+    Adw.ComboRow cb_preprocessor {
+      title: _("Preprocessor");
+
+      model: StringList {
+        strings [
+          _("None"),
+          _("Dead Zone"),
+          _("Inertia")
+        ]
+      };
+    }
+
+    Adw.SpinRow row_deadzoneRadius {
+      title: _("Dead Zone Radius");
+      visible: bind $showDeadZone(cb_preprocessor.selected-item) as <bool>;
+      digits: 1;
+
+      adjustment: Adjustment {
+        lower: 0.1;
+        upper: 50.0;
+        step-increment: 0.1;
+        value: 1.3;
+      };
+    }
+
+    Adw.SwitchRow sw_cuspDetection {
+      title: _("Cusp Detection");
+      visible: bind $showDeadZone(cb_preprocessor.selected-item) as <bool>;
+    }
+
+    Adw.SpinRow row_drag {
+      title: _("Drag");
+      subtitle: _("Drag: If the value is too small, unwanted oscillations may appear. If the value is too high, there will be no stabilization.");
+      visible: bind $showInertia(cb_preprocessor.selected-item) as <bool>;
+      digits: 2;
+
+      adjustment: Adjustment {
+        lower: 0.00;
+        upper: 1.00;
+        step-increment: 0.05;
+        value: 0.40;
+      };
+    }
+
+    Adw.SpinRow row_mass {
+      title: _("Mass");
+      subtitle: _("Mass: the higher the mass, the more inertia and the more stabilization");
+      visible: bind $showInertia(cb_preprocessor.selected-item) as <bool>;
+      digits: 1;
+
+      adjustment: Adjustment {
+        lower: 1.0;
+        upper: 30.0;
+        step-increment: 0.1;
+        value: 5.0;
+      };
+    }
+
+    Adw.SwitchRow sw_finalize {
+      title: _("Finalize the Stroke");
+      subtitle: _("Input stabilization can create a gap at the end of strokes. If enabled, this gap is filled. ");
+    }
+  }
+}

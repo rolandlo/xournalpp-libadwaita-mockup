@@ -1,0 +1,83 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $LoadSavePage: Adw.PreferencesPage {
+  title: _("Load/Save");
+  icon-name: "notepad-symbolic";
+
+  Adw.PreferencesGroup {
+    title: _("Autosaving");
+    description: _("If the document was already saved it can be found in the same folder with the extension .autosave.xopp\nIf the file was not yet saved it can be found in ~/.cache/xournalpp/autosaves");
+
+    Adw.SwitchRow sw_autosave {
+      title: _("Activate Automatic Saving");
+    }
+
+    Adw.SpinRow sp_autosaveInterval {
+      title: _("Autosave interval (in min)");
+      sensitive: bind sw_autosave.active;
+
+      adjustment: Adjustment {
+        lower: 1;
+        upper: 100;
+        step-increment: 1;
+        value: 3;
+      };
+    }
+  }
+
+  Adw.PreferencesGroup {
+    title: _("Default Save Name");
+
+    Adw.EntryRow {
+      title: _("Proposed name when saving a new document");
+      text: "%F-Note-%H-%M";
+    }
+
+    Adw.ExpanderRow {
+      title: _("Available Placeholders");
+      icon-name: "info-symbolic";
+
+      Label {
+        label: bind placeholders.label;
+      }
+    }
+  }
+
+  Adw.PreferencesGroup {
+    title: _("Default PDF Export name");
+
+    Adw.EntryRow {
+      title: _("Proposed name when exporting a document to PDF");
+      text: "%{name}_annotated";
+    }
+
+    Adw.ExpanderRow {
+      title: _("Available Placeholders");
+      icon-name: "info-symbolic";
+
+      Label {
+        label: bind placeholders.label;
+      }
+    }
+  }
+
+  Adw.PreferencesGroup {
+    title: _("Autoloading");
+
+    Adw.SwitchRow sw_autoloadingJournals {
+      title: _("Autoloading of Journals");
+      subtitle: _("When opening a PDF file, when there is a Xournal++ file with the same name open that one.");
+    }
+
+    Adw.SwitchRow sw_autoloadingMostRecent {
+      title: _("Autoloading of Most Recent File");
+      subtitle: _("If enabled Xournal++ will open the most recently saved document automatically.");
+      active: true;
+    }
+  }
+}
+
+Label placeholders {
+  label: _("Placeholder text replaced in code");
+}

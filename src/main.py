@@ -14,6 +14,7 @@ from .actions import add_actions
 from .pluginentry import PluginEntry
 from .pluginmanager import PluginManager
 from .export import ExportDialog
+from .preferences import Preferences
 
 
 class MyApp(Adw.Application):
@@ -34,8 +35,8 @@ class MyApp(Adw.Application):
         tmp = [
             GtkSource.StyleSchemeChooserButton(),
         ]  # throw away objects
-        self.builder.add_from_resource(get_resource_path("ui/preferences.ui"))
-        self.win_prefs = self.builder.get_object("win_prefs")
+
+        self.win_prefs = Preferences()
         self.win_prefs.set_hide_on_close(True)
         self.builder.add_from_resource(get_resource_path("ui/latexeditor.ui"))
         self.latexEditorDialog = self.builder.get_object("latexEditorDialog")

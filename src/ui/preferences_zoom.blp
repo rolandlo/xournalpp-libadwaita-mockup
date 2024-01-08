@@ -1,0 +1,84 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $ZoomPage: Adw.PreferencesPage {
+  title: _("Zoom");
+  icon-name: "notepad-symbolic";
+
+  Adw.PreferencesGroup {
+    title: _("Zoom Speed");
+
+    Adw.SpinRow {
+      title: _("Speed for Ctrl + Scroll (in %)");
+      digits: 1;
+      numeric: true;
+
+      adjustment: Adjustment ad_zoomSpeed {
+        lower: 0.1;
+        upper: 50.0;
+        step-increment: 0.1;
+        value: 2.0;
+      };
+    }
+
+    Adw.SpinRow {
+      title: _("Speed for a Zoom Step (in %)");
+      digits: 1;
+      numeric: true;
+
+      adjustment: Adjustment ad_zoomStep {
+        lower: 0.5;
+        upper: 50.0;
+        step-increment: 0.5;
+        value: 10.0;
+      };
+    }
+  }
+
+  Adw.PreferencesGroup {
+    title: _("Display DPI callibration");
+    description: _("To make sure that on 100% zoom the size of elements is natural");
+
+    Adw.PreferencesRow {
+      title: _("Display DPI callibration");
+
+      Box {
+        orientation: vertical;
+        valign: center;
+        hexpand: false;
+
+        styles [
+          "header"
+        ]
+
+        Box {
+          orientation: vertical;
+          valign: center;
+          hexpand: true;
+
+          styles [
+            "title"
+          ]
+
+          Label {
+            label: _("Put a ruler on your screen and move the slider until both rulers match. ");
+          }
+        }
+
+        Scale {
+          digits: 1;
+          has-origin: true;
+          draw-value: true;
+          value-pos: top;
+
+          adjustment: Adjustment {
+            lower: 50;
+            upper: 400;
+            step-increment: 1;
+            value: 100;
+          };
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,99 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $AudioPage: Adw.PreferencesPage {
+  title: _("Audio Recording");
+  icon-name: "notepad-symbolic";
+
+  Adw.PreferencesGroup {
+    Adw.SwitchRow ad_disableAudio {
+      title: _("Disable Audio");
+      subtitle: _("Disables the audio system for audio recording.");
+    }
+  }
+
+  Adw.PreferencesGroup {
+    title: _("Storage");
+    description: _("Audio recordings are currently stored in a separate folder and referenced from the journal");
+    sensitive: bind ad_disableAudio.active inverted;
+
+    Adw.ActionRow {
+      title: _("Storage Folder");
+
+      [suffix]
+      Button {
+        clicked => $selectAudioFolder();
+
+        Adw.ButtonContent audio_folder_button_content {
+          label: _("Documents");
+          icon-name: "folder-documents-symbolic";
+        }
+      }
+    }
+  }
+
+  Adw.PreferencesGroup {
+    title: _("Audio Devices");
+    description: _("Specify the audio devices used for recording and playback of audio attachments.\nIf available select pulse as input/output device");
+    sensitive: bind ad_disableAudio.active inverted;
+
+    Adw.ComboRow cb_inputDevice {
+      title: _("Input Device");
+
+      model: StringList sl_inputDevice {};
+    }
+
+    Adw.ComboRow cb_outputDevice {
+      title: _("Output Device");
+
+      model: StringList sl_outputDevice {};
+    }
+  }
+
+  Adw.PreferencesGroup {
+    title: _("Recording Quality");
+    sensitive: bind ad_disableAudio.active inverted;
+
+    Adw.ComboRow cb_sampleRate {
+      title: _("Sample Rate");
+
+      model: StringList {
+        strings [
+          "16000Hz",
+          "44100Hz",
+          "96000Hz",
+          "192000Hz"
+        ]
+      };
+    }
+
+    Adw.SpinRow sp_gain {
+      title: _("Gain");
+      digits: 2;
+
+      adjustment: Adjustment ad_gain {
+        lower: 0.00;
+        upper: 10.00;
+        step-increment: 0.10;
+        value: 1.00;
+      };
+    }
+  }
+
+  Adw.PreferencesGroup {
+    title: _("Playback Settings");
+    sensitive: bind ad_disableAudio.active inverted;
+
+    Adw.SpinRow sp_seekTime {
+      title: _("Default Seek Time (in sec)");
+      digits: 2;
+
+      adjustment: Adjustment ad_seekTime {
+        lower: 0.00;
+        upper: 90.00;
+        step-increment: 1.00;
+        value: 1.00;
+      };
+    }
+  }
+}

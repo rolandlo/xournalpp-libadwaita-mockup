@@ -1,0 +1,297 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $DrawingPage: Adw.PreferencesPage {
+  title: _("Drawing Area");
+  icon-name: "notepad-symbolic";
+
+  Adw.PreferencesGroup {
+    title: _("Scrolling Outside the Page");
+    description: _("The amount of space is specified in pixels.");
+
+    Adw.SwitchRow sw_unlimitedScrolling {
+      title: _("Unlimited Scrolling");
+      subtitle: _("If activated the scrolling will not be limited in any direction.");
+      active: true;
+    }
+
+    Adw.SwitchRow sw_addHorizontalSpace {
+      title: _("Enable Additional Horizontal Space");
+      sensitive: bind sw_unlimitedScrolling.active inverted;
+    }
+
+    Adw.SwitchRow sw_addVerticalSpace {
+      title: _("Enable Additional Vertical Space");
+      sensitive: bind sw_unlimitedScrolling.active inverted;
+    }
+
+    Adw.PreferencesRow {
+      title: _("Additional Space Around Page");
+
+      Grid {
+        halign: center;
+        margin-top: 12;
+        margin-bottom: 12;
+        column-spacing: 12;
+        row-spacing: 12;
+
+        SpinButton sp_addSpaceLeft {
+          sensitive: bind sw_addHorizontalSpace.active;
+
+          layout {
+            row: 1;
+            column: 0;
+          }
+
+          adjustment: Adjustment {
+            lower: 0;
+            upper: 2000;
+            step-increment: 1;
+            value: 150;
+          };
+        }
+
+        SpinButton sp_addSpaceRight {
+          sensitive: bind sw_addHorizontalSpace.active;
+
+          layout {
+            row: 1;
+            column: 2;
+          }
+
+          adjustment: Adjustment {
+            lower: 0;
+            upper: 2000;
+            step-increment: 1;
+            value: 150;
+          };
+        }
+
+        SpinButton sp_addSpaceBottom {
+          sensitive: bind sw_addVerticalSpace.active;
+
+          layout {
+            row: 2;
+            column: 1;
+          }
+
+          adjustment: Adjustment {
+            lower: 0;
+            upper: 2000;
+            step-increment: 1;
+            value: 150;
+          };
+        }
+
+        SpinButton sp_addSpaceTop {
+          sensitive: bind sw_addVerticalSpace.active;
+
+          layout {
+            row: 0;
+            column: 1;
+          }
+
+          adjustment: Adjustment {
+            lower: 0;
+            upper: 2000;
+            step-increment: 1;
+            value: 150;
+          };
+        }
+      }
+    }
+  }
+
+  Adw.PreferencesGroup {
+    title: _("Paired Pages");
+
+    Adw.SpinRow {
+      title: _("First Page Offset");
+
+      adjustment: Adjustment {
+        lower: 0;
+        upper: 100;
+        step-increment: 1;
+        value: 0;
+      };
+    }
+  }
+
+  Adw.PreferencesGroup {
+    title: _("Auto-Add Empty Page");
+
+    Adw.PreferencesRow {
+      title: _("Auto-Add Empty Page");
+
+      Box {
+        orientation: vertical;
+        halign: start;
+        spacing: 12;
+
+        CheckButton cb_autoAddDisabled {
+          active: true;
+          label: _("Disabled");
+        }
+
+        CheckButton cb_autoAddDrawing {
+          label: _("When drawing on last page");
+          group: cb_autoAddDisabled;
+        }
+
+        CheckButton cb_autoAddScrolling {
+          label: _("When scrolling to end of last page");
+          group: cb_autoAddDisabled;
+        }
+      }
+    }
+  }
+
+  Adw.PreferencesGroup {
+    title: _("Drawing Tool Modifiers");
+    description: _("Set Modifiers by Draw Direction (Experimental)");
+
+    Adw.SwitchRow sw_modifiersDrawDir {
+      title: _("Enable");
+    }
+
+    Adw.SpinRow sp_drawDirectionRadius {
+      title: _("Determination Radius (in pixels)");
+      sensitive: bind sw_modifiersDrawDir.active;
+
+      adjustment: Adjustment {
+        lower: 2;
+        upper: 1000;
+        step-increment: 1;
+        value: 50;
+      };
+    }
+  }
+
+  Adw.PreferencesGroup {
+    title: _("Resizing");
+
+    Adw.SwitchRow sw_preserveLineWidth {
+      title: _("Preserve Line Width");
+      subtitle: _("When resizing a selection should the line width of strokes be preserved?");
+    }
+  }
+
+  Adw.PreferencesGroup {
+    title: _("Tool Tap Action");
+    description: _("Tap means an input of short duration and length.");
+
+    Adw.SwitchRow sw_enableTap {
+      title: _("Enable Tap Action");
+    }
+
+    Adw.SpinRow {
+      title: _("Ignore Time (in ms)");
+      sensitive: bind sw_enableTap.active;
+
+      adjustment: Adjustment {
+        lower: 0;
+        upper: 1000;
+        step-increment: 1;
+        value: 150;
+      };
+    }
+
+    Adw.SpinRow {
+      title: _("Max Length (in mm)");
+      sensitive: bind sw_enableTap.active;
+
+      adjustment: Adjustment {
+        lower: 0.01;
+        upper: 100.00;
+        step-increment: 0.10;
+        value: 1.00;
+      };
+    }
+
+    Adw.SpinRow {
+      title: _("Successive (in ms)");
+      sensitive: bind sw_enableTap.active;
+
+      adjustment: Adjustment {
+        lower: 0;
+        upper: 1000;
+        step-increment: 1;
+        value: 500;
+      };
+    }
+
+    Adw.SwitchRow sw_tapShowFloatingToolbox {
+      title: _("Show Floating Toolbox");
+      subtitle: _("On tap show the floating toolbox");
+      sensitive: bind sw_enableTap.active;
+    }
+
+    Adw.SwitchRow sw_tapTrySelectObject {
+      title: _("Select Object First");
+      subtitle: _("On tap try to select an object before showing the floating toolbox");
+      sensitive: bind sw_enableTap.active;
+    }
+  }
+
+  Adw.PreferencesGroup {
+    title: _("PDF Cache");
+    description: _("Rerender PDF backgrounds more often while zooming for better render quality.\nNote: This should not affect print quality.");
+
+    Adw.SpinRow {
+      title: _("Zoom Amount");
+      subtitle: _("Rerender when the zoom level changes by the given amount (in %).");
+
+      adjustment: Adjustment {
+        lower: 0;
+        upper: 900;
+        step-increment: 1;
+        value: 5;
+      };
+    }
+  }
+
+  Adw.PreferencesGroup {
+    title: _("Snapping");
+    description: _("When drawing shapes or manipulating selections should elements snap to the grid?");
+
+    Adw.SpinRow sp_rotationSnappingTolerance {
+      title: _("Rotation Snapping Tolerance");
+      digits: 1;
+
+      adjustment: Adjustment {
+        lower: 0.1;
+        upper: 1.0;
+        step-increment: 0.1;
+        value: 0.3;
+      };
+    }
+
+    Adw.SpinRow sp_gridSnappingTolerance {
+      title: _("Rotation Snapping Tolerance");
+      digits: 1;
+
+      adjustment: Adjustment {
+        lower: 0.1;
+        upper: 1.0;
+        step-increment: 0.1;
+        value: 1.0;
+      };
+    }
+
+    Adw.SpinRow sp_snappingGridSize {
+      title: _("Grid Size");
+      digits: 2;
+
+      adjustment: Adjustment {
+        lower: 0.01;
+        upper: 20;
+        step-increment: 0.01;
+        value: 1.0;
+      };
+    }
+
+    Adw.SwitchRow sw_snappingRecognized {
+      title: _("Snapping for Recognized Shapes");
+    }
+  }
+}

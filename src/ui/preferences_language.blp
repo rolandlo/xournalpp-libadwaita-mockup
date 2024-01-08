@@ -1,0 +1,23 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $LanguagePage: Adw.PreferencesPage {
+  title: _("Language");
+  icon-name: "notepad-symbolic";
+
+  Adw.PreferencesGroup {
+    title: _("Language settings");
+    description: _("Select the language for menus, info texts, messages etc.");
+
+    Adw.PreferencesRow {
+      title: _("Set Language");
+
+      Box {
+        orientation: vertical;
+        valign: center;
+
+        DropDown cb_language {}
+      }
+    }
+  }
+}

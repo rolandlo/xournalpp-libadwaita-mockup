@@ -1,0 +1,181 @@
+using Gtk 4.0;
+using Adw 1;
+using GtkSource 5;
+
+  template $LaTeXPage: Adw.PreferencesPage {
+    title: _("LaTeX");
+    icon-name: "notepad-symbolic";
+
+    Adw.PreferencesGroup {
+      title: _("TeX Generation Settings");
+      description: _("Set the template file and the generation command that are used for generating TeX images.");
+
+      Adw.EntryRow {
+        title: _("LaTeX Generation Command");
+        text: "pdflatex -interaction=nonstopmode \'{}\'";
+      }
+
+      Adw.ActionRow {
+        title: _("Template File Path");
+        subtitle: _("Set the file path.");
+
+        [suffix]
+        Button {
+          clicked => $selectTemplate();
+
+          Adw.ButtonContent template_button_content {
+            label: _("default_template.tex");
+            icon-name: "folder-documents-symbolic";
+          }
+        }
+      }
+
+      Adw.EntryRow {
+        title: _("Default LaTeX Text");
+        text: "x^2";
+      }
+
+      Adw.ActionRow {
+        title: _("Always check LaTeX dependencies before running");
+        activatable-widget: sw_checkDeps;
+
+        [suffix]
+        Box {
+          spacing: 12;
+
+          Switch sw_checkDeps {
+            halign: center;
+            valign: center;
+          }
+
+          Button btn_check {
+            label: _("Check Now");
+            clicked => $checkTex();
+
+            styles [
+              "suggested-action",
+            ]
+          }
+        }
+      }
+
+      Adw.ExpanderRow {
+        title: _("Strings Substituted in Template File");
+        icon-name: "info-symbolic";
+
+        Grid {
+          row-spacing: 12;
+          column-spacing: 12;
+          margin-top: 6;
+          margin-bottom: 6;
+          margin-start: 6;
+          margin-end: 6;
+
+          Label {
+            label: "<tt>%%XPP_TOOL_INPUT%%</tt>";
+            use-markup: true;
+
+            layout {
+              row: 1;
+              column: 0;
+            }
+
+            hexpand: true;
+          }
+
+          Label {
+            label: _("The math mode for the formula typed in the LaTeX tool.");
+
+            layout {
+              row: 1;
+              column: 1;
+            }
+
+            halign: start;
+            hexpand: true;
+            wrap: true;
+          }
+
+          Label {
+            label: "<tt>%%XPP_TEXT_COLOR%%</tt>";
+            use-markup: true;
+
+            layout {
+              row: 2;
+              column: 0;
+            }
+
+            hexpand: true;
+          }
+
+          Label {
+            label: _("The current color of the Text Tool, in hex RGB format.");
+
+            layout {
+              row: 2;
+              column: 1;
+            }
+
+            halign: start;
+            hexpand: true;
+            wrap: true;
+          }
+        }
+      }
+    }
+
+    Adw.PreferencesGroup {
+      title: _("Editor Settings");
+      description: _("Set the properties of the editor used for LaTeX formulas");
+
+      Adw.ActionRow {
+        title: _("LaTeX Editor Theme");
+        activatable-widget: btn_theme;
+
+        [suffix]
+        GtkSource.StyleSchemeChooserButton btn_theme {}
+      }
+
+      Adw.SwitchRow {
+        title: _("Line Numbers");
+      }
+
+      Adw.SwitchRow {
+        title: _("Auto-indent");
+        active: true;
+      }
+
+      Adw.SwitchRow {
+        title: _("Syntax Highlighting");
+        active: true;
+      }
+
+      Adw.SwitchRow {
+        title: _("Wrap Text");
+        active: true;
+      }
+
+      Adw.ExpanderRow {
+        title: _("System Font");
+        expanded: bind sw_system_font.active inverted bidirectional;
+
+        [suffix]
+        Switch sw_system_font {
+          halign: end;
+          valign: center;
+        }
+
+        Adw.ActionRow {
+          title: _("Font");
+
+          [suffix]
+          FontDialogButton btn_font {
+            dialog: FontDialog {
+              title: _("Choose a Font");
+              modal: true;
+            };
+          }
+        }
+      }
+    }
+  }

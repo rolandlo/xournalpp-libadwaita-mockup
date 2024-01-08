@@ -1,0 +1,174 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $StylusPage: Adw.PreferencesPage {
+  title: _("Stylus");
+  icon-name: "notepad-symbolic";
+
+  Adw.PreferencesGroup {
+    title: _("Pressure Sensitivity");
+    description: _("Pressure sensitivity allows drawing lines with different widths, depending on how much pressure is applied to the pen. If the device used does not support this feature this setting has no effect.\n\nSome devices report unexpectedly small or large pressures. This can be fixed by setting a minimum pressure or scaling the pressure reported by the device.");
+
+    Adw.SwitchRow sw_pressureSensitivity {
+      title: _("Enable Pressure Sensitivity");
+    }
+
+    Adw.SpinRow {
+      title: _("Minimum Pressure");
+      digits: 2;
+      sensitive: bind sw_pressureSensitivity.active;
+
+      adjustment: Adjustment ad_minimumPressure {
+        lower: 0.10;
+        upper: 1.00;
+        step-increment: 0.01;
+        value: 0.60;
+      };
+    }
+
+    Adw.SpinRow {
+      title: _("Pressure Multiplier");
+      digits: 2;
+      sensitive: bind sw_pressureSensitivity.active;
+
+      adjustment: Adjustment ad_pressureMultiplier {
+        lower: 0.50;
+        upper: 4.00;
+        step-increment: 0.01;
+        value: 1.00;
+      };
+    }
+  }
+
+  Adw.PreferencesGroup {
+    title: _("Artifact Workaround");
+    description: _("With some setup, pen strokes have artifacts at their beginning. This can be avoided by ignoring the first few events/stroke-points when the pen touches the screen.");
+
+    Adw.SwitchRow sw_ignoreFirstEvents {
+      title: _("Ignore First Events");
+    }
+
+    Adw.SpinRow {
+      title: _("Events to Ignore");
+      sensitive: bind sw_ignoreFirstEvents.active;
+
+      adjustment: Adjustment ad_eventsToIgnore {
+        lower: 1;
+        upper: 1000;
+        step-increment: 1;
+        value: 3;
+      };
+    }
+  }
+
+  Adw.PreferencesGroup {
+    title: _("Stylus Buttons");
+    description: _("Specify the tools that will be selected if a button of the stylus is pressed or the eraser is used. After releasing the button, the previous tool will be selected.");
+
+    Adw.PreferencesRow {
+      title: _("Button 1");
+
+      Box {
+        orientation: vertical;
+        valign: center;
+        spacing: 12;
+
+        styles [
+          "header"
+        ]
+
+        Box {
+          orientation: vertical;
+          valign: center;
+          hexpand: true;
+
+          styles [
+            "title"
+          ]
+
+          Label {
+            label: _("Button 1");
+          }
+
+          DropDown dd_Button1 {}
+        }
+      }
+    }
+
+    Adw.PreferencesRow {
+      title: _("Button 2");
+
+      Box {
+        orientation: vertical;
+        valign: center;
+
+        styles [
+          "header"
+        ]
+
+        Box {
+          orientation: vertical;
+          valign: center;
+          hexpand: true;
+
+          styles [
+            "title"
+          ]
+
+          Label {
+            label: _("Button 2");
+          }
+
+          DropDown dd_Button2 {}
+        }
+      }
+    }
+
+    Adw.PreferencesRow {
+      title: _("Eraser");
+
+      Box {
+        orientation: vertical;
+        valign: center;
+
+        styles [
+          "header"
+        ]
+
+        Box {
+          orientation: vertical;
+          valign: center;
+          hexpand: true;
+
+          styles [
+            "title"
+          ]
+
+          Label {
+            label: _("Eraser");
+          }
+
+          DropDown dd_ButtonEraser {}
+        }
+      }
+    }
+  }
+
+  Adw.PreferencesGroup {
+    title: _("Eraser Visibility");
+    description: _("Choose when the stylus-based eraser is visible");
+
+    Adw.ComboRow {
+      title: _("Visibility");
+
+      model: StringList {
+        strings [
+          "Never",
+          "Always",
+          "When Floating",
+          "When Touching"
+        ]
+      };
+    }
+  }
+}

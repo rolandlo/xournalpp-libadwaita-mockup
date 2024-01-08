@@ -1,0 +1,71 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $MousePage: Adw.PreferencesPage {
+  title: _("Mouse");
+  icon-name: "notepad-symbolic";
+
+  Adw.PreferencesGroup {
+    title: _("Mouse Buttons");
+    description: _("Define which tools will be selected when pressing a mouse button. After releasing the button the previously selected tool will be selected.");
+
+    Adw.PreferencesRow {
+      title: _("Middle Mouse Button");
+
+      Box {
+        orientation: vertical;
+        valign: center;
+        spacing: 12;
+
+        styles [
+          "header"
+        ]
+
+        Box {
+          orientation: vertical;
+          valign: center;
+          hexpand: true;
+
+          styles [
+            "title"
+          ]
+
+          Label {
+            label: _("Middle Mouse Button");
+          }
+
+          DropDown dd_middleMouseButton {}
+        }
+      }
+    }
+
+    Adw.PreferencesRow {
+      title: _("Right Mouse Button");
+
+      Box {
+        orientation: vertical;
+        valign: center;
+
+        styles [
+          "header"
+        ]
+
+        Box {
+          orientation: vertical;
+          valign: center;
+          hexpand: true;
+
+          styles [
+            "title"
+          ]
+
+          Label {
+            label: _("Right Mouse Button");
+          }
+
+          DropDown dd_rightMouseButton {}
+        }
+      }
+    }
+  }
+}

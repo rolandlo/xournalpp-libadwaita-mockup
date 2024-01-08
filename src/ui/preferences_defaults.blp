@@ -1,0 +1,23 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $DefaultsPage: Adw.PreferencesPage {
+  title: _("Defaults");
+  icon-name: "notepad-symbolic";
+
+  Adw.PreferencesGroup {
+    title: _("Default Tool");
+    description: _("Choose the tool and Settings if you press the default button");
+
+    Adw.PreferencesRow {
+      title: _("Default Tool");
+
+      Box {
+        orientation: vertical;
+        valign: center;
+
+        DropDown cb_defaultTool {}
+      }
+    }
+  }
+}
