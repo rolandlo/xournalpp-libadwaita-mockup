@@ -92,6 +92,38 @@ class LaTexPage(Adw.PreferencesPage):
 class LoadSavePage(Adw.PreferencesPage):
     __gtype_name__ = "LoadSavePage"
 
+    placeholders = Gtk.Template.Child()
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.placeholders.set_label(
+            """
+%a    Abbreviated weekday name (e.g. Thu)
+%A    Full weekday name (e.g. Thursday)
+%b    Abbreviated month name (e.g. Aug)
+%B    Full month name (e.g. August)
+%c    Date and time representation (e.g. Thu Aug 23 14:55:02 2001)
+%d    Day of the month (01-31)
+%F    Date representation (e.g. 2001-08-23)
+%H    Hour in 24h format (00-23)
+%I    Hour in 12h format (01-12)
+%j    Day of the year (001-366)
+%m    Month as a decimal number (01-12)
+%M    Minute (00-59)
+%p    AM or PM designation (e.g. PM)
+%S    Second (00-61)
+%U    Week number with the first Sunday as the first day of week one (00-53)
+%w    Weekday as a decimal number with Sunday as 0 (0-6)
+%W    Week number with the first Monday as the first day of week one (00-53)
+%x    Date representation (e.g. 08/23/01)
+%X    Time representation (e.g. 14:55:02)
+%y    Year, last two digits (00-99)
+%Y    Year (e.g. 2001)
+%Z    Timezone name or abbreviation (e.g. CDT)
+%%    A % sign
+"""
+        )
+
 
 @Gtk.Template(resource_path=get_resource_path("ui/preferences_mouse.ui"))
 class MousePage(Adw.PreferencesPage):
