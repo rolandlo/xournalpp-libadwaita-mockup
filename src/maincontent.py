@@ -18,7 +18,6 @@ class MainContent(Gtk.ScrolledWindow):
     drawing_area = Gtk.Template.Child()
 
     DOT_RADIUS = 5
-    CROSS_SIZE = 4
     STROKE_WIDTH = 3
     PRESSURE_MULTIPLIER = 2
     BOX = (300, 50, 50)  # x, y, r
@@ -33,55 +32,34 @@ class MainContent(Gtk.ScrolledWindow):
         )
         self.page = self.document.get_page(0)
 
-        self.dots = []
-        self.crosses = []
         self.stroke = []
         self.delta = 0
-        self.scale = 1
         self.zoom = 1
-        self.content_size = 600
-        self.last_size = 600
+        self.last_zoom = 1
+        self.border_x = 0
+        self.border_y = 0
 
     def draw(self, area, cr, width, height):
+        # Fill drawing area
+        cr.rectangle(0, 0, width, height)
+        cr.set_source_rgba(0.9, 0.9, 0.9, 1)  # light gray
+        cr.fill()
+
         w, h = self.page.get_size()
-        # Draw rectangle in drawing area
-        f = 1.0
-        if width < w or height < h:
-            f = min(width / w, height / h)
+
+        cr.save()
+        # Draw page
+        cr.translate(self.border_x, self.border_y)
+        cr.scale(self.zoom, self.zoom)
         cr.rectangle(0, 0, w, h)
         cr.set_source_rgba(0.9, 0.9, 0.9, 1)  # light gray
         cr.fill()
         cr.rectangle(0, 0, w, h)
         cr.set_source_rgba(1, 0, 0, 1)  # red
         cr.stroke()
-        cr.scale(f, f)
         self.page.render(cr)
 
-        cr.set_source_rgba(0, 0.5, 0, 1)  # green
-        for x, y in self.dots:
-            cr.move_to(x, y)
-            cr.arc(x, y, self.DOT_RADIUS, 0, 2 * pi)
-        cr.fill()
-
-        cr.set_source_rgba(0, 0, 1, 1)  # blue
-        for x, y in self.crosses:
-            cr.move_to(x - self.CROSS_SIZE, y - self.CROSS_SIZE)
-            cr.rel_line_to(2 * self.CROSS_SIZE, 2 * self.CROSS_SIZE)
-            cr.move_to(x - self.CROSS_SIZE, y + self.CROSS_SIZE)
-            cr.rel_line_to(2 * self.CROSS_SIZE, -2 * self.CROSS_SIZE)
-        cr.stroke()
-
-        cr.set_source_rgba(1, 1, 0, 0.5)  # yellow
-        cr.save()
-        x, y, r = self.BOX
-        r *= self.scale
-        cr.translate(x, y)
-        cr.rotate(self.delta)
-        cr.translate(-x, -y)
-        cr.rectangle(x - r, y - r, 2 * r, 2 * r)
-        cr.restore()
-        cr.fill()
-
+        # Draw stroke
         cr.set_source_rgba(1, 0, 1, 1)  # magenta
         if len(self.stroke) > 0:
             for p, q in pairwise(self.stroke[1:]):
@@ -90,14 +68,25 @@ class MainContent(Gtk.ScrolledWindow):
                 cr.line_to(q[0], q[1])
                 cr.stroke()
 
+        cr.restore()
+
+        # Draw rotating box
+        cr.set_source_rgba(1, 1, 0, 0.5)  # yellow
+        cr.save()
+        x, y, r = self.BOX
+        cr.translate(x, y)
+        cr.rotate(self.delta)
+        cr.translate(-x, -y)
+        cr.rectangle(x - r, y - r, 2 * r, 2 * r)
+        cr.restore()
+        cr.fill()
+
     def filtered_pressure(self, gesture):
         has_pressure, pressure = gesture.get_axis(Gdk.AxisUse.PRESSURE)
         return has_pressure and self.PRESSURE_MULTIPLIER * pressure or 1
 
     def set_page(self, pageno):
         self.page = self.document.get_page(pageno)
-
-    def redraw(self):
         self.drawing_area.queue_draw()
 
     @Gtk.Template.Callback()
@@ -109,17 +98,29 @@ class MainContent(Gtk.ScrolledWindow):
 
     @Gtk.Template.Callback()
     def on_gesturezoom_scale_changed(self, gesture, scale):
-        center = gesture.get_bounding_box_center()
+        self.zoom = self.last_zoom * scale
+        w, h = self.page.get_size()
+        self.drawing_area.set_size_request(self.zoom * w, self.zoom * h)
 
-        self.scale = scale
+    def get_page_coords(self, x, y):
+        pageX = (x - self.border_x) / self.zoom
+        pageY = (y - self.border_y) / self.zoom
+        return pageX, pageY
+
+    @Gtk.Template.Callback()
+    def on_drawingarea_resize(self, area, width, height):
+        w, h = self.page.get_size()
+        self.border_x = max((width - w * self.zoom) / 2, 0)
+        self.border_y = max((height - h * self.zoom) / 2, 0)
 
     @Gtk.Template.Callback()
     def on_gesturezoom_end(self, gesture, sequence):
-        self.last_size = self.content_size
+        self.last_zoom = self.zoom
 
     @Gtk.Template.Callback()
     def on_gesturestylus_down(self, gesture, x, y):
-        self.stroke = [(x, y, self.filtered_pressure(gesture))]
+        xp, yp = self.get_page_coords(x, y)
+        self.stroke = [(xp, yp, self.filtered_pressure(gesture))]
         self.drawing_area.queue_draw()
 
     @Gtk.Template.Callback()
@@ -137,18 +138,16 @@ class MainContent(Gtk.ScrolledWindow):
                     and self.PRESSURE_MULTIPLIER * b.axes[Gdk.AxisUse.PRESSURE]
                     or 1,
                 )
-                # print(f"x = {ax}, y = {ay}, pressure = {ap}")
-                self.stroke.append((ax, ay, ap))
+                xp, yp = self.get_page_coords(ax, ay)
+                self.stroke.append((xp, yp, ap))
         else:
-            self.stroke.append((x, y, self.filtered_pressure(gesture)))
+            xp, yp = self.get_page_coords(x, y)
+            self.stroke.append((xp, yp, self.filtered_pressure(gesture)))
         self.drawing_area.queue_draw()
-
-    @Gtk.Template.Callback()
-    def on_gesturestylus_proximity(self, gesture, x, y):
-        pass  # print(f"stylus proximity at ({x}, {y})")
 
     @Gtk.Template.Callback()
     def on_gesturestylus_up(self, gesture, x, y):
         # print(f"stylus up at ({x}, {y})")
-        self.stroke.append((x, y, self.filtered_pressure(gesture)))
+        xp, yp = self.get_page_coords(x, y)
+        self.stroke.append((xp, yp, self.filtered_pressure(gesture)))
         self.drawing_area.queue_draw()
