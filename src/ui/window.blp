@@ -161,6 +161,7 @@ template $MainWindow: Adw.ApplicationWindow {
                         orientation: horizontal;
                         min-children-per-line: 2;
                         valign: start;
+                        child-activated => $on_flowbox_child_activated();
 
                         DropTarget drop_target {
                           drop => $on_droptarget_drop();

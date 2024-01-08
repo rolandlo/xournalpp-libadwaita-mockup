@@ -195,5 +195,8 @@ class MainWindow(Adw.ApplicationWindow):
             self.pages_box.remove(value)
             self.pages_box.insert(value, target_index)
             self.maincontent.set_page(value.pageno)
-            self.maincontent.redraw()
         return True
+
+    @Gtk.Template.Callback()
+    def on_flowbox_child_activated(self, flowbox, child):
+        self.maincontent.set_page(child.get_child().pageno)
